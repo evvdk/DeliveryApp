@@ -13,5 +13,10 @@ namespace DeliveryApp
         {
             Application.Exit();
         }
+
+        private void MainWindow_Load(object sender, System.EventArgs e)
+        {
+            this.label1.Text = "Hello, " + User.userInfo.Login;
+        }
     }
 }

@@ -29,6 +29,7 @@ namespace DeliveryApp
 
         private void AuthButton_Click(object sender, System.EventArgs e)
         {
+            this.Message.Visible = false;
             try
             {
                 if (ClientActions.Login(LoginInput.Text, PasswordInput.Text))
@@ -36,7 +37,11 @@ namespace DeliveryApp
                     (new MainWindow()).Show();
                     this.Close();
                 }
-                else Message.Text = "Wrong login or password";
+                else
+                {
+                    Message.Text = "Wrong login or password";
+                    this.Message.Visible = true;
+                }
             }
             catch (SqlException ex)
             {
@@ -50,8 +55,7 @@ namespace DeliveryApp
 
         private void Register_Click(object sender, System.EventArgs e)
         {
-            //CreateAccount_Click();
-            //ShowRegisterLayout();
+            ShowRegisterLayout();
         }
 
         private void Register_Back_Click(object sender, System.EventArgs e)

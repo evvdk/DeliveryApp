@@ -32,11 +32,11 @@ namespace DeliveryApp
         {
             this.LoginInput = new System.Windows.Forms.TextBox();
             this.PasswordInput = new System.Windows.Forms.TextBox();
-            this.AuthButton = new DeliveryApp.CustomButton();
             this.LoginPanel = new System.Windows.Forms.Panel();
             this.Message = new System.Windows.Forms.Label();
-            this.Register = new DeliveryApp.CustomButton();
             this.CloseWindowButton = new DeliveryApp.CustomButton();
+            this.Register = new DeliveryApp.CustomButton();
+            this.AuthButton = new DeliveryApp.CustomButton();
             this.LoginPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -55,21 +55,6 @@ namespace DeliveryApp
             this.PasswordInput.Name = "PasswordInput";
             this.PasswordInput.Size = new System.Drawing.Size(300, 28);
             this.PasswordInput.TabIndex = 1;
-            // 
-            // AuthButton
-            // 
-            this.AuthButton.BackColor = System.Drawing.Color.MediumSlateBlue;
-            this.AuthButton.BorderRadius = 15;
-            this.AuthButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.AuthButton.ForeColor = System.Drawing.Color.White;
-            this.AuthButton.Location = new System.Drawing.Point(0, 142);
-            this.AuthButton.Margin = new System.Windows.Forms.Padding(4);
-            this.AuthButton.Name = "AuthButton";
-            this.AuthButton.Size = new System.Drawing.Size(300, 32);
-            this.AuthButton.TabIndex = 2;
-            this.AuthButton.Text = "Auth";
-            this.AuthButton.UseVisualStyleBackColor = true;
-            this.AuthButton.Click += new System.EventHandler(this.AuthButton_Click);
             // 
             // LoginPanel
             // 
@@ -95,21 +80,7 @@ namespace DeliveryApp
             this.Message.TabIndex = 4;
             this.Message.Text = "Base Message";
             this.Message.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Register
-            // 
-            this.Register.BackColor = System.Drawing.Color.MediumSlateBlue;
-            this.Register.BorderRadius = 15;
-            this.Register.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Register.ForeColor = System.Drawing.Color.White;
-            this.Register.Location = new System.Drawing.Point(0, 182);
-            this.Register.Margin = new System.Windows.Forms.Padding(4);
-            this.Register.Name = "Register";
-            this.Register.Size = new System.Drawing.Size(300, 32);
-            this.Register.TabIndex = 3;
-            this.Register.Text = "Register";
-            this.Register.UseVisualStyleBackColor = false;
-            this.Register.Click += new System.EventHandler(this.Register_Click);
+            this.Message.Visible = false;
             // 
             // CloseWindowButton
             // 
@@ -126,20 +97,50 @@ namespace DeliveryApp
             this.CloseWindowButton.UseVisualStyleBackColor = false;
             this.CloseWindowButton.Click += new System.EventHandler(this.CloseWindowButton_Click);
             // 
+            // Register
+            // 
+            this.Register.BackColor = System.Drawing.Color.MediumSlateBlue;
+            this.Register.BorderRadius = 15;
+            this.Register.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Register.ForeColor = System.Drawing.Color.White;
+            this.Register.Location = new System.Drawing.Point(0, 182);
+            this.Register.Margin = new System.Windows.Forms.Padding(4);
+            this.Register.Name = "Register";
+            this.Register.Size = new System.Drawing.Size(300, 32);
+            this.Register.TabIndex = 3;
+            this.Register.Text = "Register";
+            this.Register.UseVisualStyleBackColor = false;
+            this.Register.Click += new System.EventHandler(this.Register_Click);
+            // 
+            // AuthButton
+            // 
+            this.AuthButton.BackColor = System.Drawing.Color.MediumSlateBlue;
+            this.AuthButton.BorderRadius = 15;
+            this.AuthButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.AuthButton.ForeColor = System.Drawing.Color.White;
+            this.AuthButton.Location = new System.Drawing.Point(0, 142);
+            this.AuthButton.Margin = new System.Windows.Forms.Padding(4);
+            this.AuthButton.Name = "AuthButton";
+            this.AuthButton.Size = new System.Drawing.Size(300, 32);
+            this.AuthButton.TabIndex = 2;
+            this.AuthButton.Text = "Auth";
+            this.AuthButton.UseVisualStyleBackColor = true;
+            this.AuthButton.Click += new System.EventHandler(this.AuthButton_Click);
+            // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 22F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.SlateGray;
             this.ClientSize = new System.Drawing.Size(400, 400);
             this.Controls.Add(this.CloseWindowButton);
             this.Controls.Add(this.LoginPanel);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.Name = "LoginForm";
+            this.Name = "Login";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Login Form";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.LoginForm_Closed);
+            this.Text = "Login";
             this.LoginPanel.ResumeLayout(false);
             this.LoginPanel.PerformLayout();
             this.ResumeLayout(false);
