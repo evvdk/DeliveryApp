@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Security.Cryptography;
 using System.Text;
-using System.Windows.Forms;
 
 namespace DeliveryApp
 {
@@ -36,6 +35,7 @@ namespace DeliveryApp
 
         static public void Register(string Login, string Password, string Name, string Phone, string Email)
         {
+            if (Password.Length < 5 || Password.Length > 16) throw new Exception("Password should be more than 5 and less than 16 letters");
             Password = HashString(Password);
             Database.InsertUser(Login, Password, Name, Phone, Email);
             User.userInfo = new User(Login, Password);

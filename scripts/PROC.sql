@@ -6,6 +6,7 @@ CREATE OR ALTER PROCEDURE RegisterClient(@login nvarchar(30), @password char(64)
 AS
 BEGIN
 	BEGIN TRY
+
 	IF EXISTS (SELECT * FROM Client WHERE Login = @login)
 		THROW 50000, 'Login already exists', 1;
 	IF EXISTS (SELECT * FROM Client WHERE Phone = @phone)
@@ -40,8 +41,10 @@ GO
 CREATE OR ALTER PROCEDURE DeleteClient(@login nvarchar(30), @password char(64))
 AS
 BEGIN
+	BEGIN TRY
+	
 	IF NOT EXISTS (SELECT * FROM Client WHERE Login = @login AND Password = @password)
-		RETURN 1 -- client does not exist
+		THROW 50004, 'Client with login doesn''t exists', 1;
 
 	BEGIN TRAN
 
@@ -49,15 +52,16 @@ BEGIN
 	SET [Active Account] = 0
 	WHERE Login = @login AND Password = @password
 
-	IF @@ERROR = 0 AND @@ROWCOUNT = 1
-	BEGIN
-		COMMIT TRAN
-		RETURN 0;
-	END
-	ELSE BEGIN
-		ROLLBACK TRAN
-		RETURN -1
-	END
+	COMMIT TRAN
+	
+	END TRY
+	BEGIN CATCH
+
+	IF @@TRANCOUNT > 0
+        ROLLBACK TRAN;
+    THROW;
+
+	END CATCH
 END
 
 GO
@@ -67,22 +71,28 @@ GO
 CREATE OR ALTER PROCEDURE ChangeClientPassword(@login nvarchar(30), @oldPassword char(64), @newPassword char(64))
 AS
 BEGIN
-	IF NOT EXISTS (SELECT * FROM Client WHERE Login = @login AND Password = @oldPassword AND [Active Account] = 1)
-		RETURN 1 -- client does not exist
 
+	BEGIN TRY
+
+	IF NOT EXISTS (SELECT * FROM Client WHERE Login = @login AND Password = @oldPassword AND [Active Account] = 1)
+		THROW 50004, 'Client with login doesn''t exists', 1;
+	
 	BEGIN TRAN
+
 	UPDATE Client
 		SET Password = @newPassword
 		WHERE Login = @login AND Password = @oldPassword AND [Active Account] = 1
-	IF @@ERROR = 0 AND @@ROWCOUNT = 1
-	BEGIN
-		COMMIT TRAN
-		RETURN 0;
-	END
-	ELSE BEGIN
-		ROLLBACK TRAN
-		RETURN -1
-	END
+	
+	COMMIT TRAN
+	
+	END TRY
+	BEGIN CATCH
+
+	IF @@TRANCOUNT > 0
+        ROLLBACK TRAN;
+    THROW;
+
+	END CATCH
 END
 
 -- EXEC ChangeClientPassword 'Alex', 'dijcfweilfd', 'hihihihi'
@@ -93,23 +103,25 @@ CREATE OR ALTER PROCEDURE AddClientAddress(@login nvarchar(30), @password char(6
 		@street nvarchar(50), @building nvarchar(10), @floor int, @room nvarchar(10))
 AS
 BEGIN
+	BEGIN TRY
 	IF NOT EXISTS (SELECT * FROM Client WHERE Login = @login AND Password = @password AND [Active Account] = 1)
-		RETURN 1 -- client does not exist
+		THROW 50004, 'Client with login doesn''t exists', 1;
+	
 	BEGIN TRAN
 
 	INSERT INTO [Client Address] ([Client Login], Region, City, District, Street, Building, Floor, Room)
 		VALUES (@login, @region, @city, @district, @street, @building, @floor, @room)
 
-	IF @@ERROR = 0 AND @@ROWCOUNT = 1
-	BEGIN
-		COMMIT TRAN
-		RETURN 0;
-	END
-	ELSE
-	BEGIN
-		ROLLBACK TRAN
-		RETURN -1
-	END
+	COMMIT TRAN
+
+	END TRY
+	BEGIN CATCH
+
+	IF @@TRANCOUNT > 0
+        ROLLBACK TRAN;
+    THROW;
+
+	END CATCH
 END
 
 -- EXEC AddClientAddress 'Alex', 'hihihihi', 'lkdscsjhks', 'lkvjsdid', 'dsichsjck','dicihdk','56',5,'656'

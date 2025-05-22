@@ -19,28 +19,34 @@ namespace DeliveryApp
 
         void ShowLoginLayout()
         {
-            LoginPanel.Visible = true;
+            TabsControl.SelectedIndex = 0;
         }
 
         void ShowRegisterLayout()
         {
-            LoginPanel.Visible = false;
+            TabsControl.SelectedIndex = 1;
         }
 
         private void AuthButton_Click(object sender, System.EventArgs e)
         {
-            this.Message.Visible = false;
+            this.LoginMessage.Visible = false;
             try
             {
+                if(LoginInput.Text.Length == 0 || PasswordInput.Text.Length == 0)
+                {
+                    LoginMessage.Text = "Required fields are empthy";
+                    this.LoginMessage.Visible = true;
+                    return;
+                }
                 if (ClientActions.Login(LoginInput.Text, PasswordInput.Text))
                 {
-                    (new MainWindow()).Show();
+                    (new Delivery()).Show();
                     this.Close();
                 }
                 else
                 {
-                    Message.Text = "Wrong login or password";
-                    this.Message.Visible = true;
+                    LoginMessage.Text = "Wrong login or password";
+                    this.LoginMessage.Visible = true;
                 }
             }
             catch (SqlException ex)
@@ -63,11 +69,13 @@ namespace DeliveryApp
             ShowLoginLayout();
         }
 
-        private void CreateAccount_Click()
+        private void Registrate_Click(object sender, EventArgs e)
         {
             try
             {
-                ClientActions.Register("Sasefiwhfiwheed", "Sas", "Sas", "+7950475698", "email@test.com");
+                ClientActions.Register(LoginRegistration.Text, PasswordRegistration.Text, NameRegistration.Text, PhoneRegistration.Text, EmailRegistration.Text);
+                (new Delivery()).Show();
+                this.Close();
             }
             catch (SqlException ex)
             {
@@ -77,11 +85,6 @@ namespace DeliveryApp
             {
                 MessageBox.Show(ex.Message);
             }
-        }
-
-        private void CloseWindowButton_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
         }
     }
 }

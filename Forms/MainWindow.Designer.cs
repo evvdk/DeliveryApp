@@ -1,6 +1,7 @@
-﻿namespace DeliveryApp
+﻿using System.Windows.Forms;
+namespace DeliveryApp
 {
-    partial class MainWindow
+    partial class Delivery
     {
         /// <summary>
         /// Required designer variable.
@@ -28,29 +29,28 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
+            this.WelcomeMessage = new Label();
             this.SuspendLayout();
             // 
-            // label1
+            // WelcomeMessage
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(35, 13);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(79, 29);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "label1";
+            this.WelcomeMessage.AutoSize = true;
+            this.WelcomeMessage.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F);
+            this.WelcomeMessage.Location = new System.Drawing.Point(1, -2);
+            this.WelcomeMessage.Name = "WelcomeMessage";
+            this.WelcomeMessage.Size = new System.Drawing.Size(101, 27);
+            this.WelcomeMessage.TabIndex = 0;
+            this.WelcomeMessage.Text = "Welcome";
             // 
-            // MainWindow
+            // Delivery
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.label1);
-            this.Name = "MainWindow";
-            this.Text = "MainWindow";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Main_FormClosed);
-            this.Load += new System.EventHandler(this.MainWindow_Load);
+            this.Controls.Add(this.WelcomeMessage);
+            this.Name = "Delivery";
+            this.Text = "Delivery";
+            this.FormClosed += new FormClosedEventHandler(this.Main_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -58,6 +58,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label WelcomeMessage;
     }
 }

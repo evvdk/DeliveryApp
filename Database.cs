@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Data.SqlTypes;
 using System.Windows.Forms;
 
 namespace DeliveryApp
@@ -35,10 +36,15 @@ namespace DeliveryApp
                 command.Parameters.Add("@password", SqlDbType.VarChar).Value = Password;
                 command.Parameters.Add("@name", SqlDbType.VarChar).Value = Name;
                 command.Parameters.Add("@phone", SqlDbType.VarChar).Value = Phone;
-                command.Parameters.Add("@email", SqlDbType.VarChar).Value = Email;
+                if(Email.Length != 0)
+                    command.Parameters.Add("@email", SqlDbType.VarChar).Value = Email;
+                else
+                    command.Parameters.Add("@email", SqlDbType.Int).Value = SqlInt32.Null;
                 command.ExecuteNonQuery();
                 }
 
         }
+
+
     }
 }

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
@@ -16,6 +14,7 @@ namespace DeliveryApp
             this.BackColor = Color.MediumSlateBlue;
             this.ForeColor = Color.White;
             this.borderRadius = 15;
+            this.Font = new Font("Microsoft YaHei UI", 12F);
         }
 
         //Methods
