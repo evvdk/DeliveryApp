@@ -14,7 +14,7 @@ namespace DeliveryApp
         public Delivery()
         {
             InitializeComponent();
-            User.userInfo = new User("UserLogin", "e7cf3ef4f17c3999a94f2c6f612e8a888e5b1026878e4e19398b23bd38ec221a");
+            User.userInfo = new User("UserLogin", "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92");
             this.WelcomeMessage.Text = "Hello, " + User.userInfo.Login;
             this.OredersUpdateTimer.Interval = 5000;
             this.OredersUpdateTimer.Tick += new EventHandler(this.UpdateClientOrders_Tick);
@@ -50,7 +50,7 @@ namespace DeliveryApp
             OrderName.Font = new Font("Microsoft Sans Serif", 13.8F,
                 FontStyle.Regular, GraphicsUnit.Point, ((byte)(204)));
             OrderName.Location = new Point(0, 0);
-            OrderName.Text = "Order#" + order.ID.ToString();
+            OrderName.Text = $"Order#{order.ID}";
 
             if (!(order.Ordered_At is null))
             {
@@ -77,15 +77,38 @@ namespace DeliveryApp
             SingleOrder.PerformLayout();
         }
 
+        private void EmpthyHeader(Panel parentPanel)
+        {
+            Label Header = new Label();
+
+            Header.AutoSize = true;
+            Header.Enabled = false;
+            Header.Dock = DockStyle.Left;
+            Header.Font = new Font("Microsoft Sans Serif", 13.8F,
+                FontStyle.Regular, GraphicsUnit.Point, ((byte)(204)));
+            Header.Location = new Point(0, 0);
+            Header.Text = "You haven't order anything :(";
+
+            
+            parentPanel.Controls.Add(Header);
+        }
+
         private void DrawOrders(List <Order_Status_Table> orders)
         {
             
             Point CurrentPoint = OrdersLayout.AutoScrollPosition;
             this.OrdersLayout.Controls.Clear();
             this.OrdersLayout.SuspendLayout();
-            foreach (var order in orders)
+            if (orders.Count == 0)
             {
-                AddOrderIntoTabs(this.OrdersLayout, order);
+                EmpthyHeader(this.OrdersLayout);
+            }
+            else
+            {
+                foreach (var order in orders)
+                {
+                    AddOrderIntoTabs(this.OrdersLayout, order);
+                }
             }
             this.OrdersLayout.ResumeLayout();
             this.OrdersLayout.AutoScrollPosition = new Point(Math.Abs(OrdersLayout.AutoScrollPosition.X), Math.Abs(CurrentPoint.Y));
@@ -101,11 +124,11 @@ namespace DeliveryApp
             try
             {
                 List<Order_Status_Table> orders = ClientActions.GetClosedUserOrders(User.userInfo.Login);
-                
                 DrawOrders(orders);
             }catch(Exception ex)
             {
                 MessageBox.Show(ex.Message);
+                UserTabs.SelectedIndex = 0;
             }
         }
 
@@ -145,9 +168,11 @@ namespace DeliveryApp
                 Account_UserPhone.Text = user.Phone;
                 if (!(user.Email is null))
                     Account_UserEmail.Text = user.Email;
+                Account_CreatedAt.Text = "Created " + user.Created.ToString("F");
             } catch(Exception ex)
             {
                 MessageBox.Show(ex.Message);
+                UserTabs.SelectedIndex = 0;
             }
         }
 

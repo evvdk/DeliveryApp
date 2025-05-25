@@ -90,7 +90,7 @@ namespace DeliveryApp
             this.AuthButton.Name = "AuthButton";
             this.AuthButton.Size = new System.Drawing.Size(130, 40);
             this.AuthButton.TabIndex = 2;
-            this.AuthButton.Text = "Auth";
+            this.AuthButton.Text = "Authenticate";
             this.AuthButton.UseVisualStyleBackColor = true;
             this.AuthButton.Click += new System.EventHandler(this.AuthButton_Click);
             // 
@@ -153,7 +153,7 @@ namespace DeliveryApp
             this.LoginMessage.Name = "LoginMessage";
             this.LoginMessage.Size = new System.Drawing.Size(48, 23);
             this.LoginMessage.TabIndex = 4;
-            this.LoginMessage.Text = "Base";
+            this.LoginMessage.Text = "";
             this.LoginMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // RegLoginLabel
@@ -327,7 +327,7 @@ namespace DeliveryApp
             this.RegMessage.Name = "RegMessage";
             this.RegMessage.Size = new System.Drawing.Size(51, 22);
             this.RegMessage.TabIndex = 14;
-            this.RegMessage.Text = "Base";
+            this.RegMessage.Text = "";
             // 
             // LoginRegistration
             // 

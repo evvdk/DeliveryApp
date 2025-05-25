@@ -9,6 +9,7 @@ namespace DeliveryApp.EF
     {
         public DeliveryAppContext(string connectionString) : base(connectionString)
         {
+            Database.SetInitializer<DeliveryAppContext>(null);
         }
 
         public virtual DbSet<Client> Client { get; set; }
