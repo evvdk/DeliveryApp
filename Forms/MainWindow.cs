@@ -15,7 +15,7 @@ namespace DeliveryApp
         public Delivery()
         {
             InitializeComponent();
-            User.userInfo = new User("UserLogin", "e7cf3ef4f17c3999a94f2c6f612e8a888e5b1026878e4e19398b23bd38ec221a");
+            User.userInfo = new User("UserLogin", "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92");
             this.WelcomeMessage.Text = "Hello, " + User.userInfo.Login;
             this.OredersUpdateTimer.Interval = 5000;
             this.OredersUpdateTimer.Tick += new EventHandler(this.UpdateClientOrders_Tick);
@@ -205,6 +205,31 @@ namespace DeliveryApp
         private void ChnageAccoutWindow_Closed(object sender, FormClosedEventArgs e)
         {
             UpdateClientInfo();
+        }
+
+        private void Account_DeleteAccountButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DialogResult dialogResult = MessageBox.Show("Are you sure? Deleting account cause data loss", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    User.userInfo = null;
+                    ClientActions.DeleteAccount();
+                    (new LoginForm()).Show();
+                    this.Dispose();
+                }
+            } catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void Account_LogoutButton_Click(object sender, EventArgs e)
+        {
+            User.userInfo = null;
+            (new LoginForm()).Show();
+            this.Dispose();
         }
     }
 }

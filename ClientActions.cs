@@ -247,5 +247,27 @@ namespace DeliveryApp
                 throw new Exception("Error during changing email");
             }
         }
+
+        public static void DeleteAccount()
+        {
+            try
+            {
+                ClientActions.DeleteAccount();
+            }
+            catch (SqlException ex)
+            {
+                switch (ex.Number)
+                {
+                    case 50006:
+                        throw new Exception("User doesn't exist");
+                    default:
+                        throw new Exception("SQL error during changing email");
+                }
+            }
+            catch
+            {
+                throw new Exception("Error during deleting account");
+            }
+        }
     }
 }

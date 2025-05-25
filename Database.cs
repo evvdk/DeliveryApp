@@ -117,5 +117,16 @@ namespace DeliveryApp
                         login, password, newEmail);
             }
         }
+
+        public static void DeleteAccount(string Login, string Password)
+        {
+            using (var context = new DeliveryAppContext(ConnectionString))
+            {
+                var login = new SqlParameter("@login", Login);
+                var password = new SqlParameter("@password", Password);
+
+                context.Database.ExecuteSqlCommand("exec DeleteClient @login, @password", login, password);
+            }
+        }
     }
 }
