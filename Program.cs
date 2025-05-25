@@ -13,7 +13,7 @@ namespace DeliveryApp
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            (new LoginForm()).Show();
+            (new Delivery()).Show();
             Application.Run();
         }
     }

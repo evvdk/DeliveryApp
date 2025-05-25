@@ -7,15 +7,23 @@ AS
 BEGIN
 	BEGIN TRY
 
+		IF NOT(LEN(@login) BETWEEN 5 AND 30) 
+			THROW 50000, 'Login should be more than 5 and less than 30 letters', 1;
+
 		IF EXISTS (SELECT * FROM Client WHERE Login = @login)
-			THROW 50000, 'Login already exists', 1;
+			THROW 50001, 'Login already exists', 1;
+
+		IF NOT(LEN(@name) BETWEEN 3 AND 20) 
+			THROW 50002, 'Name should be more than 2 and less than 20 letters', 1;
+
 		IF EXISTS (SELECT * FROM Client WHERE Phone = @phone)
-			THROW 50001, 'Phone already used', 1;
-		IF NOT (@phone LIKE '+7[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]' OR
-				@phone LIKE '8[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]')
-			THROW 50002, 'Phone doesn''t match pattern', 1;
+			THROW 50003, 'Phone already used', 1;		
+
+		IF NOT (@phone LIKE '+7[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]')
+			THROW 50004, 'Phone doesn''t match pattern', 1;
+
 		IF NOT (@email LIKE '%[_a-zA-Z0-9.-]%@%[_a-zA-Z0-9.-]%.[a-zA-Z][a-zA-Z]%')
-			THROW 50003, 'Email doesn''t match pattern', 1;
+			THROW 50005, 'Email doesn''t match pattern', 1;
 	
 		BEGIN TRAN
 
@@ -34,7 +42,16 @@ BEGIN
 	END CATCH
 END
 
--- EXEC RegisterClient 'Alex', 'dijcfweilfd', 'Aleksandr', '+79605702154', NULL
+-- EXEC RegisterClient 'UserLogin', 'Password', 'Name', '+77777777777', NULL
+-- EXEC RegisterClient 'User', 'Password', 'Name', '+77777777777', NULL
+-- EXEC RegisterClient 'UserLogin', 'Password', 'Name', '+77777777777', NULL
+
+-- EXEC RegisterClient 'AnotherLogin', 'Password', 'Na', '+77777777771', NULL
+
+-- EXEC RegisterClient 'AnotherLogin', 'Password', 'Name', '+77777777777', NULL
+-- EXEC RegisterClient 'AnotherLogin', 'Password', 'Name', '+777777777', NULL
+
+-- EXEC RegisterClient 'AnotherLogin', 'Password', 'Name', '+77777777772', 'MyEmail@mailru'
 
 GO
 
@@ -44,7 +61,7 @@ BEGIN
 	BEGIN TRY
 	
 		IF NOT EXISTS (SELECT * FROM Client WHERE Login = @login AND Password = @password)
-			THROW 50004, 'Client with login doesn''t exists', 1;
+			THROW 50006, 'Client with login doesn''t exists', 1;
 
 		BEGIN TRAN
 
@@ -66,7 +83,8 @@ END
 
 GO
 
--- EXEC DeleteClient 'Alex', 'dijcfweilfd'
+-- EXEC DeleteClient 'AnotherLogin', 'Password'
+-- EXEC DeleteClient 'UserLogin', 'Password'
 
 CREATE OR ALTER PROCEDURE ChangeClientPassword(@login nvarchar(30), @oldPassword char(64), @newPassword char(64))
 AS
@@ -75,7 +93,7 @@ BEGIN
 	BEGIN TRY
 
 		IF NOT EXISTS (SELECT * FROM Client WHERE Login = @login AND Password = @oldPassword AND [Active Account] = 1)
-			THROW 50004, 'Client with login doesn''t exists', 1;
+			THROW 50006, 'Client with login doesn''t exists', 1;
 	
 		BEGIN TRAN
 
@@ -105,7 +123,7 @@ AS
 BEGIN
 	BEGIN TRY
 		IF NOT EXISTS (SELECT * FROM Client WHERE Login = @login AND Password = @password AND [Active Account] = 1)
-			THROW 50004, 'Client with login doesn''t exists', 1;
+			THROW 50006, 'Client with login doesn''t exists', 1;
 	
 		BEGIN TRAN
 
@@ -126,6 +144,9 @@ END
 
 -- EXEC AddClientAddress 'Alex', 'hihihihi', 'lkdscsjhks', 'lkvjsdid', 'dsichsjck','dicihdk','56',5,'656'
 
+
+-- EXEC AddClientAddress 'UserLogin', 'e7cf3ef4f17c3999a94f2c6f612e8a888e5b1026878e4e19398b23bd38ec221a', 'Ryazan Oblsat', 'Ryazan', 'Diadkovo','1th Boluvar','56',5,'656'
+
 GO
 
 CREATE OR ALTER PROCEDURE DeleteClientAddress(@addressID int, @login nvarchar(30), @password char(64))
@@ -135,9 +156,9 @@ BEGIN
 	BEGIN TRY
 
 		IF NOT EXISTS (SELECT * FROM Client WHERE Login = @login AND Password = @password AND [Active Account] = 1)
-			THROW 50004, 'Client with login doesn''t exists', 1;
+			THROW 50006, 'Client with login doesn''t exists', 1;
 		IF NOT EXISTS (SELECT * FROM [Client Address] WHERE [Client Login] = @login AND ID = @addressID AND Active = 1)
-			THROW 50005, 'Client with address doesn''t exists', 1;
+			THROW 50007, 'Client with address doesn''t exists', 1;
 
 		BEGIN TRAN
 
@@ -186,10 +207,10 @@ BEGIN
 END
 GO
 
--- EXEC AddToOrder 'Alex', 1, 1, 1
--- EXEC AddToOrder 'Alex', 1, 4, 1
--- EXEC AddToOrder 'Alex', 1, 4, 5 -- summ
--- EXEC AddToOrder 'Alex', 1, 5, 1 -- error
+-- EXEC AddToOrder 'UserLogin', 1, 11, 1
+-- EXEC AddToOrder 'UserLogin', 1, 12, 1
+-- EXEC AddToOrder 'UserLogin', 1, 11, 5 -- summ
+-- EXEC AddToOrder 'UserLogin', 1, 13, 1 -- error
 
 GO
 
@@ -225,17 +246,17 @@ AS
 BEGIN
 	BEGIN TRY
 
-	DECLARE @openedOrderID int;
-	SELECT @openedOrderID = ID FROM [Order] WHERE [Client Login] = @login AND [Ordered At] IS NULL AND [Status] = 0
-	IF (@openedOrderID IS NULL) -- if unassembeld order doesn't exists
-		THROW 50006, 'Вы ничего не добавили в корзиру', 1;
+		DECLARE @openedOrderID int;
+		SELECT @openedOrderID = ID FROM [Order] WHERE [Client Login] = @login AND [Ordered At] IS NULL AND [Status] = 0
+		IF (@openedOrderID IS NULL)
+			THROW 50008, 'Order is empty', 1;
 	
-		BEGIN TRAN
-			UPDATE [Order]
-				SET [Ordered At] = GETDATE(), [Status] = 1
-				WHERE ID = @openedOrderID
+			BEGIN TRAN
+				UPDATE [Order]
+					SET [Ordered At] = GETDATE(), [Status] = 1
+					WHERE ID = @openedOrderID
 	
-		COMMIT TRAN
+			COMMIT TRAN
 
 	END TRY
 	BEGIN CATCH

@@ -22,8 +22,7 @@ FROM char(12)
 GO
 
 CREATE RULE PhoneTamplate
-AS (@value LIKE '+7[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]' OR
-	@value LIKE '8[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]')
+AS @value LIKE '+7[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'
 GO
 
 EXEC sp_bindrule 'PhoneTamplate', 'PhoneNumber';
@@ -58,7 +57,7 @@ CREATE TABLE "Client"
     Phone PhoneNumber NOT NULL,
     Email nvarchar(50),
 	Created datetime NOT NULL,
-	"Active Account" tinyint,
+	"Active Account" tinyint NOT NULL,
 	CONSTRAINT "C_Unique_Phones" UNIQUE ("Phone")
 );
 

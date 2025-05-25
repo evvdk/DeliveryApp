@@ -2,54 +2,47 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
-using System.Windows.Forms;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
-using System.Xml.Linq;
+using System.Collections.Generic;
+using DeliveryApp.EF;
+using System.Linq;
 
 namespace DeliveryApp
 {
     static class Database
     {
-        private const string DB_ConnectionString = "Data Source = LAPTOP\\SQLEXPRESS; Initial Catalog = Delivery; Integrated Security = true;";
+        private const string ConnectionString = "Data Source = LAPTOP\\SQLEXPRESS; Initial Catalog = Delivery; Integrated Security = true;";
 
         public static bool IsValidUser(string Login, string Password)
         {
-            using (SqlConnection connection = new SqlConnection(DB_ConnectionString))
-            using (SqlCommand command = connection.CreateCommand())
+            using (var context = new DeliveryAppContext(ConnectionString))
             {
-                command.CommandText = "SELECT * FROM Client WHERE Login = @login AND Password = @password";
-                command.Parameters.AddWithValue("@login", Login);
-                command.Parameters.AddWithValue("@password", Password);
-                connection.Open();
-                SqlDataReader reader = command.ExecuteReader();
-                return reader.HasRows;
+                return context.Client.Where(p => p.Login == Login && p.Password == Password && p.Active_Account == 1).Count() != 0;
             }
         }
 
         public static void InsertUser(string Login, string Password, string Name, string Phone, string Email)
         {
-            using (SqlConnection connection = new SqlConnection(DB_ConnectionString))
-            using (SqlCommand command = connection.CreateCommand())
+            using (var context = new DeliveryAppContext(ConnectionString))
             {
-                connection.Open();
-                command.CommandType = CommandType.StoredProcedure;
-                command.CommandText = "RegisterClient";
-                command.Parameters.Add("@login", SqlDbType.VarChar).Value = Login;
-                command.Parameters.Add("@password", SqlDbType.VarChar).Value = Password;
-                command.Parameters.Add("@name", SqlDbType.VarChar).Value = Name;
-                command.Parameters.Add("@phone", SqlDbType.VarChar).Value = Phone;
-                if(Email.Length != 0)
-                    command.Parameters.Add("@email", SqlDbType.VarChar).Value = Email;
-                else
-                    command.Parameters.Add("@email", SqlDbType.Int).Value = SqlInt32.Null;
-                command.ExecuteNonQuery();
+                var login = new SqlParameter("@login", Login);
+                var password = new SqlParameter("@password", Password);
+                var name = new SqlParameter("@name", Name);
+                var phone = new SqlParameter("@phone", Phone);
+                SqlParameter email = Email.Length == 0 
+                    ? new SqlParameter("@email", SqlInt32.Null) 
+                    : new SqlParameter("@email", Email);
+
+                context.Database.ExecuteSqlCommand("exec RegisterClient @login, @password, @name, @phone, @email",
+                        login, password, name, phone, email);
             }
         }
 
-        public static void GetUserOrders(string Login)
+        public static List<Order> GetClosedUserOrders(string Login)
         {
-            
+            using (var context = new DeliveryAppContext(ConnectionString))
+            {
+                return context.Order.Where(p => p.Client_Login == Login && p.Status != 0).ToList();
+            }
         }
 
     }

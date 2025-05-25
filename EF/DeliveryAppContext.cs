@@ -1,0 +1,28 @@
+namespace DeliveryApp.EF
+{
+    using System;
+    using System.Data.Entity;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Linq;
+
+    public partial class DeliveryAppContext : DbContext
+    {
+        public DeliveryAppContext(string connectionString) : base(connectionString)
+        {
+        }
+
+        public virtual DbSet<Client> Client { get; set; }
+        public virtual DbSet<Client_Address> Client_Address { get; set; }
+        public virtual DbSet<Courier> Courier { get; set; }
+        public virtual DbSet<Dish> Dish { get; set; }
+        public virtual DbSet<Dishes_Order> Dishes_Order { get; set; }
+        public virtual DbSet<Ingredient> Ingredient { get; set; }
+        public virtual DbSet<Notifications> Notifications { get; set; }
+        public virtual DbSet<Order> Order { get; set; }
+        public virtual DbSet<Producer> Producer { get; set; }
+        public virtual DbSet<Status> Status { get; set; }
+        public virtual DbSet<Courier_Order_To> Courier_Order_To { get; set; }
+        public virtual DbSet<Orders_View> Orders_View { get; set; }
+        public virtual DbSet<Producer_Dishes> Producer_Dishes { get; set; }
+    }
+}

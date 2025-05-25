@@ -2,7 +2,8 @@
 using System.Data.SqlClient;
 using System.Security.Cryptography;
 using System.Text;
-using System.Windows.Forms;
+using System.Collections.Generic;
+using DeliveryApp.EF;
 
 namespace DeliveryApp
 {
@@ -44,36 +45,53 @@ namespace DeliveryApp
             if (Password.Length < 5 || Password.Length > 16) throw new Exception("Password should be more than 5 and less than 16 letters");
             Password = HashString(Password);
 
-            string[] charsToRemoveFromPhone = new string[] { "(", ")", "-" };
+            string[] charsToRemoveFromPhone = new string[] { "(", ")", "-", " " };
             foreach (string c in charsToRemoveFromPhone)
                 Phone = Phone.Replace(c, string.Empty);
 
+            Phone = Phone.Replace("8", "+7");
             try
             {
                 Database.InsertUser(Login, Password, Name, Phone, Email);
                 User.userInfo = new User(Login, Password);
             }
-
             catch (SqlException ex)
             {
                 switch (ex.Number)
                 {
                     case 50000:
-                        throw new Exception("User with such login already exists");
+                        throw new Exception("Login should be more than 5 and less than 30 letters");
                     case 50001:
-                        throw new Exception("Phone already is used");
+                        throw new Exception("User with such login already exists");
                     case 50002:
-                        throw new Exception("Check if phone is correct");
+                        throw new Exception("Name should be more than 2 and less than 20 letters");
                     case 50003:
+                        throw new Exception("Phone already is used");
+                    case 50004:
+                        throw new Exception("Check if phone is correct");
+                    case 50005:
                         throw new Exception("Check if email is correct");
-                    default: throw;
+                    default: 
+                        throw;
                 }
             }
-            catch (Exception)
+            catch
             {
                 throw new Exception("Processing error. Try again");
             }
             
+        }
+
+        public static List<Order> GetClosedUserOrders(string Login)
+        {
+            try
+            {
+                return Database.GetClosedUserOrders(Login);
+            }
+            catch
+            {
+                throw new Exception("Error retriving orders");
+            }
         }
     }
 }

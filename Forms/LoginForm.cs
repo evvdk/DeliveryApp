@@ -38,7 +38,7 @@ namespace DeliveryApp
             {
                 ClientActions.Register(LoginRegistration.Text, PasswordRegistration.Text, NameRegistration.Text, PhoneRegistration.Text, EmailRegistration.Text);
                 (new Delivery()).Show();
-                this.Close();
+                this.Dispose();
             }
             catch (Exception ex)
             {

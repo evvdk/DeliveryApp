@@ -31,13 +31,15 @@ namespace DeliveryApp
         private void InitializeComponent()
         {
             this.WelcomeMessage = new System.Windows.Forms.Label();
-            this.OrderList = new System.Windows.Forms.FlowLayoutPanel();
             this.UserTabs = new System.Windows.Forms.TabControl();
             this.MarketPage = new System.Windows.Forms.TabPage();
+            this.MarketList = new System.Windows.Forms.FlowLayoutPanel();
             this.UserOdersPage = new System.Windows.Forms.TabPage();
+            this.OrdersLayout = new System.Windows.Forms.FlowLayoutPanel();
             this.UserAccountPage = new System.Windows.Forms.TabPage();
             this.UserTabs.SuspendLayout();
             this.MarketPage.SuspendLayout();
+            this.UserOdersPage.SuspendLayout();
             this.SuspendLayout();
             // 
             // WelcomeMessage
@@ -52,15 +54,6 @@ namespace DeliveryApp
             this.WelcomeMessage.TabIndex = 0;
             this.WelcomeMessage.Text = "Welcome";
             // 
-            // OrderList
-            // 
-            this.OrderList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.OrderList.Location = new System.Drawing.Point(0, 0);
-            this.OrderList.Margin = new System.Windows.Forms.Padding(0);
-            this.OrderList.Name = "OrderList";
-            this.OrderList.Size = new System.Drawing.Size(792, 394);
-            this.OrderList.TabIndex = 0;
-            // 
             // UserTabs
             // 
             this.UserTabs.Controls.Add(this.MarketPage);
@@ -73,10 +66,11 @@ namespace DeliveryApp
             this.UserTabs.SelectedIndex = 0;
             this.UserTabs.Size = new System.Drawing.Size(800, 423);
             this.UserTabs.TabIndex = 1;
+            this.UserTabs.Selected += new System.Windows.Forms.TabControlEventHandler(this.UserTabs_Selected);
             // 
             // MarketPage
             // 
-            this.MarketPage.Controls.Add(this.OrderList);
+            this.MarketPage.Controls.Add(this.MarketList);
             this.MarketPage.Location = new System.Drawing.Point(4, 25);
             this.MarketPage.Margin = new System.Windows.Forms.Padding(0);
             this.MarketPage.Name = "MarketPage";
@@ -85,8 +79,19 @@ namespace DeliveryApp
             this.MarketPage.Text = "Market";
             this.MarketPage.UseVisualStyleBackColor = true;
             // 
+            // MarketList
+            // 
+            this.MarketList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MarketList.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.MarketList.Location = new System.Drawing.Point(0, 0);
+            this.MarketList.Margin = new System.Windows.Forms.Padding(0);
+            this.MarketList.Name = "MarketList";
+            this.MarketList.Size = new System.Drawing.Size(792, 394);
+            this.MarketList.TabIndex = 0;
+            // 
             // UserOdersPage
             // 
+            this.UserOdersPage.Controls.Add(this.OrdersLayout);
             this.UserOdersPage.Location = new System.Drawing.Point(4, 25);
             this.UserOdersPage.Margin = new System.Windows.Forms.Padding(0);
             this.UserOdersPage.Name = "UserOdersPage";
@@ -94,6 +99,15 @@ namespace DeliveryApp
             this.UserOdersPage.TabIndex = 1;
             this.UserOdersPage.Text = "Your orders";
             this.UserOdersPage.UseVisualStyleBackColor = true;
+            // 
+            // OrdersLayout
+            // 
+            this.OrdersLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.OrdersLayout.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.OrdersLayout.Location = new System.Drawing.Point(0, 0);
+            this.OrdersLayout.Name = "OrdersLayout";
+            this.OrdersLayout.Size = new System.Drawing.Size(792, 394);
+            this.OrdersLayout.TabIndex = 0;
             // 
             // UserAccountPage
             // 
@@ -116,6 +130,7 @@ namespace DeliveryApp
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Main_FormClosed);
             this.UserTabs.ResumeLayout(false);
             this.MarketPage.ResumeLayout(false);
+            this.UserOdersPage.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -128,6 +143,7 @@ namespace DeliveryApp
         private TabPage MarketPage;
         private TabPage UserOdersPage;
         private TabPage UserAccountPage;
-        private FlowLayoutPanel OrderList;
+        private FlowLayoutPanel OrdersLayout;
+        private FlowLayoutPanel MarketList;
     }
 }
