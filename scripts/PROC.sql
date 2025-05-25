@@ -89,7 +89,13 @@ BEGIN
 	BEGIN TRY
 
 		IF NOT EXISTS (SELECT * FROM Client WHERE Login = @login AND Password = @password AND [Active Account] = 1)
-		THROW 50006, 'Wrong password', 1;
+			THROW 50006, 'User doesn''t exist', 1;
+
+		IF EXISTS (SELECT * FROM Client WHERE Login = @newLogin)
+			THROW 50001, 'User with this login already exist', 1;
+
+		IF NOT(LEN(@login) BETWEEN 5 AND 30) 
+			THROW 50000, 'Login should be more than 5 and less than 30 letters', 1;
 
 		UPDATE Client
 			SET Login = @newLogin
@@ -107,8 +113,95 @@ BEGIN
 
 END
 
+
 -- EXEC DeleteClient 'AnotherLogin', 'Password'
--- EXEC DeleteClient 'UserLogin', 'Password'
+-- EXEC DeleteClient 'UserLogin', 'Password'\
+
+GO
+
+CREATE OR ALTER PROCEDURE ChangeClientName(@login nvarchar(30), @password char(64), @newName nvarchar(20))
+AS
+BEGIN
+	BEGIN TRY
+
+		IF NOT(LEN(@newName) BETWEEN 3 AND 20) 
+				THROW 50002, 'Name should be more than 2 and less than 20 letters', 1;
+
+		IF NOT EXISTS (SELECT * FROM Client WHERE Login = @login AND Password = @password AND [Active Account] = 1)
+			THROW 50006, 'User doesn''t exist', 1;		
+
+		UPDATE Client
+			SET Name = @newName
+			WHERE Login = @login AND Password = @password AND [Active Account] = 1
+
+	END TRY
+	BEGIN CATCH
+
+		IF @@TRANCOUNT > 0
+			ROLLBACK TRAN;
+		THROW;
+
+	END CATCH
+
+
+END
+
+GO
+
+
+CREATE OR ALTER PROCEDURE ChangeClientPhone(@login nvarchar(30), @password char(64), @newPhone PhoneNumber)
+AS
+BEGIN
+	BEGIN TRY
+
+		IF EXISTS (SELECT * FROM Client WHERE Phone = @newPhone)
+			THROW 50003, 'Phone already used', 1;		
+
+		IF NOT (@newPhone LIKE '+7[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]')
+			THROW 50004, 'Phone doesn''t match pattern', 1;
+
+		UPDATE Client
+			SET Phone = @newPhone
+			WHERE Login = @login AND Password = @password AND [Active Account] = 1
+
+	END TRY
+	BEGIN CATCH
+
+		IF @@TRANCOUNT > 0
+			ROLLBACK TRAN;
+		THROW;
+
+	END CATCH
+
+
+END
+
+GO
+
+
+CREATE OR ALTER PROCEDURE ChangeClientEmail(@login nvarchar(30), @password char(64), @newEmail nvarchar(50))
+AS
+BEGIN
+	BEGIN TRY
+
+		IF NOT (@newEmail LIKE '%[_a-zA-Z0-9.-]%@%[_a-zA-Z0-9.-]%.[a-zA-Z][a-zA-Z]%')
+			THROW 50005, 'Email doesn''t match pattern', 1;
+
+		UPDATE Client
+			SET Email = @newEmail
+			WHERE Login = @login AND Password = @password AND [Active Account] = 1
+
+	END TRY
+	BEGIN CATCH
+
+		IF @@TRANCOUNT > 0
+			ROLLBACK TRAN;
+		THROW;
+
+	END CATCH
+
+
+END
 
 GO
 

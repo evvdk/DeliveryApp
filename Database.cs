@@ -52,5 +52,70 @@ namespace DeliveryApp
                 return context.Client.Where(p => p.Login == Login && p.Password == Password).First();
             }
         }
+
+        public static void ChangePassword(string Login, string OldPassword, string NewPassword)
+        {
+            using (var context = new DeliveryAppContext(ConnectionString))
+            {
+                var login = new SqlParameter("@login", Login);
+                var oldPassword = new SqlParameter("@oldPassword", OldPassword);
+                var newPassword = new SqlParameter("@newPassword", NewPassword);
+
+                context.Database.ExecuteSqlCommand("exec ChangeClientPassword @login, @oldPassword, @newPassword",
+                        login, oldPassword, newPassword);
+            }
+        }
+
+        public static void ChangeLogin(string Login, string Password, string NewLogin)
+        {
+            using (var context = new DeliveryAppContext(ConnectionString))
+            {
+                var login = new SqlParameter("@login", Login);
+                var password = new SqlParameter("@password", Password);
+                var newLogin = new SqlParameter("@newLogin", NewLogin);
+
+                context.Database.ExecuteSqlCommand("exec ChangeClientLogin @login, @password, @newLogin",
+                        login, password, newLogin);
+            }
+        }
+
+        public static void ChangeName(string Login, string Password, string NewName)
+        {
+            using (var context = new DeliveryAppContext(ConnectionString))
+            {
+                var login = new SqlParameter("@login", Login);
+                var password = new SqlParameter("@password", Password);
+                var newName = new SqlParameter("@newName", NewName);
+
+                context.Database.ExecuteSqlCommand("exec ChangeClientName @login, @password, @newName",
+                        login, password, newName);
+            }
+        }
+
+        public static void ChangePhone(string Login, string Password, string NewPhone)
+        {
+            using (var context = new DeliveryAppContext(ConnectionString))
+            {
+                var login = new SqlParameter("@login", Login);
+                var password = new SqlParameter("@password", Password);
+                var newPhone = new SqlParameter("@newPhone", NewPhone);
+
+                context.Database.ExecuteSqlCommand("exec ChangeClientPhone @login, @password, @newPhone",
+                        login, password, newPhone);
+            }
+        }
+
+        public static void ChangeEmail(string Login, string Password, string NewEmail)
+        {
+            using (var context = new DeliveryAppContext(ConnectionString))
+            {
+                var login = new SqlParameter("@login", Login);
+                var password = new SqlParameter("@password", Password);
+                var newEmail = new SqlParameter("@newEmail", NewEmail);
+
+                context.Database.ExecuteSqlCommand("exec ChangeClientEmail @login, @password, @newEmail",
+                        login, password, newEmail);
+            }
+        }
     }
 }

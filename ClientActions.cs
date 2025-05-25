@@ -53,7 +53,8 @@ namespace DeliveryApp
 
         public static void Register(string Login, string Password, string Name, string Phone, string Email)
         {
-            if (Password.Length < 5 || Password.Length > 16) throw new Exception("Password should be more than 5 and less than 16 letters");
+            if (Password.Length < 5 || Password.Length > 16) 
+                throw new Exception("Password should be more than 5 and less than 16 letters");
             Password = HashString(Password);
 
             Phone = FormatPhone(Phone);
@@ -80,7 +81,7 @@ namespace DeliveryApp
                     case 50005:
                         throw new Exception("Check if email is correct");
                     default:
-                        throw;
+                        throw new Exception("SQL error during changing email");
                 }
             }
             catch
@@ -111,6 +112,139 @@ namespace DeliveryApp
             catch
             {
                 throw new Exception("Error retriving user data");
+            }
+        }
+
+        public static void ChangePassword(string NewPassword, string RetypedPassword)
+        {
+            
+            if (NewPassword.Length < 5 || NewPassword.Length > 16) throw new 
+                Exception("Password should be more than 5 and less than 16 letters");
+
+            if (NewPassword != RetypedPassword) throw new Exception("Retyped password doesn't match");
+            
+            NewPassword = HashString(NewPassword);
+
+            if (User.userInfo.Password == NewPassword) 
+                throw new Exception("Old and new password are equal");
+
+            try
+            {
+                Database.ChangePassword(User.userInfo.Login, User.userInfo.Password, NewPassword);
+                User.userInfo.Password = NewPassword;
+            }
+            catch (SqlException ex)
+            {
+                switch (ex.Number)
+                {
+                    case 50006:
+                        throw new Exception("User with such login doesn't exitst");
+                    default:
+                        throw new Exception("SQL error during changing email");
+                }
+            }
+            catch
+            {
+                throw new Exception("Error during changing password");
+            }
+        }
+
+        public static void ChangeLogin(string NewLogin)
+        {
+            try
+            {
+                Database.ChangeLogin(User.userInfo.Login, User.userInfo.Password, NewLogin);
+                User.userInfo.Login = NewLogin;
+            }
+            catch (SqlException ex)
+            {
+                switch (ex.Number)
+                {
+                    case 50000:
+                        throw new Exception("Login should be more than 5 and less than 30 letters");
+                    case 50001:
+                        throw new Exception("User with this login already exist");
+                    case 50006:
+                        throw new Exception("Wrong login or password");
+                    default:
+                        throw new Exception("SQL error during changing email");
+                }
+            }
+            catch
+            {
+                throw new Exception("Error during changing password");
+            }
+        }
+
+
+        public static void ChangeName(string NewName)
+        {
+            try
+            {
+                Database.ChangeName(User.userInfo.Login, User.userInfo.Password, NewName);
+            }
+            catch (SqlException ex)
+            {
+                switch (ex.Number)
+                {
+                    case 50002:
+                        throw new Exception("Name should be more than 2 and less than 20 letters");
+                    case 50006:
+                        throw new Exception("Wrong login or password");
+                    default:
+                        throw new Exception("SQL error during changing email");
+                }
+            }
+            catch
+            {
+                throw new Exception("Error during changing name");
+            }
+        }
+
+        public static void ChangePhone(string NewPhone)
+        {
+            try
+            {
+                NewPhone = FormatPhone(NewPhone);
+                Database.ChangePhone(User.userInfo.Login, User.userInfo.Password, NewPhone);
+            }
+            catch (SqlException ex)
+            {
+                switch (ex.Number)
+                {
+                    case 50003:
+                        throw new Exception("Phone already used");
+                    case 50004:
+                        throw new Exception("Phone doesn't match pattern");
+                    default:
+                        throw new Exception("SQL error during changing email");
+                }
+            }
+            catch
+            {
+                throw new Exception("Error during changing phone");
+            }
+        }
+
+        public static void ChangeEmail(string NewEmail)
+        {
+            try
+            {
+                Database.ChangeEmail(User.userInfo.Login, User.userInfo.Password, NewEmail);
+            }
+            catch (SqlException ex)
+            {
+                switch (ex.Number)
+                {
+                    case 50005:
+                        throw new Exception("Email doesn't match pattern");
+                    default: 
+                        throw new Exception("SQL error during changing email");
+                }
+            }
+            catch
+            {
+                throw new Exception("Error during changing email");
             }
         }
     }

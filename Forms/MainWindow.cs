@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using DeliveryApp.EF;
 using System.Globalization;
+using DeliveryApp.Forms;
 
 namespace DeliveryApp
 {
@@ -14,7 +15,7 @@ namespace DeliveryApp
         public Delivery()
         {
             InitializeComponent();
-            User.userInfo = new User("UserLogin", "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92");
+            User.userInfo = new User("UserLogin", "e7cf3ef4f17c3999a94f2c6f612e8a888e5b1026878e4e19398b23bd38ec221a");
             this.WelcomeMessage.Text = "Hello, " + User.userInfo.Login;
             this.OredersUpdateTimer.Interval = 5000;
             this.OredersUpdateTimer.Tick += new EventHandler(this.UpdateClientOrders_Tick);
@@ -162,6 +163,8 @@ namespace DeliveryApp
         {
             try
             {
+                this.WelcomeMessage.Text = "Hello, " + User.userInfo.Login;
+
                 Client user = ClientActions.getClientInfo();
                 Account_UserLogin.Text = user.Login;
                 Account_UserName.Text = user.Name;
@@ -181,10 +184,27 @@ namespace DeliveryApp
             Panel clickedPanel = sender as Panel;
             if (clickedPanel != null)
             {
-                int orderID = (int)clickedPanel.Tag;
+                int orderID = Convert.ToInt32(clickedPanel.Tag);
                 MessageBox.Show($"Order id {orderID}");
                 // ****
             }
+        }
+
+        private void Account_ChangeButton_Click(object sender, EventArgs e)
+        {
+            Button clickedPanel = sender as Button;
+            if (clickedPanel != null)
+            {
+                ChangeTypeValue orderID = (ChangeTypeValue)Convert.ToInt32(clickedPanel.Tag);
+                ChangeAccountInfo wind = new ChangeAccountInfo(orderID);
+                wind.FormClosed += new FormClosedEventHandler(this.ChnageAccoutWindow_Closed);
+                wind.Show();
+            }
+        }
+
+        private void ChnageAccoutWindow_Closed(object sender, FormClosedEventArgs e)
+        {
+            UpdateClientInfo();
         }
     }
 }
