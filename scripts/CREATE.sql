@@ -52,7 +52,7 @@ GO
 -- Client
 CREATE TABLE "Client"
 (
-	Login nvarchar(30) NOT NULL PRIMARY KEY,
+	Login nvarchar(30) PRIMARY KEY,
 	Password char(64) NOT NULL,
     Name nvarchar(20) NOT NULL,
     Phone PhoneNumber NOT NULL,
@@ -179,8 +179,8 @@ CREATE TABLE "Order"
 
 	CONSTRAINT "C_FK_Client_Address" FOREIGN KEY ("Client Login", "Client Address ID")
         REFERENCES "Client Address" ("Client Login", "ID")
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
 );
 
 EXEC sp_bindrule 'Grade', 'Order.Order Grade'

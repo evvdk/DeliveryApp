@@ -1,4 +1,5 @@
 ﻿using System.Windows.Forms;
+using System.Drawing;
 namespace DeliveryApp
 {
     partial class Delivery
@@ -29,28 +30,92 @@ namespace DeliveryApp
         /// </summary>
         private void InitializeComponent()
         {
-            this.WelcomeMessage = new Label();
+            this.WelcomeMessage = new System.Windows.Forms.Label();
+            this.OrderList = new System.Windows.Forms.FlowLayoutPanel();
+            this.UserTabs = new System.Windows.Forms.TabControl();
+            this.MarketPage = new System.Windows.Forms.TabPage();
+            this.UserOdersPage = new System.Windows.Forms.TabPage();
+            this.UserAccountPage = new System.Windows.Forms.TabPage();
+            this.UserTabs.SuspendLayout();
+            this.MarketPage.SuspendLayout();
             this.SuspendLayout();
             // 
             // WelcomeMessage
             // 
             this.WelcomeMessage.AutoSize = true;
+            this.WelcomeMessage.Dock = System.Windows.Forms.DockStyle.Top;
             this.WelcomeMessage.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F);
-            this.WelcomeMessage.Location = new System.Drawing.Point(1, -2);
+            this.WelcomeMessage.Location = new System.Drawing.Point(0, 0);
+            this.WelcomeMessage.Margin = new System.Windows.Forms.Padding(0);
             this.WelcomeMessage.Name = "WelcomeMessage";
             this.WelcomeMessage.Size = new System.Drawing.Size(101, 27);
             this.WelcomeMessage.TabIndex = 0;
             this.WelcomeMessage.Text = "Welcome";
+            // 
+            // OrderList
+            // 
+            this.OrderList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.OrderList.Location = new System.Drawing.Point(0, 0);
+            this.OrderList.Margin = new System.Windows.Forms.Padding(0);
+            this.OrderList.Name = "OrderList";
+            this.OrderList.Size = new System.Drawing.Size(792, 394);
+            this.OrderList.TabIndex = 0;
+            // 
+            // UserTabs
+            // 
+            this.UserTabs.Controls.Add(this.MarketPage);
+            this.UserTabs.Controls.Add(this.UserOdersPage);
+            this.UserTabs.Controls.Add(this.UserAccountPage);
+            this.UserTabs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.UserTabs.Location = new System.Drawing.Point(0, 27);
+            this.UserTabs.Margin = new System.Windows.Forms.Padding(0);
+            this.UserTabs.Name = "UserTabs";
+            this.UserTabs.SelectedIndex = 0;
+            this.UserTabs.Size = new System.Drawing.Size(800, 423);
+            this.UserTabs.TabIndex = 1;
+            // 
+            // MarketPage
+            // 
+            this.MarketPage.Controls.Add(this.OrderList);
+            this.MarketPage.Location = new System.Drawing.Point(4, 25);
+            this.MarketPage.Margin = new System.Windows.Forms.Padding(0);
+            this.MarketPage.Name = "MarketPage";
+            this.MarketPage.Size = new System.Drawing.Size(792, 394);
+            this.MarketPage.TabIndex = 0;
+            this.MarketPage.Text = "Market";
+            this.MarketPage.UseVisualStyleBackColor = true;
+            // 
+            // UserOdersPage
+            // 
+            this.UserOdersPage.Location = new System.Drawing.Point(4, 25);
+            this.UserOdersPage.Margin = new System.Windows.Forms.Padding(0);
+            this.UserOdersPage.Name = "UserOdersPage";
+            this.UserOdersPage.Size = new System.Drawing.Size(792, 394);
+            this.UserOdersPage.TabIndex = 1;
+            this.UserOdersPage.Text = "Your orders";
+            this.UserOdersPage.UseVisualStyleBackColor = true;
+            // 
+            // UserAccountPage
+            // 
+            this.UserAccountPage.Location = new System.Drawing.Point(4, 25);
+            this.UserAccountPage.Name = "UserAccountPage";
+            this.UserAccountPage.Size = new System.Drawing.Size(792, 394);
+            this.UserAccountPage.TabIndex = 2;
+            this.UserAccountPage.Text = "Account";
+            this.UserAccountPage.UseVisualStyleBackColor = true;
             // 
             // Delivery
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.UserTabs);
             this.Controls.Add(this.WelcomeMessage);
             this.Name = "Delivery";
             this.Text = "Delivery";
-            this.FormClosed += new FormClosedEventHandler(this.Main_FormClosed);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Main_FormClosed);
+            this.UserTabs.ResumeLayout(false);
+            this.MarketPage.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -58,6 +123,11 @@ namespace DeliveryApp
 
         #endregion
 
-        private System.Windows.Forms.Label WelcomeMessage;
+        private Label WelcomeMessage;
+        private TabControl UserTabs;
+        private TabPage MarketPage;
+        private TabPage UserOdersPage;
+        private TabPage UserAccountPage;
+        private FlowLayoutPanel OrderList;
     }
 }

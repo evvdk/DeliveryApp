@@ -4,8 +4,8 @@ GO
 
 CREATE OR ALTER VIEW [Orders View]
 AS
-SELECT [Order ID], [Client Login], [Client Address ID], Courier, [Status], [Ordered At], [Complited At], [Dish ID], [Count], [Producer ID]
-FROM ([Order] JOIN [Dishes Order] ON [Order].ID = [Dishes Order].[Order ID]) JOIN Dish ON [Dishes Order].[Dish ID] = Dish.ID
+	SELECT [Order ID], [Client Login], [Client Address ID], Courier, [Status], [Ordered At], [Complited At], [Dish ID], [Count], [Producer ID]
+		FROM ([Order] JOIN [Dishes Order] ON [Order].ID = [Dishes Order].[Order ID]) JOIN Dish ON [Dishes Order].[Dish ID] = Dish.ID
 
 GO
 
@@ -14,9 +14,8 @@ INSTEAD OF DELETE
 AS
 BEGIN
 	DECLARE DishDeleteCursor CURSOR
-	SCROLL 
-	FOR 
-	SELECT [Order ID], [Dish ID], [Count] FROM deleted WHERE [Ordered At] IS NULL AND [Status] = 0;
+	SCROLL FOR 
+		SELECT [Order ID], [Dish ID], [Count] FROM deleted WHERE [Ordered At] IS NULL AND [Status] = 0;
 	
 	DECLARE @Order int, @Dish int, @Count int;
 
@@ -27,30 +26,30 @@ BEGIN
 	WHILE(@@FETCH_STATUS = 0)
 	BEGIN
 
-	BEGIN TRAN
+		BEGIN TRAN
 
-	IF(@Count = 1)
-	BEGIN
-		DELETE FROM [Dishes Order]
-			WHERE [Order ID] = @Order AND [Dish ID] = @Dish
-		IF @@ERROR = 0 AND @@ROWCOUNT = 1
-			COMMIT TRAN
-		ELSE
-			ROLLBACK TRAN
-	END
-	ELSE 
-	BEGIN
-		UPDATE [Dishes Order]
-			SET [Count] = [Count] - 1
-			WHERE [Order ID] = @Order AND [Dish ID] = @Dish
-		IF @@ERROR = 0 AND @@ROWCOUNT = 1
-			COMMIT TRAN
-		ELSE
-			ROLLBACK TRAN
-	END
+		IF(@Count = 1)
+		BEGIN
+			DELETE FROM [Dishes Order]
+				WHERE [Order ID] = @Order AND [Dish ID] = @Dish
+			IF @@ERROR = 0 AND @@ROWCOUNT = 1
+				COMMIT TRAN
+			ELSE
+				ROLLBACK TRAN
+		END
+		ELSE 
+		BEGIN
+			UPDATE [Dishes Order]
+				SET [Count] = [Count] - 1
+				WHERE [Order ID] = @Order AND [Dish ID] = @Dish
+			IF @@ERROR = 0 AND @@ROWCOUNT = 1
+				COMMIT TRAN
+			ELSE
+				ROLLBACK TRAN
+		END
 
-	FETCH NEXT FROM DishDeleteCursor
-		INTO @Order, @Dish, @Count
+		FETCH NEXT FROM DishDeleteCursor
+			INTO @Order, @Dish, @Count
 	END
 
 	CLOSE DishDeleteCursor
@@ -58,7 +57,6 @@ BEGIN
 END
 
 GO
-
 
 CREATE OR ALTER TRIGGER ApplyInsertIntoOrders ON [Orders View]
 INSTEAD OF INSERT
@@ -132,7 +130,17 @@ GO
 
 CREATE OR ALTER VIEW [Producer Dishes]
 AS
-SELECT [Producer].ID AS [Producer ID], Producer.Name, Producer.Grade AS [Producer Grade], Dish.ID AS [Dish ID], Dish.Name AS [Dish Name], Dish.Cost AS [Dish Cost]
+SELECT [Producer].ID AS [Producer ID], Producer.Name, Dish.ID AS [Dish ID], Dish.Name AS [Dish Name], Dish.Cost AS [Dish Cost]
 FROM [Producer] RIGHT JOIN Dish ON Producer.ID = Dish.[Producer ID]
 WHERE Dish.Visible = 1
 WITH CHECK OPTION
+GO
+
+CREATE OR ALTER VIEW [Courier Order To]
+AS
+SELECT [Courier].ID, [Order].ID AS [Order ID], [Order].[Client Login],[Region],[City],[District],[Street],[Building],[Floor],[Room]
+	FROM (Courier RIGHT JOIN [Order] ON Courier.ID = [Order].Courier) LEFT JOIN [Client Address] ON [Client Address].ID = [Client Address ID]
+	WHERE [Client Address].Active = 1
+	WITH CHECK OPTION
+GO
+

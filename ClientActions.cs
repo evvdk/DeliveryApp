@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Data.SqlClient;
 using System.Security.Cryptography;
 using System.Text;
+using System.Windows.Forms;
 
 namespace DeliveryApp
 {
@@ -22,23 +24,56 @@ namespace DeliveryApp
             }
         }
 
-        static public bool Login(string Login, string Password)
+        static public void Login(string Login, string Password)
         {
-            Password = HashString(Password);
-            if (Database.IsValidUser(Login, Password))
+            if (Login.Length == 0 || Password.Length == 0) throw new Exception("Required fields are empthy");
+            try
             {
+                Password = HashString(Password);
+                if (!Database.IsValidUser(Login, Password))
+                    throw new Exception("Wrong login or password");
                 User.userInfo = new User(Login, Password);
-                return true;
+            } catch(SqlException)
+            {
+                throw new Exception("Database query error");
             }
-            return false;
         }
 
         static public void Register(string Login, string Password, string Name, string Phone, string Email)
         {
             if (Password.Length < 5 || Password.Length > 16) throw new Exception("Password should be more than 5 and less than 16 letters");
             Password = HashString(Password);
-            Database.InsertUser(Login, Password, Name, Phone, Email);
-            User.userInfo = new User(Login, Password);
+
+            string[] charsToRemoveFromPhone = new string[] { "(", ")", "-" };
+            foreach (string c in charsToRemoveFromPhone)
+                Phone = Phone.Replace(c, string.Empty);
+
+            try
+            {
+                Database.InsertUser(Login, Password, Name, Phone, Email);
+                User.userInfo = new User(Login, Password);
+            }
+
+            catch (SqlException ex)
+            {
+                switch (ex.Number)
+                {
+                    case 50000:
+                        throw new Exception("User with such login already exists");
+                    case 50001:
+                        throw new Exception("Phone already is used");
+                    case 50002:
+                        throw new Exception("Check if phone is correct");
+                    case 50003:
+                        throw new Exception("Check if email is correct");
+                    default: throw;
+                }
+            }
+            catch (Exception)
+            {
+                throw new Exception("Processing error. Try again");
+            }
+            
         }
     }
 }

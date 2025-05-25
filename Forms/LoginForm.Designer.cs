@@ -37,7 +37,7 @@ namespace DeliveryApp
             this.LoginInput = new System.Windows.Forms.TextBox();
             this.LoginTitleLabel = new System.Windows.Forms.Label();
             this.LoginMessage = new System.Windows.Forms.Label();
-            this.RegLogin = new System.Windows.Forms.Label();
+            this.RegLoginLabel = new System.Windows.Forms.Label();
             this.Registrate = new DeliveryApp.CustomButton();
             this.EmailRegistration = new System.Windows.Forms.TextBox();
             this.RegistrationLabel = new System.Windows.Forms.Label();
@@ -50,11 +50,12 @@ namespace DeliveryApp
             this.LoginPage = new System.Windows.Forms.TabPage();
             this.RegistrationPage = new System.Windows.Forms.TabPage();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.RegMessage = new System.Windows.Forms.Label();
             this.LoginRegistration = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
+            this.PasswordRegLabel = new System.Windows.Forms.Label();
+            this.NameRegLabel = new System.Windows.Forms.Label();
+            this.PhoneRegLabel = new System.Windows.Forms.Label();
+            this.EmailRegLabel = new System.Windows.Forms.Label();
             this.LoginPanel.SuspendLayout();
             this.TabsControl.SuspendLayout();
             this.LoginPage.SuspendLayout();
@@ -67,12 +68,12 @@ namespace DeliveryApp
             this.PasswordInput.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.PasswordInput.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.PasswordInput.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F);
-            this.PasswordInput.ForeColor = System.Drawing.SystemColors.Window;
+            this.PasswordInput.ForeColor = System.Drawing.SystemColors.WindowText;
             this.PasswordInput.Location = new System.Drawing.Point(4, 142);
             this.PasswordInput.Margin = new System.Windows.Forms.Padding(4);
             this.PasswordInput.Name = "PasswordInput";
             this.PasswordInput.PasswordChar = '*';
-            this.PasswordInput.Size = new System.Drawing.Size(355, 26);
+            this.PasswordInput.Size = new System.Drawing.Size(415, 26);
             this.PasswordInput.TabIndex = 1;
             // 
             // AuthButton
@@ -84,7 +85,7 @@ namespace DeliveryApp
             this.AuthButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.AuthButton.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F);
             this.AuthButton.ForeColor = System.Drawing.Color.White;
-            this.AuthButton.Location = new System.Drawing.Point(116, 182);
+            this.AuthButton.Location = new System.Drawing.Point(146, 182);
             this.AuthButton.Margin = new System.Windows.Forms.Padding(4);
             this.AuthButton.Name = "AuthButton";
             this.AuthButton.Size = new System.Drawing.Size(130, 40);
@@ -98,7 +99,7 @@ namespace DeliveryApp
             this.PasswordLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.PasswordLabel.AutoSize = true;
             this.PasswordLabel.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F);
-            this.PasswordLabel.Location = new System.Drawing.Point(102, 111);
+            this.PasswordLabel.Location = new System.Drawing.Point(132, 111);
             this.PasswordLabel.Name = "PasswordLabel";
             this.PasswordLabel.Size = new System.Drawing.Size(158, 27);
             this.PasswordLabel.TabIndex = 7;
@@ -109,7 +110,7 @@ namespace DeliveryApp
             this.LoginLable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.LoginLable.AutoSize = true;
             this.LoginLable.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F);
-            this.LoginLable.Location = new System.Drawing.Point(124, 50);
+            this.LoginLable.Location = new System.Drawing.Point(154, 50);
             this.LoginLable.Name = "LoginLable";
             this.LoginLable.Size = new System.Drawing.Size(115, 27);
             this.LoginLable.TabIndex = 6;
@@ -121,11 +122,11 @@ namespace DeliveryApp
             this.LoginInput.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.LoginInput.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.LoginInput.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F);
-            this.LoginInput.ForeColor = System.Drawing.Color.White;
+            this.LoginInput.ForeColor = System.Drawing.SystemColors.WindowText;
             this.LoginInput.Location = new System.Drawing.Point(4, 81);
             this.LoginInput.Margin = new System.Windows.Forms.Padding(4);
             this.LoginInput.Name = "LoginInput";
-            this.LoginInput.Size = new System.Drawing.Size(355, 26);
+            this.LoginInput.Size = new System.Drawing.Size(415, 26);
             this.LoginInput.TabIndex = 0;
             // 
             // LoginTitleLabel
@@ -150,29 +151,30 @@ namespace DeliveryApp
             this.LoginMessage.Location = new System.Drawing.Point(4, 27);
             this.LoginMessage.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LoginMessage.Name = "LoginMessage";
-            this.LoginMessage.Size = new System.Drawing.Size(126, 23);
+            this.LoginMessage.Size = new System.Drawing.Size(48, 23);
             this.LoginMessage.TabIndex = 4;
-            this.LoginMessage.Text = "Base Message";
+            this.LoginMessage.Text = "Base";
             this.LoginMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.LoginMessage.Visible = false;
             // 
-            // RegLogin
+            // RegLoginLabel
             // 
-            this.RegLogin.AutoSize = true;
-            this.RegLogin.Location = new System.Drawing.Point(3, 27);
-            this.RegLogin.Name = "RegLogin";
-            this.RegLogin.Size = new System.Drawing.Size(96, 22);
-            this.RegLogin.TabIndex = 8;
-            this.RegLogin.Text = "Enter login";
+            this.RegLoginLabel.AutoSize = true;
+            this.RegLoginLabel.Location = new System.Drawing.Point(3, 49);
+            this.RegLoginLabel.Name = "RegLoginLabel";
+            this.RegLoginLabel.Size = new System.Drawing.Size(96, 22);
+            this.RegLoginLabel.TabIndex = 8;
+            this.RegLoginLabel.Text = "Enter login";
             // 
             // Registrate
             // 
+            this.Registrate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.Registrate.AutoSize = true;
             this.Registrate.BackColor = System.Drawing.Color.MediumSlateBlue;
             this.Registrate.BorderRadius = 15;
             this.Registrate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Registrate.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F);
             this.Registrate.ForeColor = System.Drawing.Color.White;
-            this.Registrate.Location = new System.Drawing.Point(3, 300);
+            this.Registrate.Location = new System.Drawing.Point(147, 322);
             this.Registrate.Name = "Registrate";
             this.Registrate.Size = new System.Drawing.Size(126, 40);
             this.Registrate.TabIndex = 6;
@@ -185,9 +187,9 @@ namespace DeliveryApp
             this.EmailRegistration.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.EmailRegistration.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.EmailRegistration.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F);
-            this.EmailRegistration.Location = new System.Drawing.Point(3, 268);
+            this.EmailRegistration.Location = new System.Drawing.Point(3, 290);
             this.EmailRegistration.Name = "EmailRegistration";
-            this.EmailRegistration.Size = new System.Drawing.Size(294, 26);
+            this.EmailRegistration.Size = new System.Drawing.Size(415, 26);
             this.EmailRegistration.TabIndex = 5;
             // 
             // RegistrationLabel
@@ -205,9 +207,9 @@ namespace DeliveryApp
             this.PhoneRegistration.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.PhoneRegistration.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.PhoneRegistration.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F);
-            this.PhoneRegistration.Location = new System.Drawing.Point(3, 214);
+            this.PhoneRegistration.Location = new System.Drawing.Point(3, 236);
             this.PhoneRegistration.Name = "PhoneRegistration";
-            this.PhoneRegistration.Size = new System.Drawing.Size(293, 26);
+            this.PhoneRegistration.Size = new System.Drawing.Size(415, 26);
             this.PhoneRegistration.TabIndex = 4;
             // 
             // NameRegistration
@@ -215,9 +217,9 @@ namespace DeliveryApp
             this.NameRegistration.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.NameRegistration.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.NameRegistration.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F);
-            this.NameRegistration.Location = new System.Drawing.Point(3, 160);
+            this.NameRegistration.Location = new System.Drawing.Point(3, 182);
             this.NameRegistration.Name = "NameRegistration";
-            this.NameRegistration.Size = new System.Drawing.Size(293, 26);
+            this.NameRegistration.Size = new System.Drawing.Size(415, 26);
             this.NameRegistration.TabIndex = 3;
             // 
             // PasswordRegistration
@@ -225,10 +227,10 @@ namespace DeliveryApp
             this.PasswordRegistration.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.PasswordRegistration.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.PasswordRegistration.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F);
-            this.PasswordRegistration.Location = new System.Drawing.Point(3, 106);
+            this.PasswordRegistration.Location = new System.Drawing.Point(3, 128);
             this.PasswordRegistration.Name = "PasswordRegistration";
             this.PasswordRegistration.PasswordChar = '*';
-            this.PasswordRegistration.Size = new System.Drawing.Size(294, 26);
+            this.PasswordRegistration.Size = new System.Drawing.Size(415, 26);
             this.PasswordRegistration.TabIndex = 2;
             // 
             // LoginPanel
@@ -246,14 +248,14 @@ namespace DeliveryApp
             this.LoginPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.LoginPanel.Location = new System.Drawing.Point(3, 3);
             this.LoginPanel.Name = "LoginPanel";
-            this.LoginPanel.Size = new System.Drawing.Size(366, 386);
+            this.LoginPanel.Size = new System.Drawing.Size(423, 389);
             this.LoginPanel.TabIndex = 10;
             // 
             // LoginButtons
             // 
             this.LoginButtons.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.LoginButtons.AutoSize = true;
-            this.LoginButtons.Location = new System.Drawing.Point(181, 175);
+            this.LoginButtons.Location = new System.Drawing.Point(211, 175);
             this.LoginButtons.Name = "LoginButtons";
             this.LoginButtons.Size = new System.Drawing.Size(0, 0);
             this.LoginButtons.TabIndex = 11;
@@ -269,7 +271,7 @@ namespace DeliveryApp
             this.TabsControl.Multiline = true;
             this.TabsControl.Name = "TabsControl";
             this.TabsControl.SelectedIndex = 0;
-            this.TabsControl.Size = new System.Drawing.Size(400, 400);
+            this.TabsControl.Size = new System.Drawing.Size(457, 403);
             this.TabsControl.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight;
             this.TabsControl.TabIndex = 11;
             // 
@@ -279,19 +281,19 @@ namespace DeliveryApp
             this.LoginPage.Location = new System.Drawing.Point(24, 4);
             this.LoginPage.Name = "LoginPage";
             this.LoginPage.Padding = new System.Windows.Forms.Padding(3);
-            this.LoginPage.Size = new System.Drawing.Size(372, 392);
+            this.LoginPage.Size = new System.Drawing.Size(429, 395);
             this.LoginPage.TabIndex = 0;
             this.LoginPage.Text = "Login";
             // 
             // RegistrationPage
             // 
-            this.RegistrationPage.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.RegistrationPage.BackColor = System.Drawing.SystemColors.Control;
             this.RegistrationPage.Controls.Add(this.flowLayoutPanel1);
             this.RegistrationPage.Location = new System.Drawing.Point(24, 4);
             this.RegistrationPage.Name = "RegistrationPage";
             this.RegistrationPage.Padding = new System.Windows.Forms.Padding(3);
             this.RegistrationPage.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.RegistrationPage.Size = new System.Drawing.Size(372, 392);
+            this.RegistrationPage.Size = new System.Drawing.Size(429, 395);
             this.RegistrationPage.TabIndex = 1;
             this.RegistrationPage.Text = "Register";
             // 
@@ -299,69 +301,79 @@ namespace DeliveryApp
             // 
             this.flowLayoutPanel1.BackColor = System.Drawing.SystemColors.Control;
             this.flowLayoutPanel1.Controls.Add(this.RegistrationLabel);
-            this.flowLayoutPanel1.Controls.Add(this.RegLogin);
+            this.flowLayoutPanel1.Controls.Add(this.RegMessage);
+            this.flowLayoutPanel1.Controls.Add(this.RegLoginLabel);
             this.flowLayoutPanel1.Controls.Add(this.LoginRegistration);
-            this.flowLayoutPanel1.Controls.Add(this.label1);
+            this.flowLayoutPanel1.Controls.Add(this.PasswordRegLabel);
             this.flowLayoutPanel1.Controls.Add(this.PasswordRegistration);
-            this.flowLayoutPanel1.Controls.Add(this.label2);
+            this.flowLayoutPanel1.Controls.Add(this.NameRegLabel);
             this.flowLayoutPanel1.Controls.Add(this.NameRegistration);
-            this.flowLayoutPanel1.Controls.Add(this.label3);
+            this.flowLayoutPanel1.Controls.Add(this.PhoneRegLabel);
             this.flowLayoutPanel1.Controls.Add(this.PhoneRegistration);
-            this.flowLayoutPanel1.Controls.Add(this.label4);
+            this.flowLayoutPanel1.Controls.Add(this.EmailRegLabel);
             this.flowLayoutPanel1.Controls.Add(this.EmailRegistration);
             this.flowLayoutPanel1.Controls.Add(this.Registrate);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(366, 386);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(423, 389);
             this.flowLayoutPanel1.TabIndex = 9;
+            // 
+            // RegMessage
+            // 
+            this.RegMessage.AutoSize = true;
+            this.RegMessage.Location = new System.Drawing.Point(3, 27);
+            this.RegMessage.Name = "RegMessage";
+            this.RegMessage.Size = new System.Drawing.Size(51, 22);
+            this.RegMessage.TabIndex = 14;
+            this.RegMessage.Text = "Base";
             // 
             // LoginRegistration
             // 
             this.LoginRegistration.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.LoginRegistration.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.LoginRegistration.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F);
-            this.LoginRegistration.Location = new System.Drawing.Point(3, 52);
+            this.LoginRegistration.Location = new System.Drawing.Point(3, 74);
             this.LoginRegistration.Name = "LoginRegistration";
-            this.LoginRegistration.Size = new System.Drawing.Size(197, 26);
+            this.LoginRegistration.Size = new System.Drawing.Size(415, 26);
             this.LoginRegistration.TabIndex = 9;
             // 
-            // label1
+            // PasswordRegLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 81);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(137, 22);
-            this.label1.TabIndex = 10;
-            this.label1.Text = "Enter Password";
+            this.PasswordRegLabel.AutoSize = true;
+            this.PasswordRegLabel.Location = new System.Drawing.Point(3, 103);
+            this.PasswordRegLabel.Name = "PasswordRegLabel";
+            this.PasswordRegLabel.Size = new System.Drawing.Size(137, 22);
+            this.PasswordRegLabel.TabIndex = 10;
+            this.PasswordRegLabel.Text = "Enter Password";
             // 
-            // label2
+            // NameRegLabel
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 135);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(105, 22);
-            this.label2.TabIndex = 11;
-            this.label2.Text = "Enter Name";
+            this.NameRegLabel.AutoSize = true;
+            this.NameRegLabel.Location = new System.Drawing.Point(3, 157);
+            this.NameRegLabel.Name = "NameRegLabel";
+            this.NameRegLabel.Size = new System.Drawing.Size(105, 22);
+            this.NameRegLabel.TabIndex = 11;
+            this.NameRegLabel.Text = "Enter Name";
             // 
-            // label3
+            // PhoneRegLabel
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 189);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(110, 22);
-            this.label3.TabIndex = 12;
-            this.label3.Text = "Enter Phone";
+            this.PhoneRegLabel.AutoSize = true;
+            this.PhoneRegLabel.Location = new System.Drawing.Point(3, 211);
+            this.PhoneRegLabel.Name = "PhoneRegLabel";
+            this.PhoneRegLabel.Size = new System.Drawing.Size(110, 22);
+            this.PhoneRegLabel.TabIndex = 12;
+            this.PhoneRegLabel.Text = "Enter Phone";
             // 
-            // label4
+            // EmailRegLabel
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(3, 243);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(102, 22);
-            this.label4.TabIndex = 13;
-            this.label4.Text = "Enter Email";
+            this.EmailRegLabel.AutoSize = true;
+            this.EmailRegLabel.Location = new System.Drawing.Point(3, 265);
+            this.EmailRegLabel.Name = "EmailRegLabel";
+            this.EmailRegLabel.Size = new System.Drawing.Size(102, 22);
+            this.EmailRegLabel.TabIndex = 13;
+            this.EmailRegLabel.Text = "Enter Email";
             // 
             // LoginForm
             // 
@@ -369,8 +381,9 @@ namespace DeliveryApp
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 22F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SlateGray;
-            this.ClientSize = new System.Drawing.Size(400, 400);
+            this.ClientSize = new System.Drawing.Size(457, 403);
             this.Controls.Add(this.TabsControl);
+            this.FormClosed += new FormClosedEventHandler(this.LoginForm_Closed);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Margin = new System.Windows.Forms.Padding(4);
@@ -401,7 +414,7 @@ namespace DeliveryApp
         private Label PasswordLabel;
         private Label LoginLable;
         private Label LoginTitleLabel;
-        private Label RegLogin;
+        private Label RegLoginLabel;
         private CustomButton AuthButton;
         private FlowLayoutPanel LoginPanel;
         private FlowLayoutPanel LoginButtons;
@@ -411,10 +424,11 @@ namespace DeliveryApp
         private CustomButton Registrate;
         private FlowLayoutPanel flowLayoutPanel1;
         private TextBox LoginRegistration;
-        private Label label1;
-        private Label label2;
-        private Label label3;
-        private Label label4;
+        private Label PasswordRegLabel;
+        private Label NameRegLabel;
+        private Label PhoneRegLabel;
+        private Label EmailRegLabel;
+        private Label RegMessage;
     }
 }
 

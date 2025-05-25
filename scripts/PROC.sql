@@ -7,29 +7,29 @@ AS
 BEGIN
 	BEGIN TRY
 
-	IF EXISTS (SELECT * FROM Client WHERE Login = @login)
-		THROW 50000, 'Login already exists', 1;
-	IF EXISTS (SELECT * FROM Client WHERE Phone = @phone)
-		THROW 50001, 'Phone already used', 1;
-	IF NOT (@phone LIKE '+7[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]' OR
-			@phone LIKE '8[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]')
-		THROW 50002, 'Phone doesn''t match pattern', 1;
-	IF NOT (@email LIKE '%[_a-zA-Z0-9.-]%@%[_a-zA-Z0-9.-]%.[a-zA-Z][a-zA-Z]%')
-		THROW 50003, 'Email doesn''t match pattern', 1;
+		IF EXISTS (SELECT * FROM Client WHERE Login = @login)
+			THROW 50000, 'Login already exists', 1;
+		IF EXISTS (SELECT * FROM Client WHERE Phone = @phone)
+			THROW 50001, 'Phone already used', 1;
+		IF NOT (@phone LIKE '+7[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]' OR
+				@phone LIKE '8[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]')
+			THROW 50002, 'Phone doesn''t match pattern', 1;
+		IF NOT (@email LIKE '%[_a-zA-Z0-9.-]%@%[_a-zA-Z0-9.-]%.[a-zA-Z][a-zA-Z]%')
+			THROW 50003, 'Email doesn''t match pattern', 1;
 	
-	BEGIN TRAN
+		BEGIN TRAN
 
-	INSERT INTO Client(Login,Password,Name,Phone,Email)
-		VALUES (@login, @password, @name, @phone, @email);
+			INSERT INTO Client(Login,Password,Name,Phone,Email)
+				VALUES (@login, @password, @name, @phone, @email);
 
-	COMMIT TRAN
+		COMMIT TRAN
 	
 	END TRY
 	BEGIN CATCH
 
-	IF @@TRANCOUNT > 0
-        ROLLBACK TRAN;
-    THROW;
+		IF @@TRANCOUNT > 0
+			ROLLBACK TRAN;
+		THROW;
 
 	END CATCH
 END
@@ -43,23 +43,23 @@ AS
 BEGIN
 	BEGIN TRY
 	
-	IF NOT EXISTS (SELECT * FROM Client WHERE Login = @login AND Password = @password)
-		THROW 50004, 'Client with login doesn''t exists', 1;
+		IF NOT EXISTS (SELECT * FROM Client WHERE Login = @login AND Password = @password)
+			THROW 50004, 'Client with login doesn''t exists', 1;
 
-	BEGIN TRAN
+		BEGIN TRAN
 
-	UPDATE Client
-	SET [Active Account] = 0
-	WHERE Login = @login AND Password = @password
+			UPDATE Client
+				SET [Active Account] = 0
+				WHERE Login = @login AND Password = @password AND [Active Account] = 1
 
-	COMMIT TRAN
+		COMMIT TRAN
 	
 	END TRY
 	BEGIN CATCH
 
-	IF @@TRANCOUNT > 0
-        ROLLBACK TRAN;
-    THROW;
+		IF @@TRANCOUNT > 0
+			ROLLBACK TRAN;
+		THROW;
 
 	END CATCH
 END
@@ -74,23 +74,23 @@ BEGIN
 
 	BEGIN TRY
 
-	IF NOT EXISTS (SELECT * FROM Client WHERE Login = @login AND Password = @oldPassword AND [Active Account] = 1)
-		THROW 50004, 'Client with login doesn''t exists', 1;
+		IF NOT EXISTS (SELECT * FROM Client WHERE Login = @login AND Password = @oldPassword AND [Active Account] = 1)
+			THROW 50004, 'Client with login doesn''t exists', 1;
 	
-	BEGIN TRAN
+		BEGIN TRAN
 
-	UPDATE Client
-		SET Password = @newPassword
-		WHERE Login = @login AND Password = @oldPassword AND [Active Account] = 1
+			UPDATE Client
+				SET Password = @newPassword
+				WHERE Login = @login AND Password = @oldPassword AND [Active Account] = 1
 	
-	COMMIT TRAN
+		COMMIT TRAN
 	
 	END TRY
 	BEGIN CATCH
 
-	IF @@TRANCOUNT > 0
-        ROLLBACK TRAN;
-    THROW;
+		IF @@TRANCOUNT > 0
+			ROLLBACK TRAN;
+		THROW;
 
 	END CATCH
 END
@@ -104,22 +104,22 @@ CREATE OR ALTER PROCEDURE AddClientAddress(@login nvarchar(30), @password char(6
 AS
 BEGIN
 	BEGIN TRY
-	IF NOT EXISTS (SELECT * FROM Client WHERE Login = @login AND Password = @password AND [Active Account] = 1)
-		THROW 50004, 'Client with login doesn''t exists', 1;
+		IF NOT EXISTS (SELECT * FROM Client WHERE Login = @login AND Password = @password AND [Active Account] = 1)
+			THROW 50004, 'Client with login doesn''t exists', 1;
 	
-	BEGIN TRAN
+		BEGIN TRAN
 
-	INSERT INTO [Client Address] ([Client Login], Region, City, District, Street, Building, Floor, Room)
-		VALUES (@login, @region, @city, @district, @street, @building, @floor, @room)
+			INSERT INTO [Client Address] ([Client Login], Region, City, District, Street, Building, [Floor], Room)
+				VALUES (@login, @region, @city, @district, @street, @building, @floor, @room)
 
-	COMMIT TRAN
+		COMMIT TRAN
 
 	END TRY
 	BEGIN CATCH
 
-	IF @@TRANCOUNT > 0
-        ROLLBACK TRAN;
-    THROW;
+		IF @@TRANCOUNT > 0
+			ROLLBACK TRAN;
+		THROW;
 
 	END CATCH
 END
@@ -131,26 +131,31 @@ GO
 CREATE OR ALTER PROCEDURE DeleteClientAddress(@addressID int, @login nvarchar(30), @password char(64))
 AS
 BEGIN
-	IF NOT EXISTS (SELECT * FROM Client WHERE Login = @login AND Password = @password AND [Active Account] = 1)
-		RETURN 1 -- client does not exist
-	IF NOT EXISTS (SELECT * FROM [Client Address] WHERE [Client Login] = @login AND ID = @addressID AND Active = 1)
-		RETURN 2 -- client address does not exist
 
-	BEGIN TRAN
+	BEGIN TRY
 
-	UPDATE [Client Address]
-		SET Active = 0
-		WHERE [Client Login] = @login AND ID = @addressID AND Active = 1
+		IF NOT EXISTS (SELECT * FROM Client WHERE Login = @login AND Password = @password AND [Active Account] = 1)
+			THROW 50004, 'Client with login doesn''t exists', 1;
+		IF NOT EXISTS (SELECT * FROM [Client Address] WHERE [Client Login] = @login AND ID = @addressID AND Active = 1)
+			THROW 50005, 'Client with address doesn''t exists', 1;
 
-	IF @@ERROR = 0 AND @@ROWCOUNT = 1
-	BEGIN
+		BEGIN TRAN
+
+			UPDATE [Client Address]
+				SET Active = 0
+				WHERE [Client Login] = @login AND ID = @addressID AND Active = 1
+
 		COMMIT TRAN
-		RETURN 0;
-	END
-	ELSE BEGIN
-		ROLLBACK TRAN
-		RETURN -1
-	END
+
+	END TRY
+	BEGIN CATCH
+
+		IF @@TRANCOUNT > 0
+			ROLLBACK TRAN;
+		THROW;
+
+	END CATCH
+	
 END
 
 --EXEC DeleteClientAddress 1, 'Alex', 'hihihihi'
@@ -160,23 +165,24 @@ GO
 CREATE OR ALTER PROCEDURE AddToOrder(@login nvarchar(30), @addressID int, @dishID int, @dishCount int)
 AS
 BEGIN
-	DECLARE @returnValue int;
-	BEGIN TRAN
 
-	INSERT INTO [Orders View]([Client Login],[Client Address ID],[Dish ID],[Count])
-    VALUES (@login, @addressID, @dishID, @dishCount)
+	BEGIN TRY
 
-	IF @@ERROR = 0 AND @@ROWCOUNT = 1
-	BEGIN
-		COMMIT TRAN;
-		SET @returnValue = 0;
-	END
-	ELSE
-	BEGIN
-		ROLLBACK TRAN;
-		SET @returnValue = -1;
-	END
-	RETURN @returnValue;
+		BEGIN TRAN
+
+			INSERT INTO [Orders View]([Client Login],[Client Address ID],[Dish ID],[Count])
+			VALUES (@login, @addressID, @dishID, @dishCount)
+
+		COMMIT TRAN
+
+	END TRY
+	BEGIN CATCH
+
+		IF @@TRANCOUNT > 0
+			ROLLBACK TRAN;
+		THROW;
+
+	END CATCH
 END
 GO
 
@@ -190,21 +196,25 @@ GO
 CREATE OR ALTER PROCEDURE DeleteFromOrder(@login nvarchar(30),  @dishID int)
 AS
 BEGIN
-	BEGIN TRAN
+	BEGIN TRY
 
-	DELETE FROM [Orders View]
-		WHERE [Client Login] = @login AND [Dish ID] = @dishID
+		BEGIN TRAN
+
+			DELETE FROM [Orders View]
+				WHERE [Client Login] = @login AND [Dish ID] = @dishID
 	
-	IF @@ERROR = 0 AND @@ROWCOUNT = 1
-	BEGIN
 		COMMIT TRAN
-		RETURN 0;
-	END
-	ELSE
-	BEGIN
-		ROLLBACK TRAN
-		RETURN -1;
-	END
+
+	END TRY
+	BEGIN CATCH
+
+		IF @@TRANCOUNT > 0
+			ROLLBACK TRAN;
+
+		THROW;
+
+	END CATCH
+
 END
 GO
 
@@ -213,26 +223,29 @@ GO
 CREATE OR ALTER PROCEDURE ApplyOrder(@login nvarchar(30))
 AS
 BEGIN
+	BEGIN TRY
+
 	DECLARE @openedOrderID int;
 	SELECT @openedOrderID = ID FROM [Order] WHERE [Client Login] = @login AND [Ordered At] IS NULL AND [Status] = 0
 	IF (@openedOrderID IS NULL) -- if unassembeld order doesn't exists
-		RETURN 1
+		THROW 50006, 'Вы ничего не добавили в корзиру', 1;
 	
-	BEGIN TRAN
-	UPDATE [Order]
-		SET [Ordered At] = GETDATE(), Status = 1
-		WHERE ID = @openedOrderID
+		BEGIN TRAN
+			UPDATE [Order]
+				SET [Ordered At] = GETDATE(), [Status] = 1
+				WHERE ID = @openedOrderID
 	
-	IF @@ERROR = 0 AND @@ROWCOUNT = 1
-	BEGIN
 		COMMIT TRAN
-		RETURN 0;
-	END
-	ELSE
-	BEGIN
-		ROLLBACK TRAN
-		RETURN -1
-	END
+
+	END TRY
+	BEGIN CATCH
+
+		IF @@TRANCOUNT > 0
+			ROLLBACK TRAN;
+
+		THROW;
+
+	END CATCH
 END
 
 -- EXEC ApplyOrder 'Alex'

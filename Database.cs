@@ -3,6 +3,9 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.Windows.Forms;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
+using System.Xml.Linq;
 
 namespace DeliveryApp
 {
@@ -41,10 +44,13 @@ namespace DeliveryApp
                 else
                     command.Parameters.Add("@email", SqlDbType.Int).Value = SqlInt32.Null;
                 command.ExecuteNonQuery();
-                }
-
+            }
         }
 
+        public static void GetUserOrders(string Login)
+        {
+            
+        }
 
     }
 }

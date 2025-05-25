@@ -20,7 +20,11 @@ BEGIN
 	BEGIN
 		IF((
 			SELECT COUNT(DISTINCT [Producer ID])
-			FROM Dish RIGHT JOIN (SELECT [Dish ID] FROM [Dishes Order] WHERE [Order ID] = @Order) AS OrderDishes 
+				FROM Dish RIGHT JOIN (
+										SELECT [Dish ID] 
+											FROM [Dishes Order] 
+											WHERE [Order ID] = @Order
+										) AS OrderDishes 
 				ON Dish.ID = OrderDishes.[Dish ID]
 			) > 1) 
 			SET @FoundDifferentProds = 1
@@ -68,6 +72,7 @@ BEGIN
 		BEGIN TRAN
 		IF((SELECT COUNT(*) FROM [Dishes Order] WHERE [Order ID] = @OrderID) = 0)
 		BEGIN
+
 			DELETE FROM [Order] 
 				WHERE [Order].ID = @OrderID
 
