@@ -93,7 +93,7 @@ BEGIN
 	BEGIN TRY
 
 		IF NOT EXISTS (SELECT * FROM Client WHERE Login = @login AND Password = @oldPassword AND [Active Account] = 1)
-			THROW 50006, 'Client with login doesn''t exists', 1;
+			THROW 50006, 'Wrong old password', 1;
 	
 		BEGIN TRAN
 

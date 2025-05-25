@@ -2,7 +2,6 @@
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Data;
 using DeliveryApp.EF;
 using System.Globalization;
 
@@ -10,8 +9,6 @@ namespace DeliveryApp
 {
     public partial class Delivery : Form
     {
-
-        CultureInfo culture = new CultureInfo("en-us");
 
         private Timer OredersUpdateTimer = new Timer();
         public Delivery()
@@ -30,44 +27,49 @@ namespace DeliveryApp
             Application.Exit();
         }
 
-        private void AddOrderIntoTabs(Panel parentPanel, Order order)
+        private void AddOrderIntoTabs(Panel parentPanel, Order order, Dictionary<int, string> statusDict)
         {
             Panel SingleOrder = new Panel();
-            Label OrderedTime = new Label();
             Label OrderName = new Label();
             Label Status = new Label();
-            // 
-            // SingleOrder
-            // 
+
             SingleOrder.SuspendLayout();
             SingleOrder.BackColor = SystemColors.ControlLightLight;
-            SingleOrder.Controls.Add(OrderedTime);
+            
             SingleOrder.Controls.Add(OrderName);
+            SingleOrder.Controls.Add(Status);
             SingleOrder.Location = new Point(0, 0);
             SingleOrder.Margin = new Padding(0, 10, 0, 0);
-            SingleOrder.Size = new Size(792, 37);
+            SingleOrder.Size = new Size(550, 37);
             SingleOrder.Tag = order.ID;
             SingleOrder.Click += new EventHandler(this.SingleOrder_Click);
-            // 
-            // OrderName
-            // 
+            
             OrderName.AutoSize = true;
+            OrderName.Enabled = false;
             OrderName.Dock = DockStyle.Left;
             OrderName.Font = new Font("Microsoft Sans Serif", 13.8F,
                 FontStyle.Regular, GraphicsUnit.Point, ((byte)(204)));
             OrderName.Location = new Point(0, 0);
             OrderName.Text = "Order#" + order.ID.ToString();
-            // 
-            // OrderedTime
-            // 
-            OrderedTime.AutoSize = true;
-            OrderedTime.Dock = DockStyle.Left;
-            OrderedTime.Location = new Point(0, 0);
+
             if (!(order.Ordered_At is null))
             {
+                Label OrderedTime = new Label();
+
+                SingleOrder.Controls.Add(OrderedTime);
+                OrderedTime.AutoSize = true;
+                OrderedTime.Enabled = false;
+                OrderedTime.Dock = DockStyle.Right;
+                OrderedTime.Location = new Point(0, 0);
+            
                 OrderedTime.Text = $"Ordered at {order.Ordered_At.Value.ToString("d")}";
             }
-            
+
+            Status.AutoSize = true;
+            Status.Enabled = false;
+            Status.Dock = DockStyle.Top;
+            Status.Location = new Point(0, 0);
+            Status.Text = $"{statusDict[order.Status]}";
 
             parentPanel.Controls.Add(SingleOrder);
 
@@ -75,13 +77,18 @@ namespace DeliveryApp
             SingleOrder.PerformLayout();
         }
 
-        private void DrawOrders(List <Order> orders)
+        private void DrawOrders(List <Order> orders, Dictionary<int, string> statuses)
         {
+            
+            Point CurrentPoint = OrdersLayout.AutoScrollPosition;
             this.OrdersLayout.Controls.Clear();
+            this.OrdersLayout.SuspendLayout();
             foreach (var order in orders)
             {
-                AddOrderIntoTabs(this.OrdersLayout, order);              
+                AddOrderIntoTabs(this.OrdersLayout, order, statuses);
             }
+            this.OrdersLayout.ResumeLayout();
+            this.OrdersLayout.AutoScrollPosition = new Point(Math.Abs(OrdersLayout.AutoScrollPosition.X), Math.Abs(CurrentPoint.Y));
         }
 
         private void UpdateClientOrders_Tick(object sender, System.EventArgs e)
@@ -93,8 +100,10 @@ namespace DeliveryApp
         {
             try
             {
+                Dictionary<int, string> statusDict = ClientActions.GetOrderStatus();
                 List<Order> orders = ClientActions.GetClosedUserOrders(User.userInfo.Login);
-                DrawOrders(orders);
+                
+                DrawOrders(orders, statusDict);
             }catch(Exception ex)
             {
                 MessageBox.Show(ex.Message);
@@ -106,7 +115,7 @@ namespace DeliveryApp
             switch (UserTabs.SelectedIndex)
             {
                 case 0:
-                    
+
                     break;
                     
                 case 1:
@@ -114,7 +123,7 @@ namespace DeliveryApp
                     break;
 
                 case 2:
-                    
+                    UpdateClientInfo();
                     break;
             }
             if(UserTabs.SelectedIndex == 1) OredersUpdateTimer.Enabled = true;
@@ -122,17 +131,26 @@ namespace DeliveryApp
         }
 
         void drawAll() {
-            
+            GetOrders();
+            UpdateClientInfo();
+            // ....
+        }
+
+        private void UpdateClientInfo()
+        {
+            Client user = ClientActions.getInfo();
+            UserLoginInput.Text = user.Login;
+
         }
 
         private void SingleOrder_Click(object sender, EventArgs e)
         {
             Panel clickedPanel = sender as Panel;
-            //this.panel1.Tag = 15;
             if (clickedPanel != null)
             {
-                int orderID = Convert.ToInt32(clickedPanel.Tag);  // Произвольные данные (например, ID)
-                MessageBox.Show($"ID order: {orderID}");
+                int orderID = (int)clickedPanel.Tag;
+                MessageBox.Show($"Order id {orderID}");
+                // ****
             }
         }
     }

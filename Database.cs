@@ -45,5 +45,20 @@ namespace DeliveryApp
             }
         }
 
+        public static Dictionary<int, string> GetAllStatuses()
+        {
+            using (var context = new DeliveryAppContext(ConnectionString))
+            {
+                return context.Status.ToDictionary(p => p.ID, p => p.Value);
+            }
+        }
+
+        public static Client GetUserInfo(string Login, string Password)
+        {
+            using (var context = new DeliveryAppContext(ConnectionString))
+            {
+                return context.Client.Where(p => p.Login == Login && p.Password == Password).First();
+            }
+        }
     }
 }

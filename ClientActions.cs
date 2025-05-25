@@ -34,22 +34,30 @@ namespace DeliveryApp
                 if (!Database.IsValidUser(Login, Password))
                     throw new Exception("Wrong login or password");
                 User.userInfo = new User(Login, Password);
-            } catch(SqlException)
+            } catch (SqlException)
             {
                 throw new Exception("Database query error");
             }
         }
+        
+        public static string FormatPhone(string phone)
+        {
+            string[] charsToRemoveFromPhone = new string[] { "(", ")", "-", " " };
+            foreach (string c in charsToRemoveFromPhone)
+                phone = phone.Replace(c, string.Empty);
 
-        static public void Register(string Login, string Password, string Name, string Phone, string Email)
+            phone = phone.Replace("8", "+7");
+
+            return phone;
+        }
+
+        public static void Register(string Login, string Password, string Name, string Phone, string Email)
         {
             if (Password.Length < 5 || Password.Length > 16) throw new Exception("Password should be more than 5 and less than 16 letters");
             Password = HashString(Password);
 
-            string[] charsToRemoveFromPhone = new string[] { "(", ")", "-", " " };
-            foreach (string c in charsToRemoveFromPhone)
-                Phone = Phone.Replace(c, string.Empty);
+            Phone = FormatPhone(Phone);
 
-            Phone = Phone.Replace("8", "+7");
             try
             {
                 Database.InsertUser(Login, Password, Name, Phone, Email);
@@ -71,7 +79,7 @@ namespace DeliveryApp
                         throw new Exception("Check if phone is correct");
                     case 50005:
                         throw new Exception("Check if email is correct");
-                    default: 
+                    default:
                         throw;
                 }
             }
@@ -79,7 +87,7 @@ namespace DeliveryApp
             {
                 throw new Exception("Processing error. Try again");
             }
-            
+
         }
 
         public static List<Order> GetClosedUserOrders(string Login)
@@ -91,6 +99,29 @@ namespace DeliveryApp
             catch
             {
                 throw new Exception("Error retriving orders");
+            }
+        }
+
+        public static Dictionary<int, string> GetOrderStatus() {
+            try
+            {
+                return Database.GetAllStatuses();
+            }
+            catch
+            {
+                throw new Exception("Error retriving status list");
+            }
+        }
+
+        public static Client getInfo()
+        {
+            try
+            {
+                return Database.GetUserInfo(User.userInfo.Login, User.userInfo.Password);
+            }
+            catch
+            {
+                throw new Exception("Error retriving user data");
             }
         }
     }
