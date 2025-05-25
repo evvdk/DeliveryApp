@@ -44,7 +44,7 @@ AS
 BEGIN
 	IF ((
 	SELECT COUNT(*)
-		FROM [Order] JOIN inserted ON [Order].[Client Login] = inserted.[Client Login]
+		FROM [Order] JOIN inserted ON [Order].[Client ID] = inserted.[Client ID]
 		WHERE [Order].[Ordered At] IS NULL AND [Order].[Status] = 0
 	) > 1) ROLLBACK TRAN;
 		

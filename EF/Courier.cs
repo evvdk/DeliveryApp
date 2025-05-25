@@ -9,6 +9,12 @@ namespace DeliveryApp.EF
     [Table("Courier")]
     public partial class Courier
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Courier()
+        {
+            Order = new HashSet<Order>();
+        }
+
         public int ID { get; set; }
 
         [Column("First Name")]
@@ -39,5 +45,8 @@ namespace DeliveryApp.EF
         [Required]
         [StringLength(7)]
         public string Work_Book { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Order> Order { get; set; }
     }
 }

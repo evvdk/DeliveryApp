@@ -9,7 +9,16 @@ namespace DeliveryApp.EF
     [Table("Client")]
     public partial class Client
     {
-        [Key]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Client()
+        {
+            Client_Address = new HashSet<Client_Address>();
+            Notifications = new HashSet<Notifications>();
+        }
+
+        public int ID { get; set; }
+
+        [Required]
         [StringLength(30)]
         public string Login { get; set; }
 
@@ -32,5 +41,11 @@ namespace DeliveryApp.EF
 
         [Column("Active Account")]
         public byte Active_Account { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Client_Address> Client_Address { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Notifications> Notifications { get; set; }
     }
 }

@@ -4,7 +4,7 @@ GO
 
 CREATE OR ALTER VIEW [Orders View]
 AS
-	SELECT [Order ID], [Client Login], [Client Address ID], Courier, [Status], [Ordered At], [Complited At], [Dish ID], [Count], [Producer ID]
+	SELECT [Order ID], [Client ID], [Client Address ID], Courier, [Status], [Ordered At], [Complited At], [Dish ID], [Count], [Producer ID]
 		FROM ([Order] JOIN [Dishes Order] ON [Order].ID = [Dishes Order].[Order ID]) JOIN Dish ON [Dishes Order].[Dish ID] = Dish.ID
 
 GO
@@ -64,13 +64,13 @@ AS
 BEGIN
 	DECLARE OrdersViewCursor CURSOR
 	SCROLL 
-	FOR SELECT [Order ID], [Client Login], [Client Address ID], [Dish ID], [Count] FROM inserted;
+	FOR SELECT [Order ID], [Client ID], [Client Address ID], [Dish ID], [Count] FROM inserted;
 
-	DECLARE @OrderID int, @Login nvarchar(30), @Address int, @Dish int, @Count int;
+	DECLARE @OrderID int, @ClientID int, @Address int, @Dish int, @Count int;
 
 	OPEN OrdersViewCursor 
 	FETCH FIRST FROM OrdersViewCursor 
-	INTO @OrderID, @Login, @Address, @Dish, @Count
+	INTO @OrderID, @ClientID, @Address, @Dish, @Count
 
 	WHILE(@@FETCH_STATUS = 0)
 	BEGIN
@@ -78,11 +78,11 @@ BEGIN
 		BEGIN TRAN
 
 		DECLARE @openedOrderID int;
-		SELECT @openedOrderID = ID FROM [Order] WHERE [Client Login] = @Login AND [Ordered At] IS NULL AND [Status] = 0 -- is any opend with this user
+		SELECT @openedOrderID = ID FROM [Order] WHERE [Client ID] = @ClientID AND [Ordered At] IS NULL AND [Status] = 0 -- is any opend with this user
 
 		IF (@openedOrderID IS NULL)
 		BEGIN
-			INSERT INTO [Order] ([Client Login], [Client Address ID]) VALUES (@Login, @Address);
+			INSERT INTO [Order] ([Client ID], [Client Address ID]) VALUES (@ClientID, @Address);
 			IF @@ERROR = 0 AND @@ROWCOUNT = 1
 			BEGIN
 				SET @openedOrderID = SCOPE_IDENTITY()
@@ -119,7 +119,7 @@ BEGIN
 			END
 		END
 		FETCH NEXT FROM OrdersViewCursor 
-		INTO @OrderID, @Login, @Address, @Dish, @Count
+		INTO @OrderID, @ClientID, @Address, @Dish, @Count
 	END
 
 	CLOSE OrdersViewCursor 
@@ -128,19 +128,17 @@ END
 
 GO
 
+CREATE OR ALTER VIEW [Order Status Table]
+AS
+SELECT [Order].ID, Client.[Login] AS [Client Login],[Client Address ID],[Ordered At],[Complited At], Status.ID AS [Status ID],Status.Value AS [Status Value],[Order Grade]
+  FROM ([Order] JOIN Status ON [Order].Status = Status.Value) JOIN Client ON [Order].[Client ID] = Client.ID
+GO
+
 CREATE OR ALTER VIEW [Producer Dishes]
 AS
 SELECT [Producer].ID AS [Producer ID], Producer.Name, Dish.ID AS [Dish ID], Dish.Name AS [Dish Name], Dish.Cost AS [Dish Cost]
 FROM [Producer] RIGHT JOIN Dish ON Producer.ID = Dish.[Producer ID]
 WHERE Dish.Visible = 1
 WITH CHECK OPTION
-GO
-
-CREATE OR ALTER VIEW [Courier Order To]
-AS
-SELECT [Courier].ID, [Order].ID AS [Order ID], [Order].[Client Login],[Region],[City],[District],[Street],[Building],[Floor],[Room]
-	FROM (Courier RIGHT JOIN [Order] ON Courier.ID = [Order].Courier) LEFT JOIN [Client Address] ON [Client Address].ID = [Client Address ID]
-	WHERE [Client Address].Active = 1
-	WITH CHECK OPTION
 GO
 

@@ -83,8 +83,34 @@ END
 
 GO
 
+CREATE OR ALTER PROCEDURE ChangeClientLogin(@login nvarchar(30), @password char(64), @newLogin nvarchar(30))
+AS
+BEGIN
+	BEGIN TRY
+
+		IF NOT EXISTS (SELECT * FROM Client WHERE Login = @login AND Password = @password AND [Active Account] = 1)
+		THROW 50006, 'Wrong password', 1;
+
+		UPDATE Client
+			SET Login = @newLogin
+			WHERE Login = @login AND Password = @password AND [Active Account] = 1
+
+	END TRY
+	BEGIN CATCH
+
+		IF @@TRANCOUNT > 0
+			ROLLBACK TRAN;
+		THROW;
+
+	END CATCH
+
+
+END
+
 -- EXEC DeleteClient 'AnotherLogin', 'Password'
 -- EXEC DeleteClient 'UserLogin', 'Password'
+
+GO
 
 CREATE OR ALTER PROCEDURE ChangeClientPassword(@login nvarchar(30), @oldPassword char(64), @newPassword char(64))
 AS
@@ -124,11 +150,15 @@ BEGIN
 	BEGIN TRY
 		IF NOT EXISTS (SELECT * FROM Client WHERE Login = @login AND Password = @password AND [Active Account] = 1)
 			THROW 50006, 'Client with login doesn''t exists', 1;
+
+		DECLARE @clientID int;
+		SELECT @clientID = ID FROM Client
+			WHERE Login = @login AND Password = @password AND [Active Account] = 1
 	
 		BEGIN TRAN
 
-			INSERT INTO [Client Address] ([Client Login], Region, City, District, Street, Building, [Floor], Room)
-				VALUES (@login, @region, @city, @district, @street, @building, @floor, @room)
+			INSERT INTO [Client Address] ([Client ID], Region, City, District, Street, Building, [Floor], Room)
+				VALUES (@clientID, @region, @city, @district, @street, @building, @floor, @room)
 
 		COMMIT TRAN
 
@@ -142,9 +172,6 @@ BEGIN
 	END CATCH
 END
 
--- EXEC AddClientAddress 'Alex', 'hihihihi', 'lkdscsjhks', 'lkvjsdid', 'dsichsjck','dicihdk','56',5,'656'
-
-
 -- EXEC AddClientAddress 'UserLogin', 'e7cf3ef4f17c3999a94f2c6f612e8a888e5b1026878e4e19398b23bd38ec221a', 'Ryazan Oblsat', 'Ryazan', 'Diadkovo','1th Boluvar','56',5,'656'
 
 GO
@@ -157,14 +184,19 @@ BEGIN
 
 		IF NOT EXISTS (SELECT * FROM Client WHERE Login = @login AND Password = @password AND [Active Account] = 1)
 			THROW 50006, 'Client with login doesn''t exists', 1;
-		IF NOT EXISTS (SELECT * FROM [Client Address] WHERE [Client Login] = @login AND ID = @addressID AND Active = 1)
+
+		DECLARE @clientID int;
+		SELECT @clientID = ID FROM Client
+			WHERE Login = @login AND Password = @password AND [Active Account] = 1
+
+		IF NOT EXISTS (SELECT * FROM [Client Address] WHERE [Client ID] = @clientID AND ID = @addressID AND Active = 1)
 			THROW 50007, 'Client with address doesn''t exists', 1;
 
 		BEGIN TRAN
 
 			UPDATE [Client Address]
 				SET Active = 0
-				WHERE [Client Login] = @login AND ID = @addressID AND Active = 1
+				WHERE [Client ID] = @clientID AND ID = @addressID AND Active = 1
 
 		COMMIT TRAN
 
@@ -191,8 +223,12 @@ BEGIN
 
 		BEGIN TRAN
 
-			INSERT INTO [Orders View]([Client Login],[Client Address ID],[Dish ID],[Count])
-			VALUES (@login, @addressID, @dishID, @dishCount)
+			DECLARE @clientID int;
+			SELECT @clientID = ID FROM Client
+				WHERE Login = @login AND [Active Account] = 1
+
+			INSERT INTO [Orders View]([Client ID],[Client Address ID],[Dish ID],[Count])
+			VALUES (@clientID, @addressID, @dishID, @dishCount)
 
 		COMMIT TRAN
 
@@ -221,8 +257,12 @@ BEGIN
 
 		BEGIN TRAN
 
+			DECLARE @clientID int;
+			SELECT @clientID = ID FROM Client
+				WHERE Login = @login AND [Active Account] = 1
+
 			DELETE FROM [Orders View]
-				WHERE [Client Login] = @login AND [Dish ID] = @dishID
+				WHERE [Client ID] = @clientID AND [Dish ID] = @dishID
 	
 		COMMIT TRAN
 
@@ -246,8 +286,12 @@ AS
 BEGIN
 	BEGIN TRY
 
+		DECLARE @clientID int;
+			SELECT @clientID = ID FROM Client
+				WHERE Login = @login AND [Active Account] = 1	
+
 		DECLARE @openedOrderID int;
-		SELECT @openedOrderID = ID FROM [Order] WHERE [Client Login] = @login AND [Ordered At] IS NULL AND [Status] = 0
+		SELECT @openedOrderID = ID FROM [Order] WHERE [Client ID] = @clientID AND [Ordered At] IS NULL AND [Status] = 0
 		IF (@openedOrderID IS NULL)
 			THROW 50008, 'Order is empty', 1;
 	

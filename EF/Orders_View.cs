@@ -15,9 +15,9 @@ namespace DeliveryApp.EF
         public int Order_ID { get; set; }
 
         [Key]
-        [Column("Client Login", Order = 1)]
-        [StringLength(30)]
-        public string Client_Login { get; set; }
+        [Column("Client ID", Order = 1)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int Client_ID { get; set; }
 
         [Key]
         [Column("Client Address ID", Order = 2)]

@@ -21,7 +21,7 @@ namespace DeliveryApp.EF
         public virtual DbSet<Order> Order { get; set; }
         public virtual DbSet<Producer> Producer { get; set; }
         public virtual DbSet<Status> Status { get; set; }
-        public virtual DbSet<Courier_Order_To> Courier_Order_To { get; set; }
+        public virtual DbSet<Order_Status_Table> Order_Status_Table { get; set; }
         public virtual DbSet<Orders_View> Orders_View { get; set; }
         public virtual DbSet<Producer_Dishes> Producer_Dishes { get; set; }
     }

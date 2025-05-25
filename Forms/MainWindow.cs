@@ -27,7 +27,7 @@ namespace DeliveryApp
             Application.Exit();
         }
 
-        private void AddOrderIntoTabs(Panel parentPanel, Order order, Dictionary<int, string> statusDict)
+        private void AddOrderIntoTabs(Panel parentPanel, Order_Status_Table order)
         {
             Panel SingleOrder = new Panel();
             Label OrderName = new Label();
@@ -62,14 +62,14 @@ namespace DeliveryApp
                 OrderedTime.Dock = DockStyle.Right;
                 OrderedTime.Location = new Point(0, 0);
             
-                OrderedTime.Text = $"Ordered at {order.Ordered_At.Value.ToString("d")}";
+                OrderedTime.Text = $"Ordered at {order.Ordered_At.Value.ToString("F")}";
             }
 
             Status.AutoSize = true;
             Status.Enabled = false;
             Status.Dock = DockStyle.Top;
             Status.Location = new Point(0, 0);
-            Status.Text = $"{statusDict[order.Status]}";
+            Status.Text = order.Status_Value;
 
             parentPanel.Controls.Add(SingleOrder);
 
@@ -77,7 +77,7 @@ namespace DeliveryApp
             SingleOrder.PerformLayout();
         }
 
-        private void DrawOrders(List <Order> orders, Dictionary<int, string> statuses)
+        private void DrawOrders(List <Order_Status_Table> orders)
         {
             
             Point CurrentPoint = OrdersLayout.AutoScrollPosition;
@@ -85,7 +85,7 @@ namespace DeliveryApp
             this.OrdersLayout.SuspendLayout();
             foreach (var order in orders)
             {
-                AddOrderIntoTabs(this.OrdersLayout, order, statuses);
+                AddOrderIntoTabs(this.OrdersLayout, order);
             }
             this.OrdersLayout.ResumeLayout();
             this.OrdersLayout.AutoScrollPosition = new Point(Math.Abs(OrdersLayout.AutoScrollPosition.X), Math.Abs(CurrentPoint.Y));
@@ -100,10 +100,9 @@ namespace DeliveryApp
         {
             try
             {
-                Dictionary<int, string> statusDict = ClientActions.GetOrderStatus();
-                List<Order> orders = ClientActions.GetClosedUserOrders(User.userInfo.Login);
+                List<Order_Status_Table> orders = ClientActions.GetClosedUserOrders(User.userInfo.Login);
                 
-                DrawOrders(orders, statusDict);
+                DrawOrders(orders);
             }catch(Exception ex)
             {
                 MessageBox.Show(ex.Message);
@@ -138,9 +137,18 @@ namespace DeliveryApp
 
         private void UpdateClientInfo()
         {
-            Client user = ClientActions.getInfo();
-            UserLoginInput.Text = user.Login;
-
+            try
+            {
+                Client user = ClientActions.getClientInfo();
+                Account_UserLogin.Text = user.Login;
+                Account_UserName.Text = user.Name;
+                Account_UserPhone.Text = user.Phone;
+                if (!(user.Email is null))
+                    Account_UserEmail.Text = user.Email;
+            } catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void SingleOrder_Click(object sender, EventArgs e)

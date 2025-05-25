@@ -36,7 +36,7 @@ namespace DeliveryApp
                 User.userInfo = new User(Login, Password);
             } catch (SqlException)
             {
-                throw new Exception("Database query error");
+                throw new Exception("Database login error");
             }
         }
         
@@ -90,7 +90,7 @@ namespace DeliveryApp
 
         }
 
-        public static List<Order> GetClosedUserOrders(string Login)
+        public static List<Order_Status_Table> GetClosedUserOrders(string Login)
         {
             try
             {
@@ -102,18 +102,7 @@ namespace DeliveryApp
             }
         }
 
-        public static Dictionary<int, string> GetOrderStatus() {
-            try
-            {
-                return Database.GetAllStatuses();
-            }
-            catch
-            {
-                throw new Exception("Error retriving status list");
-            }
-        }
-
-        public static Client getInfo()
+        public static Client getClientInfo()
         {
             try
             {

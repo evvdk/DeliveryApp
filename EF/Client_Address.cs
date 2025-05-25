@@ -11,10 +11,8 @@ namespace DeliveryApp.EF
     {
         public int ID { get; set; }
 
-        [Column("Client Login")]
-        [Required]
-        [StringLength(30)]
-        public string Client_Login { get; set; }
+        [Column("Client ID")]
+        public int Client_ID { get; set; }
 
         [Required]
         [StringLength(50)]
@@ -43,5 +41,7 @@ namespace DeliveryApp.EF
         public string Room { get; set; }
 
         public byte? Active { get; set; }
+
+        public virtual Client Client { get; set; }
     }
 }

@@ -9,9 +9,9 @@ namespace DeliveryApp.EF
     public partial class Notifications
     {
         [Key]
-        [Column("Client Login", Order = 0)]
-        [StringLength(30)]
-        public string Client_Login { get; set; }
+        [Column("Client ID", Order = 0)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int Client_ID { get; set; }
 
         [Key]
         [Column(Order = 1)]
@@ -23,5 +23,7 @@ namespace DeliveryApp.EF
         public DateTime Send { get; set; }
 
         public short Read { get; set; }
+
+        public virtual Client Client { get; set; }
     }
 }

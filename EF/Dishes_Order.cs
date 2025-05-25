@@ -20,5 +20,9 @@ namespace DeliveryApp.EF
         public int Dish_ID { get; set; }
 
         public int Count { get; set; }
+
+        public virtual Dish Dish { get; set; }
+
+        public virtual Order Order { get; set; }
     }
 }

@@ -38,16 +38,24 @@ namespace DeliveryApp
             this.OrdersLayout = new System.Windows.Forms.FlowLayoutPanel();
             this.UserAccountPage = new System.Windows.Forms.TabPage();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.label1 = new System.Windows.Forms.Label();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.Account_UserLogin = new System.Windows.Forms.TextBox();
+            this.Account_ChangeUsernameButton = new System.Windows.Forms.Button();
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this.label2 = new System.Windows.Forms.Label();
-            this.Password = new System.Windows.Forms.TextBox();
-            this.ChangePasswordButton = new System.Windows.Forms.Button();
-            this.UserLoginInput = new System.Windows.Forms.TextBox();
+            this.Account_UserPassword = new System.Windows.Forms.TextBox();
+            this.Account_ChangePasswordButton = new System.Windows.Forms.Button();
             this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
             this.label3 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.Account_UserName = new System.Windows.Forms.TextBox();
+            this.flowLayoutPanel5 = new System.Windows.Forms.FlowLayoutPanel();
+            this.label4 = new System.Windows.Forms.Label();
+            this.Account_UserPhone = new System.Windows.Forms.TextBox();
+            this.flowLayoutPanel6 = new System.Windows.Forms.FlowLayoutPanel();
+            this.label5 = new System.Windows.Forms.Label();
+            this.Account_UserEmail = new System.Windows.Forms.TextBox();
+            this.Account_ChangeEmailButton = new System.Windows.Forms.Button();
             this.UserTabs.SuspendLayout();
             this.MarketPage.SuspendLayout();
             this.UserOdersPage.SuspendLayout();
@@ -56,6 +64,8 @@ namespace DeliveryApp
             this.flowLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
             this.flowLayoutPanel4.SuspendLayout();
+            this.flowLayoutPanel5.SuspendLayout();
+            this.flowLayoutPanel6.SuspendLayout();
             this.SuspendLayout();
             // 
             // WelcomeMessage
@@ -142,6 +152,8 @@ namespace DeliveryApp
             this.flowLayoutPanel1.Controls.Add(this.flowLayoutPanel2);
             this.flowLayoutPanel1.Controls.Add(this.flowLayoutPanel3);
             this.flowLayoutPanel1.Controls.Add(this.flowLayoutPanel4);
+            this.flowLayoutPanel1.Controls.Add(this.flowLayoutPanel5);
+            this.flowLayoutPanel1.Controls.Add(this.flowLayoutPanel6);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
@@ -150,36 +162,56 @@ namespace DeliveryApp
             this.flowLayoutPanel1.TabIndex = 0;
             this.flowLayoutPanel1.WrapContents = false;
             // 
+            // flowLayoutPanel2
+            // 
+            this.flowLayoutPanel2.AutoSize = true;
+            this.flowLayoutPanel2.Controls.Add(this.label1);
+            this.flowLayoutPanel2.Controls.Add(this.Account_UserLogin);
+            this.flowLayoutPanel2.Controls.Add(this.Account_ChangeUsernameButton);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(3, 3);
+            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(700, 32);
+            this.flowLayoutPanel2.TabIndex = 0;
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label1.Location = new System.Drawing.Point(3, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(40, 28);
+            this.label1.Size = new System.Drawing.Size(40, 32);
             this.label1.TabIndex = 0;
             this.label1.Text = "Login";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // flowLayoutPanel2
+            // Account_UserLogin
             // 
-            this.flowLayoutPanel2.AutoSize = true;
-            this.flowLayoutPanel2.Controls.Add(this.label1);
-            this.flowLayoutPanel2.Controls.Add(this.UserLoginInput);
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(3, 3);
-            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(567, 28);
-            this.flowLayoutPanel2.TabIndex = 0;
+            this.Account_UserLogin.Enabled = false;
+            this.Account_UserLogin.Location = new System.Drawing.Point(49, 3);
+            this.Account_UserLogin.Name = "Account_UserLogin";
+            this.Account_UserLogin.Size = new System.Drawing.Size(515, 22);
+            this.Account_UserLogin.TabIndex = 1;
+            // 
+            // Account_ChangeUsernameButton
+            // 
+            this.Account_ChangeUsernameButton.AutoSize = true;
+            this.Account_ChangeUsernameButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Account_ChangeUsernameButton.Location = new System.Drawing.Point(570, 3);
+            this.Account_ChangeUsernameButton.Name = "Account_ChangeUsernameButton";
+            this.Account_ChangeUsernameButton.Size = new System.Drawing.Size(127, 26);
+            this.Account_ChangeUsernameButton.TabIndex = 2;
+            this.Account_ChangeUsernameButton.Text = "ChangeUsername";
+            this.Account_ChangeUsernameButton.UseVisualStyleBackColor = true;
             // 
             // flowLayoutPanel3
             // 
             this.flowLayoutPanel3.AutoSize = true;
             this.flowLayoutPanel3.Controls.Add(this.label2);
-            this.flowLayoutPanel3.Controls.Add(this.Password);
-            this.flowLayoutPanel3.Controls.Add(this.ChangePasswordButton);
-            this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 37);
+            this.flowLayoutPanel3.Controls.Add(this.Account_UserPassword);
+            this.flowLayoutPanel3.Controls.Add(this.Account_ChangePasswordButton);
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 41);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-            this.flowLayoutPanel3.Size = new System.Drawing.Size(607, 28);
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(645, 32);
             this.flowLayoutPanel3.TabIndex = 1;
             // 
             // label2
@@ -188,43 +220,38 @@ namespace DeliveryApp
             this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label2.Location = new System.Drawing.Point(3, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(67, 28);
+            this.label2.Size = new System.Drawing.Size(67, 32);
             this.label2.TabIndex = 0;
             this.label2.Text = "Password";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // Password
+            // Account_UserPassword
             // 
-            this.Password.Location = new System.Drawing.Point(76, 3);
-            this.Password.Name = "Password";
-            this.Password.Size = new System.Drawing.Size(399, 22);
-            this.Password.TabIndex = 1;
+            this.Account_UserPassword.Enabled = false;
+            this.Account_UserPassword.Location = new System.Drawing.Point(76, 3);
+            this.Account_UserPassword.Name = "Account_UserPassword";
+            this.Account_UserPassword.Size = new System.Drawing.Size(399, 22);
+            this.Account_UserPassword.TabIndex = 1;
             // 
-            // ChangePasswordButton
+            // Account_ChangePasswordButton
             // 
-            this.ChangePasswordButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ChangePasswordButton.Location = new System.Drawing.Point(481, 3);
-            this.ChangePasswordButton.Name = "ChangePasswordButton";
-            this.ChangePasswordButton.Size = new System.Drawing.Size(123, 22);
-            this.ChangePasswordButton.TabIndex = 2;
-            this.ChangePasswordButton.Text = "ChangePasswordButton";
-            this.ChangePasswordButton.UseVisualStyleBackColor = true;
-            // 
-            // UserLoginInput
-            // 
-            this.UserLoginInput.Enabled = false;
-            this.UserLoginInput.Location = new System.Drawing.Point(49, 3);
-            this.UserLoginInput.Name = "UserLoginInput";
-            this.UserLoginInput.Size = new System.Drawing.Size(515, 22);
-            this.UserLoginInput.TabIndex = 1;
+            this.Account_ChangePasswordButton.AutoSize = true;
+            this.Account_ChangePasswordButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Account_ChangePasswordButton.Location = new System.Drawing.Point(481, 3);
+            this.Account_ChangePasswordButton.Name = "Account_ChangePasswordButton";
+            this.Account_ChangePasswordButton.Size = new System.Drawing.Size(161, 26);
+            this.Account_ChangePasswordButton.TabIndex = 2;
+            this.Account_ChangePasswordButton.Text = "Change Password";
+            this.Account_ChangePasswordButton.UseVisualStyleBackColor = true;
             // 
             // flowLayoutPanel4
             // 
+            this.flowLayoutPanel4.AutoSize = true;
             this.flowLayoutPanel4.Controls.Add(this.label3);
-            this.flowLayoutPanel4.Controls.Add(this.textBox1);
-            this.flowLayoutPanel4.Location = new System.Drawing.Point(3, 71);
+            this.flowLayoutPanel4.Controls.Add(this.Account_UserName);
+            this.flowLayoutPanel4.Location = new System.Drawing.Point(3, 79);
             this.flowLayoutPanel4.Name = "flowLayoutPanel4";
-            this.flowLayoutPanel4.Size = new System.Drawing.Size(684, 100);
+            this.flowLayoutPanel4.Size = new System.Drawing.Size(516, 28);
             this.flowLayoutPanel4.TabIndex = 2;
             // 
             // label3
@@ -238,12 +265,80 @@ namespace DeliveryApp
             this.label3.Text = "Name";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // textBox1
+            // Account_UserName
             // 
-            this.textBox1.Location = new System.Drawing.Point(53, 3);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(460, 22);
-            this.textBox1.TabIndex = 1;
+            this.Account_UserName.Location = new System.Drawing.Point(53, 3);
+            this.Account_UserName.Name = "Account_UserName";
+            this.Account_UserName.Size = new System.Drawing.Size(460, 22);
+            this.Account_UserName.TabIndex = 1;
+            // 
+            // flowLayoutPanel5
+            // 
+            this.flowLayoutPanel5.AutoSize = true;
+            this.flowLayoutPanel5.Controls.Add(this.label4);
+            this.flowLayoutPanel5.Controls.Add(this.Account_UserPhone);
+            this.flowLayoutPanel5.Location = new System.Drawing.Point(3, 113);
+            this.flowLayoutPanel5.Name = "flowLayoutPanel5";
+            this.flowLayoutPanel5.Size = new System.Drawing.Size(572, 28);
+            this.flowLayoutPanel5.TabIndex = 3;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label4.Location = new System.Drawing.Point(3, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(46, 28);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "Phone";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // Account_UserPhone
+            // 
+            this.Account_UserPhone.Enabled = false;
+            this.Account_UserPhone.Location = new System.Drawing.Point(55, 3);
+            this.Account_UserPhone.Name = "Account_UserPhone";
+            this.Account_UserPhone.Size = new System.Drawing.Size(514, 22);
+            this.Account_UserPhone.TabIndex = 1;
+            // 
+            // flowLayoutPanel6
+            // 
+            this.flowLayoutPanel6.AutoSize = true;
+            this.flowLayoutPanel6.Controls.Add(this.label5);
+            this.flowLayoutPanel6.Controls.Add(this.Account_UserEmail);
+            this.flowLayoutPanel6.Controls.Add(this.Account_ChangeEmailButton);
+            this.flowLayoutPanel6.Location = new System.Drawing.Point(3, 147);
+            this.flowLayoutPanel6.Name = "flowLayoutPanel6";
+            this.flowLayoutPanel6.Size = new System.Drawing.Size(717, 28);
+            this.flowLayoutPanel6.TabIndex = 4;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label5.Location = new System.Drawing.Point(3, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(41, 28);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "Email";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // Account_UserEmail
+            // 
+            this.Account_UserEmail.Location = new System.Drawing.Point(50, 3);
+            this.Account_UserEmail.Name = "Account_UserEmail";
+            this.Account_UserEmail.Size = new System.Drawing.Size(539, 22);
+            this.Account_UserEmail.TabIndex = 1;
+            // 
+            // Account_ChangeEmailButton
+            // 
+            this.Account_ChangeEmailButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Account_ChangeEmailButton.Location = new System.Drawing.Point(595, 3);
+            this.Account_ChangeEmailButton.Name = "Account_ChangeEmailButton";
+            this.Account_ChangeEmailButton.Size = new System.Drawing.Size(119, 22);
+            this.Account_ChangeEmailButton.TabIndex = 2;
+            this.Account_ChangeEmailButton.Text = "Change Email";
+            this.Account_ChangeEmailButton.UseVisualStyleBackColor = true;
             // 
             // Delivery
             // 
@@ -267,6 +362,10 @@ namespace DeliveryApp
             this.flowLayoutPanel3.PerformLayout();
             this.flowLayoutPanel4.ResumeLayout(false);
             this.flowLayoutPanel4.PerformLayout();
+            this.flowLayoutPanel5.ResumeLayout(false);
+            this.flowLayoutPanel5.PerformLayout();
+            this.flowLayoutPanel6.ResumeLayout(false);
+            this.flowLayoutPanel6.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -286,11 +385,19 @@ namespace DeliveryApp
         private FlowLayoutPanel flowLayoutPanel2;
         private FlowLayoutPanel flowLayoutPanel3;
         private Label label2;
-        private TextBox Password;
-        private Button ChangePasswordButton;
-        private TextBox UserLoginInput;
+        private TextBox Account_UserPassword;
+        private Button Account_ChangePasswordButton;
+        private TextBox Account_UserLogin;
         private FlowLayoutPanel flowLayoutPanel4;
         private Label label3;
-        private TextBox textBox1;
+        private TextBox Account_UserName;
+        private FlowLayoutPanel flowLayoutPanel5;
+        private Label label4;
+        private TextBox Account_UserPhone;
+        private Button Account_ChangeUsernameButton;
+        private FlowLayoutPanel flowLayoutPanel6;
+        private Label label5;
+        private TextBox Account_UserEmail;
+        private Button Account_ChangeEmailButton;
     }
 }

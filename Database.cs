@@ -37,19 +37,11 @@ namespace DeliveryApp
             }
         }
 
-        public static List<Order> GetClosedUserOrders(string Login)
+        public static List<Order_Status_Table> GetClosedUserOrders(string Login)
         {
             using (var context = new DeliveryAppContext(ConnectionString))
             {
-                return context.Order.Where(p => p.Client_Login == Login && p.Status != 0).ToList();
-            }
-        }
-
-        public static Dictionary<int, string> GetAllStatuses()
-        {
-            using (var context = new DeliveryAppContext(ConnectionString))
-            {
-                return context.Status.ToDictionary(p => p.ID, p => p.Value);
+               return context.Order_Status_Table.Where(p => p.Client_Login == Login && p.Status_ID != 0).ToList();
             }
         }
 

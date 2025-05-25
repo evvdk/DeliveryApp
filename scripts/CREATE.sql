@@ -36,40 +36,42 @@ CREATE RULE EmailTemplate
 AS @value LIKE '%[_a-zA-Z0-9.-]%@%[_a-zA-Z0-9.-]%.[a-zA-Z][a-zA-Z]%'
 GO
 
-CREATE DEFAULT ApplyedRightNow
+CREATE DEFAULT RightNow
 AS GETDATE()
 GO
 
-CREATE DEFAULT DefaultProductCount
+CREATE DEFAULT DefaultOneValue
 AS 1
 GO
 
-CREATE DEFAULT MessageNotSeen
+CREATE DEFAULT DefaultZeroValue
 AS 0
 GO
 
 -- Client
 CREATE TABLE "Client"
 (
-	Login nvarchar(30) PRIMARY KEY,
+	ID int IDENTITY(1,1) PRIMARY KEY,
+	Login nvarchar(30) NOT NULL,
 	Password char(64) NOT NULL,
     Name nvarchar(20) NOT NULL,
     Phone PhoneNumber NOT NULL,
     Email nvarchar(50),
 	Created datetime NOT NULL,
 	"Active Account" tinyint NOT NULL,
-	CONSTRAINT "C_Unique_Phones" UNIQUE ("Phone")
+	CONSTRAINT "C_Unique_Phones" UNIQUE ("Phone"),
+	CONSTRAINT "C_Unique_Login" UNIQUE ("Login")
 );
 
-EXEC sp_bindefault 'ApplyedRightNow', 'Client.Created'
-EXEC sp_bindefault 'DefaultProductCount', 'Client.Active Account'
+EXEC sp_bindefault 'RightNow', 'Client.Created'
+EXEC sp_bindefault 'DefaultOneValue', 'Client.Active Account'
 GO
 
 -- Client Address
 CREATE TABLE "Client Address"
 (
     [ID] int IDENTITY(1, 1) NOT NULL,
-	[Client Login] nvarchar(30) NOT NULL,
+	[Client ID] int NOT NULL,
     Region nvarchar(50) NOT NULL,
     City nvarchar(50) NOT NULL,
     District nvarchar(50) NOT NULL,
@@ -80,15 +82,15 @@ CREATE TABLE "Client Address"
 	Active tinyint,
     CONSTRAINT "C_PK_ClientAddress_Address" PRIMARY KEY ("ID"),
 	
-	CONSTRAINT "C_Unique_ClientAdress" UNIQUE ("Client Login", "ID"),
+	CONSTRAINT "C_Unique_ClientAdress" UNIQUE ("Client ID", "ID"),
 	
-	CONSTRAINT "C_FK_Login" FOREIGN KEY ("Client Login")
-        REFERENCES "Client" ("Login")
+	CONSTRAINT "C_FK_Login" FOREIGN KEY ("Client ID")
+        REFERENCES "Client" ("ID")
         ON UPDATE CASCADE
         ON DELETE CASCADE
 );
 
-EXEC sp_bindefault 'DefaultProductCount', 'Client Address.Active'
+EXEC sp_bindefault 'DefaultOneValue', 'Client Address.Active'
 
 -- Producer
 CREATE TABLE "Producer"
@@ -151,13 +153,13 @@ CREATE TABLE "Dish"
         
 );
 
-EXEC sp_bindefault 'DefaultProductCount', 'Dish.Visible'
+EXEC sp_bindefault 'DefaultOneValue', 'Dish.Visible'
 
 -- Order
 CREATE TABLE "Order"
 (
     "ID" int IDENTITY(1, 1) NOT NULL,
-	"Client Login" nvarchar(30) NOT NULL,
+	"Client ID" int NOT NULL,
 	"Client Address ID" int NOT NULL,
     "Courier" int,
     "Ordered At" datetime,
@@ -176,14 +178,14 @@ CREATE TABLE "Order"
         ON UPDATE SET NULL
         ON DELETE SET NULL,
 
-	CONSTRAINT "C_FK_Client_Address" FOREIGN KEY ("Client Login", "Client Address ID")
-        REFERENCES "Client Address" ("Client Login", "ID")
+	CONSTRAINT "C_FK_Client_Address" FOREIGN KEY ("Client ID", "Client Address ID")
+        REFERENCES "Client Address" ("Client ID", "ID")
         ON UPDATE CASCADE
         ON DELETE CASCADE
 );
 
 EXEC sp_bindrule 'Grade', 'Order.Order Grade'
-EXEC sp_bindefault 'MessageNotSeen', 'Order.Status'
+EXEC sp_bindefault 'DefaultZeroValue', 'Order.Status'
 GO
 
 -- Dishes-Order
@@ -204,7 +206,7 @@ CREATE TABLE "Dishes Order"
 		ON DELETE CASCADE,
 );
 
-EXEC sp_bindefault 'DefaultProductCount', 'Dishes Order.Count'
+EXEC sp_bindefault 'DefaultOneValue', 'Dishes Order.Count'
 
 CREATE TABLE "Ingredient" 
 (
@@ -231,32 +233,31 @@ GO
 
 CREATE TABLE Notifications
 (
-	"Client Login" nvarchar(30) NOT NULL,
+	"Client ID" int NOT NULL,
 	"Value" nvarchar(50) NOT NULL,
 	"Send" datetime NOT NULL,
 	"Read" smallint NOT NULL,
 
-	CONSTRAINT "C_PK_Notification" PRIMARY KEY ("Client Login", "Send", "Value"),
+	CONSTRAINT "C_PK_Notification" PRIMARY KEY ("Client ID", "Send", "Value"),
 
-	CONSTRAINT "C_FK_NotifyClient" FOREIGN KEY ("Client Login")
-        REFERENCES "Client" ("Login")
+	CONSTRAINT "C_FK_NotifyClient" FOREIGN KEY ("Client ID")
+        REFERENCES "Client" ("ID")
         ON UPDATE CASCADE
         ON DELETE CASCADE
 )
 
-EXEC sp_bindefault 'ApplyedRightNow', 'Notifications.Send'
-EXEC sp_bindefault 'MessageNotSeen', 'Notifications.Read'
+EXEC sp_bindefault 'RightNow', 'Notifications.Send'
+EXEC sp_bindefault 'DefaultZeroValue', 'Notifications.Read'
 GO
 
 INSERT INTO "Status" ("ID", "Value")
 VALUES
-(0,'Собирается'),
-(1,'В обработке'),
-(2,'Готовится'),
-(3,'Передан в доставку'),
-(4,'Доставляется'),
-(5,'Завершён'),
-(6,'Отменён');
+(0,'Collecting'),
+(1,'In Process'),
+(2,'Preparing'),
+(4,'Delivering'),
+(5,'Completed'),
+(6,'Canceled');
 
 GO
 
