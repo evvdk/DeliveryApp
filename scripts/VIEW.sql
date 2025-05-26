@@ -141,11 +141,15 @@ SELECT Client.[Login] AS [Client Login], [Password], [Active Account], [Client A
 FROM Client JOIN [Client Address] ON Client.ID = [Client Address].[Client ID]
 GO
 
-CREATE OR ALTER VIEW [Order Summary]
+CREATE OR ALTER VIEW [Order Set]
 AS
-SELECT [Order].ID AS [Order ID], Producer.[ID] AS [Producer ID], Producer.[Name] AS [Producer Name], SUM(Dish.Calories) AS [Calories Summary], SUM(Dish.Cost) AS [Bill], SUM(Count) AS [Dish Count]
-FROM (([Order] JOIN [Dishes Order]  ON [Order].ID = [Dishes Order].[Order ID]) LEFT JOIN Dish ON Dish.ID = [Dishes Order].[Dish ID]) 
-			JOIN Producer ON Producer.ID = Dish.[Producer ID]
-GROUP BY [Order].ID, Producer.ID, Producer.[Name]
-GO
+SELECT [Order].ID AS [Order ID], [Login] AS [Client Login], [Status] AS [Order Status], [Dish ID], [Count], Dish.[Name] As [Dish Name], [Image], Cost, Mass, Calories
+FROM (([Order] RIGHT JOIN [Dishes Order] ON [Order].ID = [Dishes Order].[Order ID]) LEFT JOIN Dish ON [Dishes Order].[Dish ID] = Dish.ID) LEFT JOIN Client ON [Order].[Client ID] = Client.ID
+WHERE Dish.Visible = 1
+WITH CHECK OPTION
 
+CREATE OR ALTER VIEW [All Dishes]
+AS
+SELECT 
+FROM 
+WHERE Dish.Visible = 1

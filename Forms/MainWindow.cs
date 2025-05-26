@@ -5,6 +5,7 @@ using System.Drawing;
 using DeliveryApp.EF;
 using System.Globalization;
 using DeliveryApp.Forms;
+using System.Linq;
 
 namespace DeliveryApp
 {
@@ -78,6 +79,36 @@ namespace DeliveryApp
             SingleOrder.PerformLayout();
         }
 
+        private void AddDishesToMarket(Panel parentPanel, All_Dishes order)
+        {   
+            
+        }
+
+        private void DrawMarket(List<All_Dishes> market)
+        {   
+            var producers = market.GroupBy(p => new { p.Producer_ID, p.Producer_Name }).Where(grp => grp.Count() > 0).Select(p => new { ID = p.Key.Producer_ID, Name = p.Key.Producer_Name }).ToList();
+            foreach (var producer in producers)
+            {
+                string producerName = market.Where(p => p.Producer_ID == producer.ID).First().Producer_Name;
+                var producersDishes = market.Where(p => p.Producer_ID == producer.ID);
+                foreach (var dish in producersDishes)
+                {
+                }
+            }
+        }
+
+        private void getMarket()
+        {
+            try
+            {
+                List<All_Dishes> dishes = Database.GetAllDishes();
+                DrawMarket(dishes);
+            }catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
         private void EmpthyHeader(Panel parentPanel)
         {
             Label Header = new Label();
@@ -138,7 +169,7 @@ namespace DeliveryApp
             switch (UserTabs.SelectedIndex)
             {
                 case 0:
-
+                    getMarket();
                     break;
                     
                 case 1:
@@ -156,7 +187,7 @@ namespace DeliveryApp
         void drawAll() {
             GetOrders();
             UpdateClientInfo();
-            // ....
+            getMarket();
         }
 
         private void UpdateClientInfo()
@@ -172,13 +203,6 @@ namespace DeliveryApp
                 if (!(user.Email is null))
                     Account_UserEmail.Text = user.Email;
                 Account_CreatedAt.Text = "Created " + user.Created.ToString("F");
-                List<Address_By_Login> addresses = ClientActions.GetAddresses();
-                Account_AddressSelect.Items.Clear();
-                foreach (var each in addresses)
-                {
-                    Account_AddressSelect.Items.Add($"{each.Region},{each.City},{each.District}, {each.Street}, {each.Building}, {each.Room}");
-                    Account_AddressSelect.SelectedIndex = 0;
-                }
                
             } catch(Exception ex)
             {
@@ -189,13 +213,18 @@ namespace DeliveryApp
 
         private void SingleOrder_Click(object sender, EventArgs e)
         {
-            Panel clickedPanel = sender as Panel;
-            if (clickedPanel != null)
+            try
             {
-                int orderID = Convert.ToInt32(clickedPanel.Tag);
-                Order_Summary summary = Database.GetOrder_Summary(orderID);
-                MessageBox.Show($"Prod {summary.Producer_Name} Cal {summary.Calories_Summary} Bil {Decimal.Round((decimal)summary.Bill)}");
-                
+                Panel clickedPanel = sender as Panel;
+                if (clickedPanel != null)
+                {
+                    int orderID = Convert.ToInt32(clickedPanel.Tag);
+                    (new OrderWindow(orderID)).Show();
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Error during openning order");
             }
         }
 
@@ -244,6 +273,12 @@ namespace DeliveryApp
         private void Account_ChangeAddressButton_Click(object sender, EventArgs e)
         {
             (new AddressChooser()).Show();
+        }
+
+        private void AddToCart_Click(object sender, EventArgs e)
+        {
+            //int openedOrder = 
+            //(new OrderWindow()).Show();
         }
     }
 }

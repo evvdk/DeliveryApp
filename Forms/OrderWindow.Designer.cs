@@ -1,6 +1,6 @@
 ﻿namespace DeliveryApp.Forms
 {
-    partial class OrderView
+    partial class OrderWindow
     {
         /// <summary>
         /// Required designer variable.

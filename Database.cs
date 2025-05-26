@@ -137,11 +137,19 @@ namespace DeliveryApp
             }
         }
 
-        public static Order_Summary GetOrder_Summary(int order)
+        public static List<Order_Set> GetOrderSet(int order)
         {
             using (var context = new DeliveryAppContext(ConnectionString))
             {
-                return context.Order_Summary.Where(p => p.Order_ID == order).First();
+                return context.Order_Set.Where(p => p.Order_ID == order).ToList();
+            }
+        }
+
+        public static List<All_Dishes> GetAllDishes()
+        {
+            using (var context = new DeliveryAppContext(ConnectionString))
+            {
+                return context.All_Dishes.ToList();
             }
         }
     }
