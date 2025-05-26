@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Collections.Generic;
 using DeliveryApp.EF;
+using System.Windows.Forms;
 
 namespace DeliveryApp
 {
@@ -39,7 +40,7 @@ namespace DeliveryApp
                 throw new Exception("Database login error");
             }
         }
-        
+
         public static string FormatPhone(string phone)
         {
             string[] charsToRemoveFromPhone = new string[] { "(", ")", "-", " " };
@@ -53,7 +54,7 @@ namespace DeliveryApp
 
         public static void Register(string Login, string Password, string Name, string Phone, string Email)
         {
-            if (Password.Length < 5 || Password.Length > 16) 
+            if (Password.Length < 5 || Password.Length > 16)
                 throw new Exception("Password should be more than 5 and less than 16 letters");
             Password = HashString(Password);
 
@@ -117,15 +118,15 @@ namespace DeliveryApp
 
         public static void ChangePassword(string NewPassword, string RetypedPassword)
         {
-            
-            if (NewPassword.Length < 5 || NewPassword.Length > 16) throw new 
+
+            if (NewPassword.Length < 5 || NewPassword.Length > 16) throw new
                 Exception("Password should be more than 5 and less than 16 letters");
 
             if (NewPassword != RetypedPassword) throw new Exception("Retyped password doesn't match");
-            
+
             NewPassword = HashString(NewPassword);
 
-            if (User.userInfo.Password == NewPassword) 
+            if (User.userInfo.Password == NewPassword)
                 throw new Exception("Old and new password are equal");
 
             try
@@ -238,7 +239,7 @@ namespace DeliveryApp
                 {
                     case 50005:
                         throw new Exception("Email doesn't match pattern");
-                    default: 
+                    default:
                         throw new Exception("SQL error during changing email");
                 }
             }
@@ -267,6 +268,18 @@ namespace DeliveryApp
             catch
             {
                 throw new Exception("Error during deleting account");
+            }
+        }
+
+        public static List<Address_By_Login> GetAddresses()
+        {
+            try
+            {
+                return Database.GetAddresses(User.userInfo.Login, User.userInfo.Password);
+            }
+            catch
+            {
+                throw new Exception("Error during reciving addresses");
             }
         }
     }

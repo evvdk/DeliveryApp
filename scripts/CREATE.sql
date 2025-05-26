@@ -107,7 +107,8 @@ CREATE TABLE "Producer"
     "Building" nvarchar(10) NOT NULL,
     "Floor" int,
     "Room" nvarchar(10) NOT NULL,
-    CONSTRAINT "C_PK_ProducerID" PRIMARY KEY ("ID")
+    CONSTRAINT "C_PK_ProducerID" PRIMARY KEY ("ID"),
+	CONSTRAINT "C_U_Login" UNIQUE ("Login")
 );
 
 EXEC sp_bindrule 'Grade', 'Producer.Grade'

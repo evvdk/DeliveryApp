@@ -36,7 +36,7 @@ namespace DeliveryApp
 
             SingleOrder.SuspendLayout();
             SingleOrder.BackColor = SystemColors.ControlLightLight;
-            
+
             SingleOrder.Controls.Add(OrderName);
             SingleOrder.Controls.Add(Status);
             SingleOrder.Location = new Point(0, 0);
@@ -172,6 +172,14 @@ namespace DeliveryApp
                 if (!(user.Email is null))
                     Account_UserEmail.Text = user.Email;
                 Account_CreatedAt.Text = "Created " + user.Created.ToString("F");
+                List<Address_By_Login> addresses = ClientActions.GetAddresses();
+                Account_AddressSelect.Items.Clear();
+                foreach (var each in addresses)
+                {
+                    Account_AddressSelect.Items.Add($"{each.Region},{each.City},{each.District}, {each.Street}, {each.Building}, {each.Room}");
+                    Account_AddressSelect.SelectedIndex = 0;
+                }
+               
             } catch(Exception ex)
             {
                 MessageBox.Show(ex.Message);
@@ -185,8 +193,9 @@ namespace DeliveryApp
             if (clickedPanel != null)
             {
                 int orderID = Convert.ToInt32(clickedPanel.Tag);
-                MessageBox.Show($"Order id {orderID}");
-                // ****
+                Order_Summary summary = Database.GetOrder_Summary(orderID);
+                MessageBox.Show($"Prod {summary.Producer_Name} Cal {summary.Calories_Summary} Bil {Decimal.Round((decimal)summary.Bill)}");
+                
             }
         }
 
@@ -230,6 +239,11 @@ namespace DeliveryApp
             User.userInfo = null;
             (new LoginForm()).Show();
             this.Dispose();
+        }
+
+        private void Account_ChangeAddressButton_Click(object sender, EventArgs e)
+        {
+            (new AddressChooser()).Show();
         }
     }
 }

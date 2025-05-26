@@ -130,15 +130,22 @@ GO
 
 CREATE OR ALTER VIEW [Order Status Table]
 AS
-SELECT [Order].ID, Client.[Login] AS [Client Login],[Client Address ID],[Ordered At],[Complited At], Status.ID AS [Status ID],Status.Value AS [Status Value],[Order Grade]
-  FROM ([Order] JOIN Status ON [Order].Status = Status.Value) JOIN Client ON [Order].[Client ID] = Client.ID
+SELECT [Order].ID, Client.[Login] AS [Client Login],[Client Address ID],[Ordered At],[Complited At], [Status].ID AS [Status ID], [Status].Value AS [Status Value],[Order Grade]
+  FROM ([Order] JOIN Status ON [Order].Status = Status.ID) JOIN Client ON [Order].[Client ID] = Client.ID
 GO
 
-CREATE OR ALTER VIEW [Producer Dishes]
+CREATE OR ALTER VIEW [Address By Login]
 AS
-SELECT [Producer].ID AS [Producer ID], Producer.Name, Dish.ID AS [Dish ID], Dish.Name AS [Dish Name], Dish.Cost AS [Dish Cost]
-FROM [Producer] RIGHT JOIN Dish ON Producer.ID = Dish.[Producer ID]
-WHERE Dish.Visible = 1
-WITH CHECK OPTION
+SELECT Client.[Login] AS [Client Login], [Password], [Active Account], [Client Address].ID AS [Address ID], [Region],[City],[District],
+		[Street],[Building],[Floor],[Room],[Active] AS [Active Address]
+FROM Client JOIN [Client Address] ON Client.ID = [Client Address].[Client ID]
+GO
+
+CREATE OR ALTER VIEW [Order Summary]
+AS
+SELECT [Order].ID AS [Order ID], Producer.[ID] AS [Producer ID], Producer.[Name] AS [Producer Name], SUM(Dish.Calories) AS [Calories Summary], SUM(Dish.Cost) AS [Bill], SUM(Count) AS [Dish Count]
+FROM (([Order] JOIN [Dishes Order]  ON [Order].ID = [Dishes Order].[Order ID]) LEFT JOIN Dish ON Dish.ID = [Dishes Order].[Dish ID]) 
+			JOIN Producer ON Producer.ID = Dish.[Producer ID]
+GROUP BY [Order].ID, Producer.ID, Producer.[Name]
 GO
 

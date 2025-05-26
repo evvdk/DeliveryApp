@@ -1,9 +1,6 @@
 namespace DeliveryApp.EF
 {
-    using System;
     using System.Data.Entity;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Linq;
 
     public partial class DeliveryAppContext : DbContext
     {
@@ -24,6 +21,7 @@ namespace DeliveryApp.EF
         public virtual DbSet<Status> Status { get; set; }
         public virtual DbSet<Order_Status_Table> Order_Status_Table { get; set; }
         public virtual DbSet<Orders_View> Orders_View { get; set; }
-        public virtual DbSet<Producer_Dishes> Producer_Dishes { get; set; }
+        public virtual DbSet<Address_By_Login> Address_By_Login { get; set; }
+        public virtual DbSet<Order_Summary> Order_Summary { get; set; }
     }
 }

@@ -128,5 +128,21 @@ namespace DeliveryApp
                 context.Database.ExecuteSqlCommand("exec DeleteClient @login, @password", login, password);
             }
         }
+
+        public static List<Address_By_Login> GetAddresses(string Login, string Password)
+        {
+            using (var context = new DeliveryAppContext(ConnectionString))
+            {
+                return context.Address_By_Login.Where(p => p.Client_Login == Login && p.Password == Password && p.Active_Address == 1).ToList();
+            }
+        }
+
+        public static Order_Summary GetOrder_Summary(int order)
+        {
+            using (var context = new DeliveryAppContext(ConnectionString))
+            {
+                return context.Order_Summary.Where(p => p.Order_ID == order).First();
+            }
+        }
     }
 }
