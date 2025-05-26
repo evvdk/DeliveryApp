@@ -6,17 +6,32 @@ using System.Linq;
 
 namespace DeliveryApp.Forms
 {
-    public partial class AddressChooser: Form
+    public enum Mode { Edit, Order}
+    public partial class AddressChooser : Form
     {
-
+        Mode Mode;
         List<RadioButton> radioButtons = new List<RadioButton>();
-        public AddressChooser()
+        public AddressChooser(Mode mode)
         {
+            this.Mode = mode;
             List <Address_By_Login> addresses = ClientActions.GetAddresses();
             InitializeComponent();
-            foreach(var address in addresses)
+            UpdateList();
+
+
+            switch (Mode)
             {
-                update(address);
+                case Mode.Order:
+                    this.Apply.Text = "Apply";
+                    this.Apply.Click += new EventHandler(this.Apply_InitOrder);
+                    break;
+                case Mode.Edit:
+                    this.Apply.Text = "Add";
+                    this.Apply.Click += new EventHandler(this.Apply_AddAddress);
+                    this.Apply.Click += (p, e) => { 
+                        
+                    };
+                    break;
             }
         }
 
@@ -36,11 +51,12 @@ namespace DeliveryApp.Forms
             radioButton1.AutoSize = true;
             radioButton1.Dock = DockStyle.Fill;
             radioButton1.Location = new System.Drawing.Point(3, 3);
-            radioButton1.Checked = false;
-            radioButton1.Text = $"{address.Region}, {address.City}, {address.District}, {address.Street}, {address.Building}, {address.Room}";
+            if (Mode == Mode.Order) radioButton1.Checked = false;
+            else radioButton1.Checked = true;
+                radioButton1.Text = $"{address.Region}, {address.City}, {address.District}, {address.Street}, {address.Building}, {address.Room}";
             radioButton1.UseVisualStyleBackColor = true;
             radioButton1.Tag = address.Address_ID;
-            radioButton1.Click += new EventHandler(radioButton1_CheckedChanged);
+            if(Mode == Mode.Order) radioButton1.Click += new EventHandler(radioButton_Clear);
             radioButtons.Add(radioButton1);
             // 
             // FlowLayoutAddress
@@ -58,16 +74,17 @@ namespace DeliveryApp.Forms
             Edit.Dock = DockStyle.Fill;
             Edit.Location = new System.Drawing.Point(122, 3);
             Edit.Name = "Edit";
-            Edit.TabIndex = 1;
             Edit.Text = "Edit";
+            Edit.Tag = address.Address_ID;
             Edit.UseVisualStyleBackColor = true;
+            Edit.Click += new EventHandler(this.Apply_EditAddress);
 
             FlowLayoutAddress.ResumeLayout(false);
             FlowLayoutAddress.PerformLayout();
 
         }
 
-        private void radioButton1_CheckedChanged(object sender, System.EventArgs e)
+        private void radioButton_Clear(object sender, System.EventArgs e)
         {
             try
             {
@@ -87,7 +104,7 @@ namespace DeliveryApp.Forms
             }
         }
 
-        private void Apply_Click(object sender, EventArgs e)
+        private void Apply_InitOrder(object sender, EventArgs e)
         {
             try
             {
@@ -100,6 +117,56 @@ namespace DeliveryApp.Forms
             catch(Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void Apply_AddAddress(object sender, EventArgs e)
+        {
+            try
+            {
+                AddressEditor edit = new AddressEditor();
+                edit.Show();
+                edit.FormClosed += (s, ev) => {
+
+                    UpdateList();
+
+                };
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void Apply_EditAddress(object sender, EventArgs e)
+        {
+            try
+            {
+                Button btn = sender as Button;
+                if (btn == null) throw new Exception("Error passing button");
+                int addressId = (int)btn.Tag;
+                Address_By_Login address = ClientActions.GetAddresses().Where(p=>p.Address_ID == addressId).First();
+                AddressEditor edit = new AddressEditor(address);
+                edit.Show();
+                edit.FormClosed += (s, ev) => {
+
+                    UpdateList();
+
+                };
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void UpdateList()
+        {
+            List<Address_By_Login> addresses = ClientActions.GetAddresses();
+            this.FlowLayout.Controls.Clear();
+            foreach (var address in addresses)
+            {
+                update(address);
             }
         }
     }

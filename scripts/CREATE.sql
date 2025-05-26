@@ -256,9 +256,9 @@ VALUES
 (0,'Collecting'),
 (1,'In Process'),
 (2,'Preparing'),
-(4,'Delivering'),
-(5,'Completed'),
-(6,'Canceled');
+(3,'Delivering'),
+(4,'Completed'),
+(5,'Canceled');
 
 GO
 

@@ -335,7 +335,7 @@ namespace DeliveryApp
                 }
                 else
                 {
-                    AddressChooser wnd = new AddressChooser();
+                    AddressChooser wnd = new AddressChooser(Mode.Order);
                     wnd.Show();
                     wnd.FormClosed += (s, ev) =>
                     {
@@ -396,7 +396,7 @@ namespace DeliveryApp
 
         private void Account_ChangeAddressButton_Click(object sender, EventArgs e)
         {
-            (new AddressChooser()).Show();
+            (new AddressChooser(Mode.Edit)).Show();
         }
 
         private void AddToCart_Click(object sender, EventArgs e)
