@@ -20,7 +20,6 @@ namespace DeliveryApp.EF
         public virtual DbSet<Producer> Producer { get; set; }
         public virtual DbSet<Status> Status { get; set; }
         public virtual DbSet<Order_Status_Table> Order_Status_Table { get; set; }
-        public virtual DbSet<Orders_View> Orders_View { get; set; }
         public virtual DbSet<Address_By_Login> Address_By_Login { get; set; }
         public virtual DbSet<Order_Set> Order_Set { get; set; }
 

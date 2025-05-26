@@ -1,4 +1,5 @@
-﻿namespace DeliveryApp.Forms
+﻿using System.Windows.Forms;
+namespace DeliveryApp.Forms
 {
     partial class AddressChooser
     {
@@ -28,13 +29,39 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.FlowLayout = new System.Windows.Forms.FlowLayoutPanel();
+            this.Apply = new System.Windows.Forms.Button();
             this.SuspendLayout();
+            // 
+            // FlowLayout
+            // 
+            this.FlowLayout.AutoScroll = true;
+            this.FlowLayout.Dock = System.Windows.Forms.DockStyle.Top;
+            this.FlowLayout.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.FlowLayout.Location = new System.Drawing.Point(0, 0);
+            this.FlowLayout.Name = "FlowLayout";
+            this.FlowLayout.Size = new System.Drawing.Size(722, 228);
+            this.FlowLayout.TabIndex = 0;
+            this.FlowLayout.WrapContents = false;
+            // 
+            // Apply
+            // 
+            this.Apply.Dock = System.Windows.Forms.DockStyle.Top;
+            this.Apply.Location = new System.Drawing.Point(0, 228);
+            this.Apply.Name = "Apply";
+            this.Apply.Size = new System.Drawing.Size(722, 27);
+            this.Apply.TabIndex = 1;
+            this.Apply.Text = "Apply";
+            this.Apply.UseVisualStyleBackColor = true;
+            this.Apply.Click += new System.EventHandler(this.Apply_Click);
             // 
             // AddressChooser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(722, 303);
+            this.Controls.Add(this.Apply);
+            this.Controls.Add(this.FlowLayout);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "AddressChooser";
             this.Text = "Address Chooser";
@@ -43,5 +70,8 @@
         }
 
         #endregion
+
+        private FlowLayoutPanel FlowLayout;
+        private Button Apply;
     }
 }

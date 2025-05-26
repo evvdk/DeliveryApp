@@ -97,9 +97,13 @@ BEGIN
 		IF NOT(LEN(@login) BETWEEN 5 AND 30) 
 			THROW 50000, 'Login should be more than 5 and less than 30 letters', 1;
 
+		BEGIN TRAN
+
 		UPDATE Client
 			SET Login = @newLogin
 			WHERE Login = @login AND Password = @password AND [Active Account] = 1
+
+		COMMIT TRAN
 
 	END TRY
 	BEGIN CATCH
@@ -130,9 +134,13 @@ BEGIN
 		IF NOT EXISTS (SELECT * FROM Client WHERE Login = @login AND Password = @password AND [Active Account] = 1)
 			THROW 50006, 'User doesn''t exist', 1;		
 
+		BEGIN TRAN
+
 		UPDATE Client
 			SET Name = @newName
 			WHERE Login = @login AND Password = @password AND [Active Account] = 1
+
+		COMMIT TRAN
 
 	END TRY
 	BEGIN CATCH
@@ -308,20 +316,58 @@ END
 
 GO
 
-CREATE OR ALTER PROCEDURE AddToOrder(@login nvarchar(30), @addressID int, @dishID int, @dishCount int)
+CREATE OR ALTER PROCEDURE InitOrder(@login nvarchar(30), @addressID int)
 AS
 BEGIN
-
 	BEGIN TRY
-
 		BEGIN TRAN
+			
+			IF NOT EXISTS(SELECT * FROM Client WHERE [Login] = @login AND [Active Account] = 1)
+				THROW 50006, 'Client with login doesn''t exists', 1;
 
 			DECLARE @clientID int;
 			SELECT @clientID = ID FROM Client
 				WHERE Login = @login AND [Active Account] = 1
 
-			INSERT INTO [Orders View]([Client ID],[Client Address ID],[Dish ID],[Count])
-			VALUES (@clientID, @addressID, @dishID, @dishCount)
+			INSERT INTO [Order] ([Client ID], [Client Address ID]) 
+					VALUES (@ClientID, @AddressID);
+
+		COMMIT TRAN
+
+	END TRY
+	BEGIN CATCH
+
+		IF @@TRANCOUNT > 0
+			ROLLBACK TRAN;
+		THROW;
+
+	END CATCH
+END
+
+GO
+
+CREATE OR ALTER PROCEDURE AddToOrder(@OrderID int, @dishID int, @Count int)
+AS
+BEGIN
+
+	BEGIN TRY
+
+		IF NOT EXISTS(SELECT * FROM [Order] WHERE ID = @OrderID)
+			THROW 50009, 'Order doesn''t exists', 1;
+
+		BEGIN TRAN
+
+			IF NOT EXISTS(SELECT * FROM [Dishes Order] WHERE [Dish ID] = @DishID AND [Order ID] = @OrderID)
+			BEGIN
+				INSERT INTO [Dishes Order] ([Dish ID],[Order ID],[Count])
+					VALUES (@DishID, @OrderID, @Count)
+			END
+			ELSE 
+			BEGIN
+				UPDATE [Dishes Order]
+					SET [Count] = [Count] + @Count
+					WHERE [Dish ID] = @DishID AND [Order ID] = @OrderID
+			END
 
 		COMMIT TRAN
 
@@ -343,19 +389,24 @@ GO
 
 GO
 
-CREATE OR ALTER PROCEDURE DeleteFromOrder(@login nvarchar(30),  @dishID int)
+CREATE OR ALTER PROCEDURE DeleteFromOrder(@Order int, @dishID int)
 AS
 BEGIN
 	BEGIN TRY
 
 		BEGIN TRAN
-
-			DECLARE @clientID int;
-			SELECT @clientID = ID FROM Client
-				WHERE Login = @login AND [Active Account] = 1
-
-			DELETE FROM [Orders View]
-				WHERE [Client ID] = @clientID AND [Dish ID] = @dishID
+			
+			IF((SELECT [Count] FROM [Dishes Order] WHERE [Order ID] = @Order AND [Dish ID] = @dishID) = 1)
+			BEGIN
+				DELETE FROM [Dishes Order]
+					WHERE [Order ID] = @Order AND [Dish ID] = @DishID
+			END
+			ELSE 
+			BEGIN
+				UPDATE [Dishes Order]
+					SET [Count] = [Count] - 1
+					WHERE [Order ID] = @Order AND [Dish ID] = @DishID
+			END
 	
 		COMMIT TRAN
 

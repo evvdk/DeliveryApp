@@ -34,7 +34,7 @@ BEGIN
 	END
 	CLOSE OrderCursorVar
 	DEALLOCATE OrderCursorVar
-	IF (@FoundDifferentProds != 0) ROLLBACK TRAN;
+	IF (@FoundDifferentProds != 0) THROW 50010, 'Different producers in the same order', 1;
 END
 GO
 
@@ -46,7 +46,7 @@ BEGIN
 	SELECT COUNT(*)
 		FROM [Order] JOIN inserted ON [Order].[Client ID] = inserted.[Client ID]
 		WHERE [Order].[Ordered At] IS NULL AND [Order].[Status] = 0
-	) > 1) ROLLBACK TRAN;
+	) > 1) THROW 50011, 'More than one opened order', 1;
 		
 END
 
@@ -56,7 +56,6 @@ CREATE OR ALTER TRIGGER ClearOrderOnEmpty ON "Dishes Order"
 AFTER DELETE
 AS
 BEGIN
-	BEGIN TRAN
 
 	DECLARE @OrderID int;
 	DECLARE DeltedOrdersCursorVar CURSOR
@@ -75,11 +74,6 @@ BEGIN
 
 			DELETE FROM [Order] 
 				WHERE [Order].ID = @OrderID
-
-			IF @@ERROR = 0 AND @@ROWCOUNT = 1
-				COMMIT TRAN
-			ELSE
-				ROLLBACK TRAN
 
 		FETCH NEXT FROM DeltedOrdersCursorVar
 		INTO @OrderID

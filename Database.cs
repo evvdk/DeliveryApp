@@ -152,5 +152,64 @@ namespace DeliveryApp
                 return context.All_Dishes.ToList();
             }
         }
+
+        public static bool HasOpenedOrder(string Login)
+        {
+            using (var context = new DeliveryAppContext(ConnectionString))
+            {
+                return context.Order_Status_Table.Where(p => p.Client_Login == Login && p.Status_ID == 0).Count() == 1;
+            }
+        }
+
+        public static int GetOpenedOrderID(string Login)
+        {
+            using (var context = new DeliveryAppContext(ConnectionString))
+            {
+                return context.Order_Status_Table.Where(p => p.Client_Login == Login && p.Status_ID == 0).First().ID;
+            }
+        }
+        public static void InitOrder(string Login, int Address)
+        {
+            using (var context = new DeliveryAppContext(ConnectionString))
+            {
+                var login = new SqlParameter("@login", Login);
+                var address = new SqlParameter("@address", Address);
+
+                context.Database.ExecuteSqlCommand("exec InitOrder @login, @address",login, address);
+            }
+        }
+
+        public static void AddToOrder(int OrderID, int DishID, int Count)
+        {
+            using (var context = new DeliveryAppContext(ConnectionString))
+            {
+                var order = new SqlParameter("@orderID", OrderID);
+                var dish = new SqlParameter("@dishID", DishID);
+                var count = new SqlParameter("@count", Count);
+
+                context.Database.ExecuteSqlCommand("exec AddToOrder @orderID, @dishID, @count", order, dish, count);
+            }
+        }
+
+        public static void DeleteFromOrder(int OrderID, int DishID)
+        {
+            using (var context = new DeliveryAppContext(ConnectionString))
+            {
+                var order = new SqlParameter("@orderID", OrderID);
+                var dish = new SqlParameter("@dishID", DishID);
+
+                context.Database.ExecuteSqlCommand("exec DeleteFromOrder @orderID, @dishID", order, dish);
+            }
+        }
+
+        public static void ApplyOrder(string Login)
+        {
+            using (var context = new DeliveryAppContext(ConnectionString))
+            {
+                var login = new SqlParameter("@orderID", Login);
+
+                context.Database.ExecuteSqlCommand("exec ApplyOrder @login", login);
+            }
+        }
     }
 }

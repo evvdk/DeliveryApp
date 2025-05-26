@@ -5,6 +5,7 @@ using System.Text;
 using System.Collections.Generic;
 using DeliveryApp.EF;
 using System.Windows.Forms;
+using System.Net;
 
 namespace DeliveryApp
 {
@@ -35,7 +36,8 @@ namespace DeliveryApp
                 if (!Database.IsValidUser(Login, Password))
                     throw new Exception("Wrong login or password");
                 User.userInfo = new User(Login, Password);
-            } catch (SqlException)
+            }
+            catch (SqlException)
             {
                 throw new Exception("Database login error");
             }
@@ -280,6 +282,97 @@ namespace DeliveryApp
             catch
             {
                 throw new Exception("Error during reciving addresses");
+            }
+        }
+
+        public static List<All_Dishes> GetAllDishes()
+        {
+            try
+            {
+                return Database.GetAllDishes();
+            }
+            catch
+            {
+                throw new Exception("Error during reciving dishes");
+            }
+        }
+
+        public static bool HasOpenedOrder()
+        {
+            try
+            {
+                return Database.HasOpenedOrder(User.userInfo.Login);
+            }
+            catch
+            {
+                throw new Exception("Error during reciving order");
+            }
+        }
+
+        public static int GetOpenOrderID()
+        {
+            try
+            {
+                return Database.GetOpenedOrderID(User.userInfo.Login);
+            }
+            catch(InvalidOperationException)
+            {
+                throw new Exception("Order doesn't exist");
+            }
+            catch
+            {
+                throw new Exception("Error during reciving order");
+            }
+        }
+
+        public static void InitOrder(int Address)
+        {
+            try {
+                Database.InitOrder(User.userInfo.Login, Address);
+            }
+            catch (SqlException ex)
+            {
+                switch (ex.Number)
+                {
+                    case 50011:
+                        throw new Exception("More than one opened order");
+                }
+            }
+            catch
+            {
+                throw new Exception("Error during initing order");
+            }
+        }
+
+        public static void AddToOrder(int OrderID, int DishID)
+        {
+            try
+            {
+                Database.AddToOrder(OrderID, DishID, 1);
+            }
+            catch(SqlException ex)
+            {
+                switch (ex.Number)
+                {
+                    case 50010:
+                        throw new Exception("Different producers can't be in the same order");
+                }
+            }
+            catch(Exception ex)
+            {
+                throw new Exception("Error during adding dish to order");
+            }
+        }
+
+        public static void DeleteFromOrder(int OrderID, int DishID)
+        {
+            try
+            {
+                Database.DeleteFromOrder(OrderID, DishID);
+            }
+            catch
+            {
+                throw new Exception("Error during deleting dish from order");
             }
         }
     }
