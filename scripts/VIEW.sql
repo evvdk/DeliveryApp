@@ -17,10 +17,12 @@ GO
 
 CREATE OR ALTER VIEW [Order Set]
 AS
-SELECT [Order].ID AS [Order ID], [Login] AS [Client Login], [Status] AS [Order Status], [Dish ID], [Count], Dish.[Name] As [Dish Name], [Image], Cost, Mass, Calories
-FROM (([Order] RIGHT JOIN [Dishes Order] ON [Order].ID = [Dishes Order].[Order ID]) LEFT JOIN Dish ON [Dishes Order].[Dish ID] = Dish.ID) LEFT JOIN Client ON [Order].[Client ID] = Client.ID
-WHERE Dish.Visible = 1
-WITH CHECK OPTION
+SELECT [Order].ID AS [Order ID], Client.[Login] AS [Client Login], [Status] AS [Order Status],[Status].[Value] AS [Order Status Value], [Dish ID], [Count], Dish.[Name] As [Dish Name], Producer.[Name] AS [Producer Name], [Image], Cost, Mass, Calories, ([Count]*Cost) AS [Sum]
+FROM (((([Order] RIGHT JOIN [Status] ON [Order].[Status] = [Status].ID)
+RIGHT JOIN [Dishes Order] ON [Order].ID = [Dishes Order].[Order ID])
+LEFT JOIN Dish ON [Dishes Order].[Dish ID] = Dish.ID) 
+LEFT JOIN Client ON [Order].[Client ID] = Client.ID)
+LEFT JOIN Producer ON Dish.[Producer ID] = Producer.ID
 
 GO
 
@@ -30,3 +32,5 @@ SELECT Dish.ID AS [Dish ID], Producer.ID AS [Producer ID], Dish.[Name] AS [Dish 
 FROM Dish LEFT JOIN Producer ON Dish.[Producer ID] = Producer.ID 
 WHERE Dish.Visible = 1
 WITH CHECK OPTION
+
+GO

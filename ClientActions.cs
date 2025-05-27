@@ -425,7 +425,7 @@ namespace DeliveryApp
                         throw new Exception("Client with login doesn't exists");
                     case 50007:
                         throw new Exception("Client with address doesn''t exists");
-                    default: throw new Exception("Database error");
+                    default: throw new Exception($"Database error {ex.Message}");
                 }
             }
             catch
@@ -454,6 +454,18 @@ namespace DeliveryApp
             catch
             {
                 throw new Exception("Error during deleting address");
+            }
+        }
+
+        public static List<Order_Set> GetOrderSet(int order)
+        {
+            try
+            {
+                return Database.GetOrderSet(order);
+            }
+            catch
+            {
+                throw new Exception("Error during reciving order data");
             }
         }
     }

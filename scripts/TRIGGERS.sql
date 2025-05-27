@@ -85,35 +85,42 @@ END
 
 GO
 
-CREATE TRIGGER UpdateStatusMessage ON [Order]
+
+CREATE OR ALTER TRIGGER UpdateStatusMessage ON [Order]
 AFTER UPDATE
 AS
 BEGIN
 	DECLARE @Order int, @Status int, @Client int;
 	DECLARE MessageOnOrderCursor CURSOR
 	SCROLL
-	FOR SELECT DISTINCT [ID], [Status], [Client ID] FROM inserted
+	FOR SELECT inserted.[ID], inserted.[Status], inserted.[Client ID] FROM inserted JOIN deleted ON inserted.[Status] != deleted.[Status]
 
 	OPEN MessageOnOrderCursor
+
 	FETCH FIRST FROM MessageOnOrderCursor
-	INTO @Order, @Client, @Status
+		INTO @Order, @Status, @Client
 
 	WHILE(@@FETCH_STATUS = 0)
 	BEGIN
+	
+		IF(@Status BETWEEN 1 AND 5) 
+		BEGIN
+			DECLARE @Message nvarchar(50);
 
-		DECLARE @Message nvarchar(50);
+			SELECT @Message = CASE @Status
+				WHEN 1 THEN 'Order#' + CONVERT(varchar(10), @Order) + ' is processing'
+				WHEN 2 THEN 'Order#' + CONVERT(varchar(10), @Order) + ' is beeing prepared'
+				WHEN 3 THEN 'Order#' + CONVERT(varchar(10), @Order) + ' is beeing delivered'
+				WHEN 4 THEN 'Order#' + CONVERT(varchar(10), @Order) + ' is complited'
+				WHEN 5 THEN 'Order#' + CONVERT(varchar(10), @Order) + ' is canceled'
+			END
 
-		SELECT @Message = CASE @Status
-			WHEN 2 THEN 'Order#' + STR(@Order) + ' is beeing prepared'
-			WHEN 3 THEN 'Order#' + STR(@Order) + ' is beeing delivered'
-			WHEN 4 THEN 'Order#' + STR(@Order) + ' is complited'
-			WHEN 5 THEN 'Order#' + STR(@Order) + ' is canceled'
+			INSERT INTO Notifications([Client ID],[Value]) VALUES(@Client, @Message);
+
 		END
 
-		INSERT INTO Notifications([Client ID],[Value]) VALUES(@Client, @Message);
-
 		FETCH NEXT FROM MessageOnOrderCursor
-			INTO @Order, @Client, @Status
+			INTO @Order, @Status, @Client
 
 	END
 	CLOSE MessageOnOrderCursor
@@ -139,18 +146,19 @@ BEGIN
 	BEGIN
 		-- По каждому заказу пробежать и если он не собран, отменить
 		DECLARE @Order int;
+		DECLARE @Status int;
 		DECLARE OrdersCursor CURSOR
 		SCROLL
-		FOR SELECT ID FROM [Order] WHERE [Client Address ID] = @Address
+		FOR SELECT ID, [Status] FROM [Order] WHERE [Client Address ID] = @Address
 
 		OPEN OrdersCursor
 		FETCH FIRST FROM OrdersCursor
-			INTO @Order
+			INTO @Order, @Status
 
 		WHILE(@@FETCH_STATUS = 0)
 		BEGIN
 
-			IF ((SELECT [Status] FROM [Order] WHERE ID = @Order) = 0)
+			IF (@Status = 0)
 			BEGIN
 				UPDATE [Order]
 				SET [Status] = 5

@@ -77,6 +77,7 @@ namespace DeliveryApp.Forms
             this.Controls.Add(this.FlowLayout);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "AddressChooser";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Choose Address";
             this.ResumeLayout(false);
 

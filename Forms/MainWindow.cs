@@ -307,7 +307,6 @@ namespace DeliveryApp
                 Panel clickedPanel = sender as Panel;
                 if (clickedPanel != null)
                 {
-                    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                     int orderID = Convert.ToInt32(clickedPanel.Tag);
                     (new OrderWindow(orderID)).Show();
                 }
@@ -372,7 +371,8 @@ namespace DeliveryApp
         {
             try
             {
-                DialogResult dialogResult = MessageBox.Show("Are you sure? Deleting account cause data loss", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                DialogResult dialogResult = MessageBox.Show("Are you sure? Deleting account cause data loss", "Warning", 
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (dialogResult == DialogResult.Yes)
                 {
                     User.userInfo = null;
@@ -408,7 +408,6 @@ namespace DeliveryApp
                 }
                 else
                 {
-                    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                     int openedOrder = ClientActions.GetOpenOrderID();
                     (new OrderWindow(openedOrder)).Show();
                 }

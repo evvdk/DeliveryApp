@@ -22,7 +22,6 @@ namespace DeliveryApp.EF
         public virtual DbSet<Order_Status_Table> Order_Status_Table { get; set; }
         public virtual DbSet<Address_By_Login> Address_By_Login { get; set; }
         public virtual DbSet<Order_Set> Order_Set { get; set; }
-
         public virtual DbSet<All_Dishes> All_Dishes { get; set; }
     }
 }

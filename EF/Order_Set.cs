@@ -19,6 +19,10 @@ namespace DeliveryApp.EF
         [Column("Order Status")]
         public int? Order_Status { get; set; }
 
+        [Column("Order Status Value")]
+        [StringLength(50)]
+        public string Order_Status_Value { get; set; }
+
         [Key]
         [Column("Dish ID", Order = 0)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
@@ -33,6 +37,10 @@ namespace DeliveryApp.EF
         [StringLength(50)]
         public string Dish_Name { get; set; }
 
+        [Column("Producer Name")]
+        [StringLength(30)]
+        public string Producer_Name { get; set; }
+
         [Column(TypeName = "image")]
         public byte[] Image { get; set; }
 
@@ -42,5 +50,8 @@ namespace DeliveryApp.EF
         public int? Mass { get; set; }
 
         public int? Calories { get; set; }
+
+        [Column(TypeName = "money")]
+        public decimal? Sum { get; set; }
     }
 }

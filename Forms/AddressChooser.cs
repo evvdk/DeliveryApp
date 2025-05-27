@@ -30,7 +30,7 @@ namespace DeliveryApp.Forms
             }
         }
 
-        private void update(Address_By_Login address)
+        private void AddAddressPanel(Address_By_Login address)
         {
             FlowLayoutPanel FlowLayoutAddress = new FlowLayoutPanel();
             RadioButton radioButton1 = new RadioButton();
@@ -166,7 +166,7 @@ namespace DeliveryApp.Forms
             this.FlowLayout.Controls.Clear();
             foreach (var address in addresses)
             {
-                update(address);
+                AddAddressPanel(address);
             }
         }
 
