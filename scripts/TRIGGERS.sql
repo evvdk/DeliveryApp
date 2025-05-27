@@ -26,7 +26,7 @@ BEGIN
 											WHERE [Order ID] = @Order
 										) AS OrderDishes 
 				ON Dish.ID = OrderDishes.[Dish ID]
-			) > 1) 
+			) != 1)
 			SET @FoundDifferentProds = 1
 
 		FETCH NEXT FROM OrderCursorVar
@@ -68,7 +68,6 @@ BEGIN
 
 	WHILE(@@FETCH_STATUS = 0)
 	BEGIN
-		BEGIN TRAN
 		IF((SELECT COUNT(*) FROM [Dishes Order] WHERE [Order ID] = @OrderID) = 0)
 		BEGIN
 
@@ -83,3 +82,93 @@ BEGIN
 	CLOSE DeltedOrdersCursorVar
 	DEALLOCATE DeltedOrdersCursorVar
 END
+
+GO
+
+CREATE TRIGGER UpdateStatusMessage ON [Order]
+AFTER UPDATE
+AS
+BEGIN
+	DECLARE @Order int, @Status int, @Client int;
+	DECLARE MessageOnOrderCursor CURSOR
+	SCROLL
+	FOR SELECT DISTINCT [ID], [Status], [Client ID] FROM inserted
+
+	OPEN MessageOnOrderCursor
+	FETCH FIRST FROM MessageOnOrderCursor
+	INTO @Order, @Client, @Status
+
+	WHILE(@@FETCH_STATUS = 0)
+	BEGIN
+
+		DECLARE @Message nvarchar(50);
+
+		SELECT @Message = CASE @Status
+			WHEN 2 THEN 'Order#' + STR(@Order) + ' is beeing prepared'
+			WHEN 3 THEN 'Order#' + STR(@Order) + ' is beeing delivered'
+			WHEN 4 THEN 'Order#' + STR(@Order) + ' is complited'
+			WHEN 5 THEN 'Order#' + STR(@Order) + ' is canceled'
+		END
+
+		INSERT INTO Notifications([Client ID],[Value]) VALUES(@Client, @Message);
+
+		FETCH NEXT FROM MessageOnOrderCursor
+			INTO @Order, @Client, @Status
+
+	END
+	CLOSE MessageOnOrderCursor
+	DEALLOCATE MessageOnOrderCursor
+END
+
+GO
+
+CREATE OR ALTER TRIGGER DestroyOrderAfterAddressHide ON [Client Address]
+AFTER UPDATE
+AS
+BEGIN
+	DECLARE @Address int;
+	DECLARE AddressCursor CURSOR
+	SCROLL
+	FOR SELECT [ID] FROM inserted WHERE Active = 0
+
+	OPEN AddressCursor
+	FETCH FIRST FROM AddressCursor
+	INTO @Address
+
+	WHILE(@@FETCH_STATUS = 0)
+	BEGIN
+		-- По каждому заказу пробежать и если он не собран, отменить
+		DECLARE @Order int;
+		DECLARE OrdersCursor CURSOR
+		SCROLL
+		FOR SELECT ID FROM [Order] WHERE [Client Address ID] = @Address
+
+		OPEN OrdersCursor
+		FETCH FIRST FROM OrdersCursor
+			INTO @Order
+
+		WHILE(@@FETCH_STATUS = 0)
+		BEGIN
+
+			IF ((SELECT [Status] FROM [Order] WHERE ID = @Order) = 0)
+			BEGIN
+				UPDATE [Order]
+				SET [Status] = 5
+					WHERE ID = @Order
+			END
+
+			FETCH NEXT FROM OrdersCursor
+				INTO @Order
+
+		END
+		CLOSE OrdersCursor
+		DEALLOCATE OrdersCursor
+
+		FETCH NEXT FROM AddressCursor
+			INTO @Address
+
+	END
+	CLOSE AddressCursor
+	DEALLOCATE AddressCursor
+END
+GO

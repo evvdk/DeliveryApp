@@ -5,7 +5,6 @@ using System.Drawing;
 using DeliveryApp.EF;
 using DeliveryApp.Forms;
 using System.Linq;
-using System.Data.SqlClient;
 
 namespace DeliveryApp
 {

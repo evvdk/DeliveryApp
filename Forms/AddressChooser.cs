@@ -17,19 +17,14 @@ namespace DeliveryApp.Forms
             List <Address_By_Login> addresses = ClientActions.GetAddresses();
             InitializeComponent();
             UpdateList();
-
-
             switch (Mode)
             {
                 case Mode.Order:
-                    this.Apply.Text = "Apply";
                     this.Apply.Click += new EventHandler(this.Apply_InitOrder);
                     break;
                 case Mode.Edit:
-                    this.Apply.Text = "Add";
-                    this.Apply.Click += new EventHandler(this.Apply_AddAddress);
-                    this.Apply.Click += (p, e) => { 
-                        
+                    this.Apply.Click += (p, e) => {
+                        this.Close();
                     };
                     break;
             }
@@ -40,6 +35,7 @@ namespace DeliveryApp.Forms
             FlowLayoutPanel FlowLayoutAddress = new FlowLayoutPanel();
             RadioButton radioButton1 = new RadioButton();
             Button Edit = new Button();
+            Button Delete = new Button();
 
             FlowLayoutAddress.SuspendLayout();
 
@@ -64,6 +60,7 @@ namespace DeliveryApp.Forms
             FlowLayoutAddress.AutoSize = true;
             FlowLayoutAddress.Controls.Add(radioButton1);
             FlowLayoutAddress.Controls.Add(Edit);
+            FlowLayoutAddress.Controls.Add(Delete);
             FlowLayoutAddress.Location = new System.Drawing.Point(0, 0);
             FlowLayoutAddress.Margin = new Padding(0);
             FlowLayoutAddress.Size = new System.Drawing.Size(400, 38);
@@ -79,9 +76,17 @@ namespace DeliveryApp.Forms
             Edit.UseVisualStyleBackColor = true;
             Edit.Click += new EventHandler(this.Apply_EditAddress);
 
+            Delete.AutoSize = true;
+            Delete.Dock = DockStyle.Fill;
+            Delete.Location = new System.Drawing.Point(122, 3);
+            Delete.Name = "Delete";
+            Delete.Text = "Delete";
+            Delete.Tag = address.Address_ID;
+            Delete.UseVisualStyleBackColor = true;
+            Delete.Click += new EventHandler(this.Apply_DeleteAddress);
+
             FlowLayoutAddress.ResumeLayout(false);
             FlowLayoutAddress.PerformLayout();
-
         }
 
         private void radioButton_Clear(object sender, System.EventArgs e)
@@ -120,16 +125,17 @@ namespace DeliveryApp.Forms
             }
         }
 
-        private void Apply_AddAddress(object sender, EventArgs e)
+        private void Apply_EditAddress(object sender, EventArgs e)
         {
             try
             {
-                AddressEditor edit = new AddressEditor();
+                Button btn = sender as Button;
+                if (btn == null) throw new Exception("Error passing button");
+                int addressId = (int)btn.Tag;
+                AddressEditor edit = new AddressEditor(addressId);
                 edit.Show();
                 edit.FormClosed += (s, ev) => {
-
                     UpdateList();
-
                 };
             }
             catch (Exception ex)
@@ -138,21 +144,15 @@ namespace DeliveryApp.Forms
             }
         }
 
-        private void Apply_EditAddress(object sender, EventArgs e)
+        private void Apply_DeleteAddress(object sender, EventArgs e)
         {
             try
             {
                 Button btn = sender as Button;
                 if (btn == null) throw new Exception("Error passing button");
                 int addressId = (int)btn.Tag;
-                Address_By_Login address = ClientActions.GetAddresses().Where(p=>p.Address_ID == addressId).First();
-                AddressEditor edit = new AddressEditor(address);
-                edit.Show();
-                edit.FormClosed += (s, ev) => {
-
-                    UpdateList();
-
-                };
+                ClientActions.DeleteAddress(addressId);
+                UpdateList();
             }
             catch (Exception ex)
             {
@@ -167,6 +167,23 @@ namespace DeliveryApp.Forms
             foreach (var address in addresses)
             {
                 update(address);
+            }
+        }
+
+        private void AddNewAddress(object sender, EventArgs e)
+        {
+            try
+            {
+                AddressEditor edit = new AddressEditor();
+                edit.Show();
+                edit.FormClosed += (s, ev) =>
+                {
+                    UpdateList();
+                };
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
     }

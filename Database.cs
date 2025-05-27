@@ -5,6 +5,8 @@ using System.Data.SqlTypes;
 using System.Collections.Generic;
 using DeliveryApp.EF;
 using System.Linq;
+using System.Drawing;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace DeliveryApp
 {
@@ -211,5 +213,59 @@ namespace DeliveryApp
                 context.Database.ExecuteSqlCommand("exec ApplyOrder @login", login);
             }
         }
+
+        public static void AddAdress(string Login, string Password, string Region, string City, string District, string Street, string Building, int? Floor, string Room)
+        {
+            using (var context = new DeliveryAppContext(ConnectionString))
+            {
+                var login = new SqlParameter("@login", Login);
+                var password = new SqlParameter("@password", Password);
+                var region = new SqlParameter("@region", Region);
+                var city = new SqlParameter("@city", City);
+                var district = new SqlParameter("@district", District);
+                var street = new SqlParameter("@street", Street);
+                var building = new SqlParameter("@building", Building);
+
+                var floor = (Floor is null) ? new SqlParameter("@floor", SqlInt32.Null) : new SqlParameter("@floor", Floor);
+                var room = new SqlParameter("@room", Room);
+
+                context.Database.ExecuteSqlCommand("exec AddClientAddress @login, @password, @region, @city, @district, @street, @building, @floor, @room", 
+                    login, password, region, city, district, street, building, floor, room);
+            }
+        }
+
+        public static void DeleteAddress(int Address, string Login, string Password)
+        {
+            using (var context = new DeliveryAppContext(ConnectionString))
+            {
+                var address = new SqlParameter("@address", Address);
+                var login = new SqlParameter("@login", Login);
+                var password = new SqlParameter("@password", Password);
+
+                context.Database.ExecuteSqlCommand("exec DeleteClientAddress @address, @login, @password",
+                    address, login, password);
+            }
+        }
+
+        public static void EditAdress(int Address, string Login, string Password, string Region, string City, string District, string Street, string Building, int? Floor, string Room)
+        {
+            using (var context = new DeliveryAppContext(ConnectionString))
+            {
+                var address = new SqlParameter("@address", Address);
+                var login = new SqlParameter("@login", Login);
+                var password = new SqlParameter("@password", Password);
+                var region = new SqlParameter("@region", Region);
+                var city = new SqlParameter("@city", City);
+                var district = new SqlParameter("@district", District);
+                var street = new SqlParameter("@street", Street);
+                var building = new SqlParameter("@building", Building);
+                var floor = (Floor is null) ? new SqlParameter("@floor", SqlInt32.Null) : new SqlParameter("@floor", Floor);
+                var room = new SqlParameter("@room", Room);
+
+                context.Database.ExecuteSqlCommand("exec EditClientAddress @address, @login, @password, @region, @city, @district, @street, @building, @floor, @room",
+                    address, login, password, region, city, district, street, building, floor, room);
+            }
+        }
+
     }
 }

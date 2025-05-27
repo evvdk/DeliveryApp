@@ -132,7 +132,7 @@ BEGIN
 				THROW 50002, 'Name should be more than 2 and less than 20 letters', 1;
 
 		IF NOT EXISTS (SELECT * FROM Client WHERE Login = @login AND Password = @password AND [Active Account] = 1)
-			THROW 50006, 'User doesn''t exist', 1;		
+			THROW 50006, 'User doesn''t exist', 1;
 
 		BEGIN TRAN
 
@@ -274,6 +274,44 @@ BEGIN
 END
 
 -- EXEC AddClientAddress 'UserLogin', 'e7cf3ef4f17c3999a94f2c6f612e8a888e5b1026878e4e19398b23bd38ec221a', 'Ryazan Oblsat', 'Ryazan', 'Diadkovo','1th Boluvar','56',5,'656'
+GO
+
+CREATE OR ALTER PROCEDURE EditClientAddress(@address int, @login nvarchar(30), @password char(64),  @region nvarchar(50), @city nvarchar(50), 
+		@district nvarchar(50), @street nvarchar(50), @building nvarchar(10), @floor int, @room nvarchar(10))
+AS
+BEGIN
+	BEGIN TRY
+		IF NOT EXISTS (SELECT * FROM Client WHERE Login = @login AND Password = @password AND [Active Account] = 1)
+			THROW 50006, 'Client with login doesn''t exists', 1;
+
+		
+			
+
+		DECLARE @clientID int;
+		SELECT @clientID = ID FROM Client
+			WHERE Login = @login AND Password = @password AND [Active Account] = 1
+	
+		IF NOT EXISTS (SELECT * FROM [Client Address] WHERE [Client ID] = @clientID AND ID = @address AND Active = 1)
+			THROW 50007, 'Client with address doesn''t exists', 1;
+
+
+		BEGIN TRAN
+
+			UPDATE [Client Address]
+			SET Region = @region, City = @city, District = @district, Street = @street, Building = @building, [Floor] = @floor, Room = @room
+			WHERE ID = @address AND [Client ID] = @clientID AND [Active] = 1
+ 
+		COMMIT TRAN
+
+	END TRY
+	BEGIN CATCH
+
+		IF @@TRANCOUNT > 0
+			ROLLBACK TRAN;
+		THROW;
+
+	END CATCH
+END
 
 GO
 
@@ -327,7 +365,7 @@ BEGIN
 
 			DECLARE @clientID int;
 			SELECT @clientID = ID FROM Client
-				WHERE Login = @login AND [Active Account] = 1
+				WHERE [Login] = @login AND [Active Account] = 1
 
 			INSERT INTO [Order] ([Client ID], [Client Address ID]) 
 					VALUES (@ClientID, @AddressID);
@@ -389,12 +427,15 @@ GO
 
 GO
 
-CREATE OR ALTER PROCEDURE DeleteFromOrder(@Order int, @dishID int)
+CREATE OR ALTER PROCEDURE DeleteFromOrder(@Order int, @dishID int) -- /////////////////////////////
 AS
 BEGIN
 	BEGIN TRY
 
 		BEGIN TRAN
+
+			IF NOT EXISTS(SELECT * FROM [Dishes Order] WHERE  [Order ID] = @Order AND [Dish ID] = @dishID)
+				THROW 50012, 'Dish doesn''t found in order', 1;
 			
 			IF((SELECT [Count] FROM [Dishes Order] WHERE [Order ID] = @Order AND [Dish ID] = @dishID) = 1)
 			BEGIN

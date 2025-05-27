@@ -30,6 +30,7 @@ namespace DeliveryApp.Forms
         private void InitializeComponent()
         {
             this.FlowLayout = new System.Windows.Forms.FlowLayoutPanel();
+            this.Add = new System.Windows.Forms.Button();
             this.Apply = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -44,22 +45,35 @@ namespace DeliveryApp.Forms
             this.FlowLayout.TabIndex = 0;
             this.FlowLayout.WrapContents = false;
             // 
+            // Add
+            // 
+            this.Add.Dock = System.Windows.Forms.DockStyle.Top;
+            this.Add.Location = new System.Drawing.Point(0, 268);
+            this.Add.Name = "Add";
+            this.Add.Size = new System.Drawing.Size(722, 35);
+            this.Add.TabIndex = 0;
+            this.Add.Text = "Add";
+            this.Add.UseVisualStyleBackColor = true;
+            this.Add.Click += new System.EventHandler(this.AddNewAddress);
+            // 
             // Apply
             // 
             this.Apply.Dock = System.Windows.Forms.DockStyle.Top;
-            this.Apply.Location = new System.Drawing.Point(0, 268);
+            this.Apply.Location = new System.Drawing.Point(0, 303);
             this.Apply.Name = "Apply";
-            this.Apply.Size = new System.Drawing.Size(722, 27);
-            this.Apply.TabIndex = 0;
+            this.Apply.Size = new System.Drawing.Size(722, 35);
+            this.Apply.TabIndex = 1;
+            this.Apply.Text = "Apply";
             this.Apply.UseVisualStyleBackColor = true;
             // 
             // AddressChooser
             // 
-            this.AcceptButton = this.Apply;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(722, 303);
+            this.AutoSize = true;
+            this.ClientSize = new System.Drawing.Size(722, 348);
             this.Controls.Add(this.Apply);
+            this.Controls.Add(this.Add);
             this.Controls.Add(this.FlowLayout);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "AddressChooser";
@@ -71,6 +85,7 @@ namespace DeliveryApp.Forms
         #endregion
 
         private FlowLayoutPanel FlowLayout;
+        private Button Add;
         private Button Apply;
     }
 }

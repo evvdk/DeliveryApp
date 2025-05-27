@@ -4,8 +4,6 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Collections.Generic;
 using DeliveryApp.EF;
-using System.Windows.Forms;
-using System.Net;
 
 namespace DeliveryApp
 {
@@ -84,7 +82,7 @@ namespace DeliveryApp
                     case 50005:
                         throw new Exception("Check if email is correct");
                     default:
-                        throw new Exception("SQL error during changing email");
+                        throw new Exception("Database error");
                 }
             }
             catch
@@ -143,7 +141,7 @@ namespace DeliveryApp
                     case 50006:
                         throw new Exception("User with such login doesn't exitst");
                     default:
-                        throw new Exception("SQL error during changing email");
+                        throw new Exception("Database error");
                 }
             }
             catch
@@ -170,7 +168,7 @@ namespace DeliveryApp
                     case 50006:
                         throw new Exception("Wrong login or password");
                     default:
-                        throw new Exception("SQL error during changing email");
+                        throw new Exception("Database error");
                 }
             }
             catch
@@ -195,7 +193,7 @@ namespace DeliveryApp
                     case 50006:
                         throw new Exception("Wrong login or password");
                     default:
-                        throw new Exception("SQL error during changing email");
+                        throw new Exception("Database error");
                 }
             }
             catch
@@ -220,7 +218,7 @@ namespace DeliveryApp
                     case 50004:
                         throw new Exception("Phone doesn't match pattern");
                     default:
-                        throw new Exception("SQL error during changing email");
+                        throw new Exception("Database error");
                 }
             }
             catch
@@ -242,7 +240,7 @@ namespace DeliveryApp
                     case 50005:
                         throw new Exception("Email doesn't match pattern");
                     default:
-                        throw new Exception("SQL error during changing email");
+                        throw new Exception("Database error");
                 }
             }
             catch
@@ -264,7 +262,7 @@ namespace DeliveryApp
                     case 50006:
                         throw new Exception("User doesn't exist");
                     default:
-                        throw new Exception("SQL error during changing email");
+                        throw new Exception("Database error");
                 }
             }
             catch
@@ -334,8 +332,11 @@ namespace DeliveryApp
             {
                 switch (ex.Number)
                 {
+                    case 50006:
+                        throw new Exception("Client with login doesn't exists");
                     case 50011:
                         throw new Exception("More than one opened order");
+                    default: throw new Exception("Database error");
                 }
             }
             catch
@@ -354,11 +355,14 @@ namespace DeliveryApp
             {
                 switch (ex.Number)
                 {
+                    case 50009:
+                        throw new Exception("Order doesn't exists");
                     case 50010:
                         throw new Exception("Different producers can't be in the same order");
+                    default: throw new Exception("Database error");
                 }
             }
-            catch(Exception ex)
+            catch
             {
                 throw new Exception("Error during adding dish to order");
             }
@@ -370,9 +374,86 @@ namespace DeliveryApp
             {
                 Database.DeleteFromOrder(OrderID, DishID);
             }
+            catch (SqlException ex)
+            {
+                switch (ex.Number)
+                {
+                    case 50012:
+                        throw new Exception("Dish doesn''t found in order");
+                    default: throw new Exception("Database error");
+                }
+            }
             catch
             {
                 throw new Exception("Error during deleting dish from order");
+            }
+        }
+
+        public static void AddAdress(string Region, string City, string District, string Street, string Building, int? Floor, string Room)
+        {
+            try
+            {
+                Database.AddAdress(User.userInfo.Login, User.userInfo.Password, Region, City, District, Street, Building, Floor, Room);
+            }
+            catch (SqlException ex)
+            {
+                switch (ex.Number)
+                {
+                    case 50006:
+                        throw new Exception("Client with login doesn't exists");
+                    default:
+                        throw new Exception("Database error");
+                }
+            }
+            catch
+            {
+                throw new Exception("Error during adding address");
+            }
+        }
+
+        public static void DeleteAddress(int Address)
+        {
+            try
+            {
+                Database.DeleteAddress(Address, User.userInfo.Login, User.userInfo.Password);
+            }
+            catch (SqlException ex)
+            {
+                switch (ex.Number)
+                {
+                    case 50006:
+                        throw new Exception("Client with login doesn't exists");
+                    case 50007:
+                        throw new Exception("Client with address doesn''t exists");
+                    default: throw new Exception("Database error");
+                }
+            }
+            catch
+            {
+                throw new Exception("Error during deleting address");
+            }
+        }
+
+        public static void EditAddress(int Address, string Region, string City, string District, string Street, string Building, int? Floor, string Room)
+        {
+            try
+            {
+                Database.EditAdress(Address, User.userInfo.Login, User.userInfo.Password, Region, City, District, Street, Building, Floor, Room);
+            }
+            catch (SqlException ex)
+            {
+                switch (ex.Number)
+                {
+                    case 50006:
+                        throw new Exception("Client with login doesn't exists");
+                    case 50007:
+                        throw new Exception("Client with address doesn''t exists");
+                    default: throw new Exception("Database error");
+                }
+            }
+            catch
+            {
+                throw new Exception("Error during deleting address");
             }
         }
     }

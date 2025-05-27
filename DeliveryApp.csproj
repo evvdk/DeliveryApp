@@ -191,6 +191,9 @@
     <EmbeddedResource Include="Forms\AddressChooser.resx">
       <DependentUpon>AddressChooser.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AddressEditor.resx">
+      <DependentUpon>AddressEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\ChangeAccountInfo.resx">
       <DependentUpon>ChangeAccountInfo.cs</DependentUpon>
     </EmbeddedResource>

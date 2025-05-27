@@ -182,7 +182,7 @@ namespace DeliveryApp
             this.AccountTableLayout.ColumnCount = 3;
             this.AccountTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20.82585F));
             this.AccountTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 79.17415F));
-            this.AccountTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 190F));
+            this.AccountTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 191F));
             this.AccountTableLayout.Controls.Add(this.label5, 0, 4);
             this.AccountTableLayout.Controls.Add(this.Account_UserEmail, 1, 4);
             this.AccountTableLayout.Controls.Add(this.Account_UserPhone, 1, 3);
@@ -219,7 +219,7 @@ namespace DeliveryApp
             this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label5.Location = new System.Drawing.Point(3, 128);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(118, 32);
+            this.label5.Size = new System.Drawing.Size(117, 32);
             this.label5.TabIndex = 0;
             this.label5.Text = "Email";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -228,7 +228,7 @@ namespace DeliveryApp
             // 
             this.Account_UserEmail.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.Account_UserEmail.Enabled = false;
-            this.Account_UserEmail.Location = new System.Drawing.Point(127, 135);
+            this.Account_UserEmail.Location = new System.Drawing.Point(126, 135);
             this.Account_UserEmail.Name = "Account_UserEmail";
             this.Account_UserEmail.Size = new System.Drawing.Size(465, 22);
             this.Account_UserEmail.TabIndex = 1;
@@ -237,7 +237,7 @@ namespace DeliveryApp
             // 
             this.Account_UserPhone.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.Account_UserPhone.Enabled = false;
-            this.Account_UserPhone.Location = new System.Drawing.Point(127, 103);
+            this.Account_UserPhone.Location = new System.Drawing.Point(126, 103);
             this.Account_UserPhone.Name = "Account_UserPhone";
             this.Account_UserPhone.Size = new System.Drawing.Size(465, 22);
             this.Account_UserPhone.TabIndex = 1;
@@ -248,7 +248,7 @@ namespace DeliveryApp
             this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label4.Location = new System.Drawing.Point(3, 96);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(118, 32);
+            this.label4.Size = new System.Drawing.Size(117, 32);
             this.label4.TabIndex = 0;
             this.label4.Text = "Phone";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -257,9 +257,9 @@ namespace DeliveryApp
             // 
             this.Account_ChangePhoneButton.AutoSize = true;
             this.Account_ChangePhoneButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Account_ChangePhoneButton.Location = new System.Drawing.Point(598, 99);
+            this.Account_ChangePhoneButton.Location = new System.Drawing.Point(597, 99);
             this.Account_ChangePhoneButton.Name = "Account_ChangePhoneButton";
-            this.Account_ChangePhoneButton.Size = new System.Drawing.Size(185, 26);
+            this.Account_ChangePhoneButton.Size = new System.Drawing.Size(186, 26);
             this.Account_ChangePhoneButton.TabIndex = 2;
             this.Account_ChangePhoneButton.Tag = "3";
             this.Account_ChangePhoneButton.Text = "Change Phone";
@@ -270,9 +270,9 @@ namespace DeliveryApp
             // 
             this.Account_ChangeEmailButton.AutoSize = true;
             this.Account_ChangeEmailButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Account_ChangeEmailButton.Location = new System.Drawing.Point(598, 131);
+            this.Account_ChangeEmailButton.Location = new System.Drawing.Point(597, 131);
             this.Account_ChangeEmailButton.Name = "Account_ChangeEmailButton";
-            this.Account_ChangeEmailButton.Size = new System.Drawing.Size(185, 26);
+            this.Account_ChangeEmailButton.Size = new System.Drawing.Size(186, 26);
             this.Account_ChangeEmailButton.TabIndex = 2;
             this.Account_ChangeEmailButton.Tag = "4";
             this.Account_ChangeEmailButton.Text = "Change Email";
@@ -283,7 +283,7 @@ namespace DeliveryApp
             // 
             this.Account_UserName.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.Account_UserName.Enabled = false;
-            this.Account_UserName.Location = new System.Drawing.Point(127, 71);
+            this.Account_UserName.Location = new System.Drawing.Point(126, 71);
             this.Account_UserName.Name = "Account_UserName";
             this.Account_UserName.Size = new System.Drawing.Size(465, 22);
             this.Account_UserName.TabIndex = 1;
@@ -292,9 +292,9 @@ namespace DeliveryApp
             // 
             this.Account_ChangeNameButton.AutoSize = true;
             this.Account_ChangeNameButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Account_ChangeNameButton.Location = new System.Drawing.Point(598, 67);
+            this.Account_ChangeNameButton.Location = new System.Drawing.Point(597, 67);
             this.Account_ChangeNameButton.Name = "Account_ChangeNameButton";
-            this.Account_ChangeNameButton.Size = new System.Drawing.Size(185, 26);
+            this.Account_ChangeNameButton.Size = new System.Drawing.Size(186, 26);
             this.Account_ChangeNameButton.TabIndex = 2;
             this.Account_ChangeNameButton.Tag = "2";
             this.Account_ChangeNameButton.Text = "Change Name";
@@ -307,7 +307,7 @@ namespace DeliveryApp
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label3.Location = new System.Drawing.Point(3, 64);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(118, 32);
+            this.label3.Size = new System.Drawing.Size(117, 32);
             this.label3.TabIndex = 0;
             this.label3.Text = "Name";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -316,7 +316,7 @@ namespace DeliveryApp
             // 
             this.Account_UserPassword.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.Account_UserPassword.Enabled = false;
-            this.Account_UserPassword.Location = new System.Drawing.Point(127, 39);
+            this.Account_UserPassword.Location = new System.Drawing.Point(126, 39);
             this.Account_UserPassword.Name = "Account_UserPassword";
             this.Account_UserPassword.Size = new System.Drawing.Size(465, 22);
             this.Account_UserPassword.TabIndex = 1;
@@ -325,9 +325,9 @@ namespace DeliveryApp
             // 
             this.Account_ChangePasswordButton.AutoSize = true;
             this.Account_ChangePasswordButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Account_ChangePasswordButton.Location = new System.Drawing.Point(598, 35);
+            this.Account_ChangePasswordButton.Location = new System.Drawing.Point(597, 35);
             this.Account_ChangePasswordButton.Name = "Account_ChangePasswordButton";
-            this.Account_ChangePasswordButton.Size = new System.Drawing.Size(185, 26);
+            this.Account_ChangePasswordButton.Size = new System.Drawing.Size(186, 26);
             this.Account_ChangePasswordButton.TabIndex = 2;
             this.Account_ChangePasswordButton.Tag = "1";
             this.Account_ChangePasswordButton.Text = "Change Password";
@@ -340,7 +340,7 @@ namespace DeliveryApp
             this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label2.Location = new System.Drawing.Point(3, 32);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(118, 32);
+            this.label2.Size = new System.Drawing.Size(117, 32);
             this.label2.TabIndex = 0;
             this.label2.Text = "Password";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -349,9 +349,9 @@ namespace DeliveryApp
             // 
             this.Account_ChangeUsernameButton.AutoSize = true;
             this.Account_ChangeUsernameButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Account_ChangeUsernameButton.Location = new System.Drawing.Point(598, 3);
+            this.Account_ChangeUsernameButton.Location = new System.Drawing.Point(597, 3);
             this.Account_ChangeUsernameButton.Name = "Account_ChangeUsernameButton";
-            this.Account_ChangeUsernameButton.Size = new System.Drawing.Size(185, 26);
+            this.Account_ChangeUsernameButton.Size = new System.Drawing.Size(186, 26);
             this.Account_ChangeUsernameButton.TabIndex = 2;
             this.Account_ChangeUsernameButton.Tag = "0";
             this.Account_ChangeUsernameButton.Text = "Change Username";
@@ -362,7 +362,7 @@ namespace DeliveryApp
             // 
             this.Account_UserLogin.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.Account_UserLogin.Enabled = false;
-            this.Account_UserLogin.Location = new System.Drawing.Point(127, 7);
+            this.Account_UserLogin.Location = new System.Drawing.Point(126, 7);
             this.Account_UserLogin.Name = "Account_UserLogin";
             this.Account_UserLogin.Size = new System.Drawing.Size(465, 22);
             this.Account_UserLogin.TabIndex = 1;
@@ -373,7 +373,7 @@ namespace DeliveryApp
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label1.Location = new System.Drawing.Point(3, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(118, 32);
+            this.label1.Size = new System.Drawing.Size(117, 32);
             this.label1.TabIndex = 0;
             this.label1.Text = "Login";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -384,7 +384,7 @@ namespace DeliveryApp
             this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label6.Location = new System.Drawing.Point(3, 160);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(118, 32);
+            this.label6.Size = new System.Drawing.Size(117, 32);
             this.label6.TabIndex = 3;
             this.label6.Text = "Addresses";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -393,9 +393,9 @@ namespace DeliveryApp
             // 
             this.Account_ChangeAddressButton.AutoSize = true;
             this.Account_ChangeAddressButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Account_ChangeAddressButton.Location = new System.Drawing.Point(598, 163);
+            this.Account_ChangeAddressButton.Location = new System.Drawing.Point(597, 163);
             this.Account_ChangeAddressButton.Name = "Account_ChangeAddressButton";
-            this.Account_ChangeAddressButton.Size = new System.Drawing.Size(185, 26);
+            this.Account_ChangeAddressButton.Size = new System.Drawing.Size(186, 26);
             this.Account_ChangeAddressButton.TabIndex = 5;
             this.Account_ChangeAddressButton.Text = "Edit Address";
             this.Account_ChangeAddressButton.UseVisualStyleBackColor = true;
