@@ -22,7 +22,6 @@ namespace DeliveryApp.EF
         [StringLength(50)]
         public string Dish_Name { get; set; }
 
-        [Column(TypeName = "image")]
         public byte[] Image { get; set; }
 
         [Key]

@@ -28,6 +28,7 @@ namespace DeliveryApp.Forms
                 this.Producer.Text = "";
                 this.Status.Text = "";
                 this.Dishes.Controls.Clear();
+                this.Apply.Text = "Close";
 
                 return;
             }
@@ -35,14 +36,30 @@ namespace DeliveryApp.Forms
             decimal Cost = decimal.Round((decimal)order.Sum(p => p.Sum));
             string Producer = order.First().Producer_Name;
             string Status = order.First().Order_Status_Value;
+            bool isOpen = order.First().Order_Status == 0;
 
             this.OrderName.Text = $"Order#{OrderID}";
             this.TotalBill.Text = $"{Cost} ₽";
             this.Producer.Text = $"Ordered from {Producer}";
-            if (order.First().Order_Status == 0)
+            if (isOpen)
+            {
                 this.Status.Text = "";
+                this.Apply.Text = "Apply";
+                this.Apply.Click += (s, e) =>
+                {
+                    ClientActions.ApplyOrder(this.OrderID);
+                    this.Close();
+                };
+            }
             else
+            {
                 this.Status.Text = $"{Status}";
+                this.Apply.Text = "Close";
+                this.Apply.Click += (s, e) =>
+                {
+                    this.Close();
+                };
+            }
 
             bool isOpened = order.All(p => p.Order_Status == 0);
 

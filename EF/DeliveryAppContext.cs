@@ -4,7 +4,7 @@ namespace DeliveryApp.EF
 
     public partial class DeliveryAppContext : DbContext
     {
-        public DeliveryAppContext(string connectionString) : base(connectionString)
+        public DeliveryAppContext() : base()
         {
             Database.SetInitializer<DeliveryAppContext>(null);
         }

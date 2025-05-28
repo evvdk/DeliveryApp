@@ -5,7 +5,7 @@ using System.Drawing;
 using DeliveryApp.EF;
 using DeliveryApp.Forms;
 using System.Linq;
-
+using System.Data;
 namespace DeliveryApp
 {
     public partial class Delivery : Form
@@ -80,6 +80,7 @@ namespace DeliveryApp
 
         private void DrawMarket(List<All_Dishes> market)
         {
+            this.MarketList.Controls.Clear();
             var producers = market.GroupBy(p => new { p.Producer_ID, p.Producer_Name }).Where(grp => grp.Count() > 0).Select(p => new { ID = p.Key.Producer_ID, Name = p.Key.Producer_Name }).ToList();
             foreach (var producer in producers)
             {
@@ -132,28 +133,27 @@ namespace DeliveryApp
 
                     Button AddDish = new Button();
                     Label DishName = new Label();
-                    Panel Image = new Panel();
-
+                    Panel ImagePanel = new Panel();
 
                     DishTable.SuspendLayout();
 
                     DishFlowScrollLayout.Controls.Add(DishTable);
 
-
-                    Image.Dock = DockStyle.Fill;
-                    Image.BackColor = SystemColors.Menu;
+                    ImagePanel.Dock = DockStyle.Fill;
+                    if (dish.Image != null)
+                        ImagePanel.BackgroundImage = DatabaseImage.ResizeImage(DatabaseImage.BytesToImage(dish.Image), 72, 72);
 
                     DishTable.BackColor = Color.Silver;
                     DishTable.ColumnCount = 2;
                     DishTable.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 72F));
                     DishTable.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 136F));
-                    DishTable.Controls.Add(Image, 0, 0);
+                    DishTable.Controls.Add(ImagePanel, 0, 0);
                     DishTable.Controls.Add(DishName, 1, 0);
                     DishTable.Controls.Add(AddDish, 0, 1);
                     DishTable.Location = new Point(0, 0);
                     DishTable.Margin = new Padding(0,0,10,0);
                     DishTable.RowCount = 2;
-                    DishTable.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+                    DishTable.RowStyles.Add(new RowStyle(SizeType.Absolute, 72F));
                     DishTable.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
                     DishTable.Size = new Size(208, 102);
                     
@@ -161,7 +161,6 @@ namespace DeliveryApp
                     DishName.Dock = DockStyle.Fill;
                     DishName.Location = new Point(131, 0);
                     DishName.Size = new Size(74, 72);
-                    DishName.TabIndex = 2;
                     DishName.Text = $"{dish.Dish_Name}";
                     DishName.TextAlign = ContentAlignment.MiddleCenter;
                     
@@ -412,11 +411,10 @@ namespace DeliveryApp
                     (new OrderWindow(openedOrder)).Show();
                 }
             }
-            catch
+            catch(Exception ex)
             {
-                MessageBox.Show("Error during openning card");
-            }
-            
+                MessageBox.Show(ex.Message);
+            }         
         }
     }
 }

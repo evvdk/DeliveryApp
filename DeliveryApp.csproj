@@ -134,6 +134,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Database.cs" />
+    <Compile Include="DatabaseImage.cs" />
     <Compile Include="EF\Address_By_Login.cs" />
     <Compile Include="EF\All_Dishes.cs" />
     <Compile Include="EF\Client.cs" />

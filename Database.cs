@@ -12,11 +12,9 @@ namespace DeliveryApp
 {
     static class Database
     {
-        private const string ConnectionString = "Data Source = LAPTOP\\SQLEXPRESS; Initial Catalog = Delivery; Integrated Security = true;";
-
         public static bool IsValidUser(string Login, string Password)
         {
-            using (var context = new DeliveryAppContext(ConnectionString))
+            using (var context = new DeliveryAppContext())
             {
                 return context.Client.Where(p => p.Login == Login && p.Password == Password && p.Active_Account == 1).Count() != 0;
             }
@@ -24,7 +22,7 @@ namespace DeliveryApp
 
         public static void InsertUser(string Login, string Password, string Name, string Phone, string Email)
         {
-            using (var context = new DeliveryAppContext(ConnectionString))
+            using (var context = new DeliveryAppContext())
             {
                 var login = new SqlParameter("@login", Login);
                 var password = new SqlParameter("@password", Password);
@@ -41,7 +39,7 @@ namespace DeliveryApp
 
         public static List<Order_Status_Table> GetClosedUserOrders(string Login)
         {
-            using (var context = new DeliveryAppContext(ConnectionString))
+            using (var context = new DeliveryAppContext())
             {
                return context.Order_Status_Table.Where(p => p.Client_Login == Login && p.Status_ID != 0).ToList();
             }
@@ -49,7 +47,7 @@ namespace DeliveryApp
 
         public static Client GetUserInfo(string Login, string Password)
         {
-            using (var context = new DeliveryAppContext(ConnectionString))
+            using (var context = new DeliveryAppContext())
             {
                 return context.Client.Where(p => p.Login == Login && p.Password == Password).First();
             }
@@ -57,7 +55,7 @@ namespace DeliveryApp
 
         public static void ChangePassword(string Login, string OldPassword, string NewPassword)
         {
-            using (var context = new DeliveryAppContext(ConnectionString))
+            using (var context = new DeliveryAppContext())
             {
                 var login = new SqlParameter("@login", Login);
                 var oldPassword = new SqlParameter("@oldPassword", OldPassword);
@@ -70,7 +68,7 @@ namespace DeliveryApp
 
         public static void ChangeLogin(string Login, string Password, string NewLogin)
         {
-            using (var context = new DeliveryAppContext(ConnectionString))
+            using (var context = new DeliveryAppContext())
             {
                 var login = new SqlParameter("@login", Login);
                 var password = new SqlParameter("@password", Password);
@@ -83,7 +81,7 @@ namespace DeliveryApp
 
         public static void ChangeName(string Login, string Password, string NewName)
         {
-            using (var context = new DeliveryAppContext(ConnectionString))
+            using (var context = new DeliveryAppContext())
             {
                 var login = new SqlParameter("@login", Login);
                 var password = new SqlParameter("@password", Password);
@@ -96,7 +94,7 @@ namespace DeliveryApp
 
         public static void ChangePhone(string Login, string Password, string NewPhone)
         {
-            using (var context = new DeliveryAppContext(ConnectionString))
+            using (var context = new DeliveryAppContext())
             {
                 var login = new SqlParameter("@login", Login);
                 var password = new SqlParameter("@password", Password);
@@ -109,7 +107,7 @@ namespace DeliveryApp
 
         public static void ChangeEmail(string Login, string Password, string NewEmail)
         {
-            using (var context = new DeliveryAppContext(ConnectionString))
+            using (var context = new DeliveryAppContext())
             {
                 var login = new SqlParameter("@login", Login);
                 var password = new SqlParameter("@password", Password);
@@ -122,7 +120,7 @@ namespace DeliveryApp
 
         public static void DeleteAccount(string Login, string Password)
         {
-            using (var context = new DeliveryAppContext(ConnectionString))
+            using (var context = new DeliveryAppContext())
             {
                 var login = new SqlParameter("@login", Login);
                 var password = new SqlParameter("@password", Password);
@@ -133,7 +131,7 @@ namespace DeliveryApp
 
         public static List<Address_By_Login> GetAddresses(string Login, string Password)
         {
-            using (var context = new DeliveryAppContext(ConnectionString))
+            using (var context = new DeliveryAppContext())
             {
                 return context.Address_By_Login.Where(p => p.Client_Login == Login && p.Password == Password && p.Active_Address == 1).ToList();
             }
@@ -141,7 +139,7 @@ namespace DeliveryApp
 
         public static List<Order_Set> GetOrderSet(int order)
         {
-            using (var context = new DeliveryAppContext(ConnectionString))
+            using (var context = new DeliveryAppContext())
             {
                 return context.Order_Set.Where(p => p.Order_ID == order).ToList();
             }
@@ -149,7 +147,7 @@ namespace DeliveryApp
 
         public static List<All_Dishes> GetAllDishes()
         {
-            using (var context = new DeliveryAppContext(ConnectionString))
+            using (var context = new DeliveryAppContext())
             {
                 return context.All_Dishes.ToList();
             }
@@ -157,7 +155,7 @@ namespace DeliveryApp
 
         public static bool HasOpenedOrder(string Login)
         {
-            using (var context = new DeliveryAppContext(ConnectionString))
+            using (var context = new DeliveryAppContext())
             {
                 return context.Order_Status_Table.Where(p => p.Client_Login == Login && p.Status_ID == 0).Count() == 1;
             }
@@ -165,14 +163,14 @@ namespace DeliveryApp
 
         public static int GetOpenedOrderID(string Login)
         {
-            using (var context = new DeliveryAppContext(ConnectionString))
+            using (var context = new DeliveryAppContext())
             {
                 return context.Order_Status_Table.Where(p => p.Client_Login == Login && p.Status_ID == 0).First().ID;
             }
         }
         public static void InitOrder(string Login, int Address)
         {
-            using (var context = new DeliveryAppContext(ConnectionString))
+            using (var context = new DeliveryAppContext())
             {
                 var login = new SqlParameter("@login", Login);
                 var address = new SqlParameter("@address", Address);
@@ -183,7 +181,7 @@ namespace DeliveryApp
 
         public static void AddToOrder(int OrderID, int DishID, int Count)
         {
-            using (var context = new DeliveryAppContext(ConnectionString))
+            using (var context = new DeliveryAppContext())
             {
                 var order = new SqlParameter("@orderID", OrderID);
                 var dish = new SqlParameter("@dishID", DishID);
@@ -195,7 +193,7 @@ namespace DeliveryApp
 
         public static void DeleteFromOrder(int OrderID, int DishID)
         {
-            using (var context = new DeliveryAppContext(ConnectionString))
+            using (var context = new DeliveryAppContext())
             {
                 var order = new SqlParameter("@orderID", OrderID);
                 var dish = new SqlParameter("@dishID", DishID);
@@ -206,7 +204,7 @@ namespace DeliveryApp
 
         public static void ApplyOrder(string Login)
         {
-            using (var context = new DeliveryAppContext(ConnectionString))
+            using (var context = new DeliveryAppContext())
             {
                 var login = new SqlParameter("@orderID", Login);
 
@@ -216,7 +214,7 @@ namespace DeliveryApp
 
         public static void AddAdress(string Login, string Password, string Region, string City, string District, string Street, string Building, int? Floor, string Room)
         {
-            using (var context = new DeliveryAppContext(ConnectionString))
+            using (var context = new DeliveryAppContext())
             {
                 var login = new SqlParameter("@login", Login);
                 var password = new SqlParameter("@password", Password);
@@ -236,7 +234,7 @@ namespace DeliveryApp
 
         public static void DeleteAddress(int Address, string Login, string Password)
         {
-            using (var context = new DeliveryAppContext(ConnectionString))
+            using (var context = new DeliveryAppContext())
             {
                 var address = new SqlParameter("@address", Address);
                 var login = new SqlParameter("@login", Login);
@@ -249,7 +247,7 @@ namespace DeliveryApp
 
         public static void EditAdress(int Address, string Login, string Password, string Region, string City, string District, string Street, string Building, int? Floor, string Room)
         {
-            using (var context = new DeliveryAppContext(ConnectionString))
+            using (var context = new DeliveryAppContext())
             {
                 var address = new SqlParameter("@address", Address);
                 var login = new SqlParameter("@login", Login);
@@ -267,5 +265,14 @@ namespace DeliveryApp
             }
         }
 
+        public static void ApplyOrder(int Order)
+        {
+            using (var context = new DeliveryAppContext())
+            {
+                var order = new SqlParameter("@order", Order);
+
+                context.Database.ExecuteSqlCommand("exec ApplyOrder @order", order);
+            }
+        }
     }
 }

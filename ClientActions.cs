@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Collections.Generic;
 using DeliveryApp.EF;
+using System.Windows.Forms;
 
 namespace DeliveryApp
 {
@@ -447,7 +448,7 @@ namespace DeliveryApp
                     case 50006:
                         throw new Exception("Client with login doesn't exists");
                     case 50007:
-                        throw new Exception("Client with address doesn''t exists");
+                        throw new Exception("Client with address doesn't exists");
                     default: throw new Exception("Database error");
                 }
             }
@@ -466,6 +467,18 @@ namespace DeliveryApp
             catch
             {
                 throw new Exception("Error during reciving order data");
+            }
+        }
+
+        public static void ApplyOrder(int Order)
+        {
+            try
+            {
+                Database.ApplyOrder(Order);
+            }
+            catch
+            {
+                throw new Exception("Error during applying order");
             }
         }
     }

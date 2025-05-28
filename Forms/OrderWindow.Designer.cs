@@ -35,6 +35,7 @@
             this.Producer = new System.Windows.Forms.Label();
             this.Status = new System.Windows.Forms.Label();
             this.Dishes = new System.Windows.Forms.FlowLayoutPanel();
+            this.Apply = new System.Windows.Forms.Button();
             this.flowLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -45,6 +46,7 @@
             this.flowLayoutPanel1.AutoSize = true;
             this.flowLayoutPanel1.Controls.Add(this.tableLayoutPanel2);
             this.flowLayoutPanel1.Controls.Add(this.Dishes);
+            this.flowLayoutPanel1.Controls.Add(this.Apply);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
@@ -123,14 +125,25 @@
             this.Dishes.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.Dishes.Location = new System.Drawing.Point(3, 44);
             this.Dishes.Name = "Dishes";
-            this.Dishes.Size = new System.Drawing.Size(794, 394);
+            this.Dishes.Size = new System.Drawing.Size(794, 363);
             this.Dishes.TabIndex = 3;
             this.Dishes.WrapContents = false;
+            // 
+            // Apply
+            // 
+            this.Apply.Dock = System.Windows.Forms.DockStyle.Top;
+            this.Apply.Location = new System.Drawing.Point(3, 413);
+            this.Apply.Name = "Apply";
+            this.Apply.Size = new System.Drawing.Size(794, 25);
+            this.Apply.TabIndex = 4;
+            this.Apply.Text = "Apply";
+            this.Apply.UseVisualStyleBackColor = true;
             // 
             // OrderWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Name = "OrderWindow";
@@ -153,5 +166,6 @@
         private System.Windows.Forms.Label Producer;
         private System.Windows.Forms.Label Status;
         private System.Windows.Forms.FlowLayoutPanel Dishes;
+        private System.Windows.Forms.Button Apply;
     }
 }

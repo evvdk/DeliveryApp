@@ -466,26 +466,20 @@ GO
 
 -- DeleteFromOrder 'Alex', 4
 
-CREATE OR ALTER PROCEDURE ApplyOrder(@login nvarchar(30))
+CREATE OR ALTER PROCEDURE ApplyOrder(@Order int)
 AS
 BEGIN
 	BEGIN TRY
 
-		DECLARE @clientID int;
-			SELECT @clientID = ID FROM Client
-				WHERE Login = @login AND [Active Account] = 1	
-
-		DECLARE @openedOrderID int;
-		SELECT @openedOrderID = ID FROM [Order] WHERE [Client ID] = @clientID AND [Ordered At] IS NULL AND [Status] = 0
-		IF (@openedOrderID IS NULL)
-			THROW 50008, 'Order is empty', 1;
+		IF NOT EXISTS(SELECT * FROM [Order] WHERE ID = @Order AND [Ordered At] IS NULL AND [Status] = 0)
+			THROW 50008, 'Order can''t be assembled', 1;
 	
-			BEGIN TRAN
-				UPDATE [Order]
-					SET [Ordered At] = GETDATE(), [Status] = 1
-					WHERE ID = @openedOrderID
+		BEGIN TRAN
+			UPDATE [Order]
+				SET [Ordered At] = GETDATE(), [Status] = 1
+				WHERE ID = @Order
 	
-			COMMIT TRAN
+		COMMIT TRAN
 
 	END TRY
 	BEGIN CATCH

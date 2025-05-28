@@ -140,7 +140,7 @@ CREATE TABLE "Dish"
     "ID" int IDENTITY(1, 1) NOT NULL,
 	"Producer ID" int NOT NULL,
     "Name" nvarchar(50) NOT NULL,
-	"Image" image,
+	"Image" varbinary(MAX),
 	"Cost" money NOT NULL,
     "Description" nvarchar(500),
     "Calories" int NOT NULL,
@@ -151,7 +151,6 @@ CREATE TABLE "Dish"
         REFERENCES Producer ("ID")
         ON UPDATE CASCADE
         ON DELETE CASCADE
-        
 );
 
 EXEC sp_bindefault 'DefaultOneValue', 'Dish.Visible'

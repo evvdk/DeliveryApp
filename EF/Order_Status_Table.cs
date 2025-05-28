@@ -32,6 +32,7 @@ namespace DeliveryApp.EF
 
         [Key]
         [Column("Status ID", Order = 3)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Status_ID { get; set; }
 
         [Key]

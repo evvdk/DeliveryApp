@@ -41,7 +41,6 @@ namespace DeliveryApp.EF
         [StringLength(30)]
         public string Producer_Name { get; set; }
 
-        [Column(TypeName = "image")]
         public byte[] Image { get; set; }
 
         [Column(TypeName = "money")]
