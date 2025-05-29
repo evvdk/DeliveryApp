@@ -6,11 +6,11 @@ using System.Linq;
 
 namespace DeliveryApp.Forms
 {
-    public enum Mode { Edit, Order}
+    public enum Mode { Edit, Order, ReadyOrderChange }
     public partial class AddressChooser : Form
     {
-        Mode Mode;
-        List<RadioButton> radioButtons = new List<RadioButton>();
+        private Mode Mode;
+        private List<RadioButton> radioButtons = new List<RadioButton>();
         public AddressChooser(Mode mode)
         {
             this.Mode = mode;
@@ -30,6 +30,33 @@ namespace DeliveryApp.Forms
             }
         }
 
+
+
+        private int OrderId;
+        public AddressChooser(int Order)
+        {
+            this.Mode = Mode.ReadyOrderChange;
+            this.OrderId = Order;
+            List<Address_By_Login> addresses = ClientActions.GetAddresses();
+            int orderAddress = ClientActions.GetAddressByOrder(Order);
+            InitializeComponent();
+            UpdateList();
+            radioButtons.Where(p => (int)p.Tag == orderAddress).First().Checked = true;
+            this.Apply.Click += (s, e) => {
+                try
+                {
+                    var selected = radioButtons.Where(p => p.Checked);
+                    if (selected.Count() != 1) throw new Exception("None radios selected");
+                    int address = (int)selected.First().Tag;
+                    ClientActions.ChangeAddressInOrder(Order, address);
+                    this.Close();
+                }catch(Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            };
+        }
+
         private void AddAddressPanel(Address_By_Login address)
         {
             FlowLayoutPanel FlowLayoutAddress = new FlowLayoutPanel();
@@ -40,19 +67,18 @@ namespace DeliveryApp.Forms
             FlowLayoutAddress.SuspendLayout();
 
             this.FlowLayout.Controls.Add(FlowLayoutAddress);
-
             // 
             // radioButton1
             // 
             radioButton1.AutoSize = true;
             radioButton1.Dock = DockStyle.Fill;
             radioButton1.Location = new System.Drawing.Point(3, 3);
-            if (Mode == Mode.Order) radioButton1.Checked = false;
+            if (this.Mode == Mode.Order || this.Mode == Mode.ReadyOrderChange) radioButton1.Checked = false;
             else radioButton1.Checked = true;
                 radioButton1.Text = $"{address.Region}, {address.City}, {address.District}, {address.Street}, {address.Building}, {address.Room}";
             radioButton1.UseVisualStyleBackColor = true;
             radioButton1.Tag = address.Address_ID;
-            if(Mode == Mode.Order) radioButton1.Click += new EventHandler(radioButton_Clear);
+            if (this.Mode == Mode.Order || this.Mode == Mode.ReadyOrderChange) radioButton1.Click += new EventHandler(radioButton_Clear);
             radioButtons.Add(radioButton1);
             // 
             // FlowLayoutAddress
@@ -136,6 +162,7 @@ namespace DeliveryApp.Forms
                 edit.Show();
                 edit.FormClosed += (s, ev) => {
                     UpdateList();
+
                 };
             }
             catch (Exception ex)
@@ -164,9 +191,15 @@ namespace DeliveryApp.Forms
         {
             List<Address_By_Login> addresses = ClientActions.GetAddresses();
             this.FlowLayout.Controls.Clear();
+            this.radioButtons.Clear();
             foreach (var address in addresses)
             {
                 AddAddressPanel(address);
+            }
+            if(this.Mode == Mode.ReadyOrderChange)
+            {
+                int orderAddress = ClientActions.GetAddressByOrder(this.OrderId);
+                radioButtons.Where(p => (int)p.Tag == orderAddress).First().Checked = true;
             }
         }
 
@@ -180,6 +213,7 @@ namespace DeliveryApp.Forms
                 {
                     UpdateList();
                 };
+
             }
             catch (Exception ex)
             {

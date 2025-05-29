@@ -6,19 +6,16 @@ using DeliveryApp.EF;
 using DeliveryApp.Forms;
 using System.Linq;
 using System.Data;
+using Microsoft.EntityFrameworkCore.Internal;
+using System.Collections;
 namespace DeliveryApp
 {
     public partial class Delivery : Form
     {
-
-        private Timer OredersUpdateTimer = new Timer();
         public Delivery()
         {
             InitializeComponent();
-            User.userInfo = new User("UserLogin", "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92");
             this.WelcomeMessage.Text = "Hello, " + User.userInfo.Login;
-            this.OredersUpdateTimer.Interval = 5000;
-            this.OredersUpdateTimer.Tick += new EventHandler(this.UpdateClientOrders_Tick);
 
             drawAll();
         }
@@ -48,8 +45,7 @@ namespace DeliveryApp
             OrderName.AutoSize = true;
             OrderName.Enabled = false;
             OrderName.Dock = DockStyle.Left;
-            OrderName.Font = new Font("Microsoft Sans Serif", 13.8F,
-                FontStyle.Regular, GraphicsUnit.Point, ((byte)(204)));
+            OrderName.Font = new Font("Microsoft Sans Serif", 13.8F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(204)));
             OrderName.Location = new Point(0, 0);
             OrderName.Text = $"Order#{order.ID}";
 
@@ -81,7 +77,17 @@ namespace DeliveryApp
         private void DrawMarket(List<All_Dishes> market)
         {
             this.MarketList.Controls.Clear();
-            var producers = market.GroupBy(p => new { p.Producer_ID, p.Producer_Name }).Where(grp => grp.Count() > 0).Select(p => new { ID = p.Key.Producer_ID, Name = p.Key.Producer_Name }).ToList();
+
+            var producers = market.GroupBy(p => new { p.Producer_ID, p.Producer_Name }).Where(grp => grp.Count() > 0)
+                .Select(p => new { ID = p.Key.Producer_ID, Name = p.Key.Producer_Name }).Distinct().ToList();
+
+            if (ClientActions.HasOpenedOrder())
+            {
+                int order = ClientActions.GetOpenOrderID();
+                producers = ClientActions.GetProducerByOrder(order).Select(p => new { ID = p.Producer_ID, Name = p.Producer_Name })
+                    .Distinct().ToList();
+            }
+
             foreach (var producer in producers)
             {
 
@@ -92,8 +98,7 @@ namespace DeliveryApp
 
                 ProducerDishes.SuspendLayout();
                 DishFlowScrollLayout.SuspendLayout();
-
-
+                
                 this.MarketList.Controls.Add(ProducerDishes);
                 
                 ProducerDishes.ColumnCount = 1;
@@ -113,22 +118,19 @@ namespace DeliveryApp
                 Producer.Text = $"{producer.Name}";
                 Producer.Margin = new Padding(0);
                 Producer.Padding = new Padding(0);
-                Producer.Font = new Font("Microsoft Sans Serif", 13.8F,
-                FontStyle.Regular, GraphicsUnit.Point, ((byte)(204)));
-                
+                Producer.Font = new Font("Microsoft Sans Serif", 13.8F,FontStyle.Regular, GraphicsUnit.Point, ((byte)(204)));
+
+                DishFlowScrollLayout.Dock = DockStyle.Fill;
                 DishFlowScrollLayout.AutoScroll = true;
                 DishFlowScrollLayout.AutoSize = true;
-                DishFlowScrollLayout.Dock = DockStyle.Fill;
-                DishFlowScrollLayout.Location = new Point(0, 29);
                 DishFlowScrollLayout.Margin = new Padding(0);
                 DishFlowScrollLayout.Padding = new Padding(0);
                 DishFlowScrollLayout.WrapContents = false;
                 
-                string producerName = market.Where(p => p.Producer_ID == producer.ID).First().Producer_Name;
                 var producersDishes = market.Where(p => p.Producer_ID == producer.ID);
+
                 foreach (var dish in producersDishes)
                 {
-                    
                     TableLayoutPanel DishTable = new TableLayoutPanel();
 
                     Button AddDish = new Button();
@@ -172,7 +174,7 @@ namespace DeliveryApp
                     AddDish.UseVisualStyleBackColor = true;
                     AddDish.Tag = dish.Dish_ID;
                     AddDish.Click += new EventHandler(this.Dish_Add_Click);
-                    
+
                     DishTable.ResumeLayout(false);
                     DishTable.PerformLayout();
 
@@ -181,6 +183,7 @@ namespace DeliveryApp
                 ProducerDishes.ResumeLayout(false);
                 ProducerDishes.PerformLayout();
                 DishFlowScrollLayout.ResumeLayout(false);
+                DishFlowScrollLayout.PerformLayout();
 
             }
         }
@@ -234,11 +237,6 @@ namespace DeliveryApp
             this.OrdersLayout.AutoScrollPosition = new Point(Math.Abs(OrdersLayout.AutoScrollPosition.X), Math.Abs(CurrentPoint.Y));
         }
 
-        private void UpdateClientOrders_Tick(object sender, System.EventArgs e)
-        {
-            GetOrders();
-        }
-
         private void GetOrders()
         {
             try
@@ -268,8 +266,6 @@ namespace DeliveryApp
                     UpdateClientInfo();
                     break;
             }
-            if(UserTabs.SelectedIndex == 1) OredersUpdateTimer.Enabled = true;
-            else OredersUpdateTimer.Enabled = false;
         }
 
         void drawAll() {
@@ -318,7 +314,6 @@ namespace DeliveryApp
 
         private void Dish_Add_Click(object sender, EventArgs e)
         {
-
             try
             {
                 Button clickedPanel = sender as Button;
@@ -328,7 +323,8 @@ namespace DeliveryApp
                 if (ClientActions.HasOpenedOrder())
                 {
                     int orderId = ClientActions.GetOpenOrderID();
-                   ClientActions.AddToOrder(orderId, dishID);
+                    ClientActions.AddToOrder(orderId, dishID);
+                    getMarket();
                 }
                 else
                 {
@@ -340,6 +336,7 @@ namespace DeliveryApp
                         {
                             int orderId = ClientActions.GetOpenOrderID();
                             ClientActions.AddToOrder(orderId, dishID);
+                            getMarket();
                         }
                         catch (Exception ex)
                         {
@@ -408,7 +405,13 @@ namespace DeliveryApp
                 else
                 {
                     int openedOrder = ClientActions.GetOpenOrderID();
-                    (new OrderWindow(openedOrder)).Show();
+                    OrderWindow wnd = new OrderWindow(openedOrder);
+                    wnd.Show();
+                    wnd.FormClosed += (s, ev) =>
+                    {
+                        getMarket();
+                    };
+
                 }
             }
             catch(Exception ex)

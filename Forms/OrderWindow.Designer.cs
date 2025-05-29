@@ -36,6 +36,7 @@
             this.Status = new System.Windows.Forms.Label();
             this.Dishes = new System.Windows.Forms.FlowLayoutPanel();
             this.Apply = new System.Windows.Forms.Button();
+            this.ChangeAddressButton = new System.Windows.Forms.Button();
             this.flowLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -56,15 +57,17 @@
             // 
             // tableLayoutPanel2
             // 
-            this.tableLayoutPanel2.ColumnCount = 4;
+            this.tableLayoutPanel2.ColumnCount = 5;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 151F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 206F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 159F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 99F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 157F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 166F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 153F));
             this.tableLayoutPanel2.Controls.Add(this.OrderName, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.TotalBill, 3, 0);
-            this.tableLayoutPanel2.Controls.Add(this.Producer, 2, 0);
             this.tableLayoutPanel2.Controls.Add(this.Status, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.TotalBill, 4, 0);
+            this.tableLayoutPanel2.Controls.Add(this.Producer, 3, 0);
+            this.tableLayoutPanel2.Controls.Add(this.ChangeAddressButton, 2, 0);
             this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -80,7 +83,7 @@
             this.OrderName.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.OrderName.Location = new System.Drawing.Point(3, 0);
             this.OrderName.Name = "OrderName";
-            this.OrderName.Size = new System.Drawing.Size(278, 41);
+            this.OrderName.Size = new System.Drawing.Size(219, 41);
             this.OrderName.TabIndex = 0;
             this.OrderName.Text = "Order#1";
             this.OrderName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -89,9 +92,9 @@
             // 
             this.TotalBill.AutoSize = true;
             this.TotalBill.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TotalBill.Location = new System.Drawing.Point(644, 0);
+            this.TotalBill.Location = new System.Drawing.Point(650, 0);
             this.TotalBill.Name = "TotalBill";
-            this.TotalBill.Size = new System.Drawing.Size(153, 41);
+            this.TotalBill.Size = new System.Drawing.Size(147, 41);
             this.TotalBill.TabIndex = 1;
             this.TotalBill.Text = "Summ";
             this.TotalBill.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -100,9 +103,9 @@
             // 
             this.Producer.AutoSize = true;
             this.Producer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Producer.Location = new System.Drawing.Point(438, 0);
+            this.Producer.Location = new System.Drawing.Point(484, 0);
             this.Producer.Name = "Producer";
-            this.Producer.Size = new System.Drawing.Size(200, 41);
+            this.Producer.Size = new System.Drawing.Size(160, 41);
             this.Producer.TabIndex = 2;
             this.Producer.Text = "Producer";
             this.Producer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -111,9 +114,9 @@
             // 
             this.Status.AutoSize = true;
             this.Status.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Status.Location = new System.Drawing.Point(287, 0);
+            this.Status.Location = new System.Drawing.Point(228, 0);
             this.Status.Name = "Status";
-            this.Status.Size = new System.Drawing.Size(145, 41);
+            this.Status.Size = new System.Drawing.Size(93, 41);
             this.Status.TabIndex = 3;
             this.Status.Text = "Status";
             this.Status.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -131,13 +134,26 @@
             // 
             // Apply
             // 
+            this.Apply.AutoSize = true;
             this.Apply.Dock = System.Windows.Forms.DockStyle.Top;
             this.Apply.Location = new System.Drawing.Point(3, 413);
             this.Apply.Name = "Apply";
-            this.Apply.Size = new System.Drawing.Size(794, 25);
+            this.Apply.Size = new System.Drawing.Size(794, 26);
             this.Apply.TabIndex = 4;
             this.Apply.Text = "Apply";
             this.Apply.UseVisualStyleBackColor = true;
+            // 
+            // ChangeAddressButton
+            // 
+            this.ChangeAddressButton.AutoSize = true;
+            this.ChangeAddressButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ChangeAddressButton.Location = new System.Drawing.Point(327, 3);
+            this.ChangeAddressButton.Name = "ChangeAddressButton";
+            this.ChangeAddressButton.Size = new System.Drawing.Size(151, 35);
+            this.ChangeAddressButton.TabIndex = 4;
+            this.ChangeAddressButton.Text = "Change Address";
+            this.ChangeAddressButton.UseVisualStyleBackColor = true;
+            this.ChangeAddressButton.Click += new System.EventHandler(this.ChangeAddressButton_Click);
             // 
             // OrderWindow
             // 
@@ -150,6 +166,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Order";
             this.flowLayoutPanel1.ResumeLayout(false);
+            this.flowLayoutPanel1.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             this.ResumeLayout(false);
@@ -167,5 +184,6 @@
         private System.Windows.Forms.Label Status;
         private System.Windows.Forms.FlowLayoutPanel Dishes;
         private System.Windows.Forms.Button Apply;
+        private System.Windows.Forms.Button ChangeAddressButton;
     }
 }

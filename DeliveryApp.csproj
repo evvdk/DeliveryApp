@@ -146,6 +146,7 @@
     <Compile Include="EF\DeliveryAppContext.cs" />
     <Compile Include="EF\Notifications.cs" />
     <Compile Include="EF\Order.cs" />
+    <Compile Include="EF\Order_On_Producer.cs" />
     <Compile Include="EF\Order_Set.cs" />
     <Compile Include="EF\Order_Status_Table.cs" />
     <Compile Include="EF\Producer.cs" />

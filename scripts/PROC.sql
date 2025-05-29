@@ -94,7 +94,7 @@ BEGIN
 		IF EXISTS (SELECT * FROM Client WHERE Login = @newLogin)
 			THROW 50001, 'User with this login already exist', 1;
 
-		IF NOT(LEN(@login) BETWEEN 5 AND 30) 
+		IF NOT(LEN(@newLogin) BETWEEN 5 AND 30)
 			THROW 50000, 'Login should be more than 5 and less than 30 letters', 1;
 
 		BEGIN TRAN
@@ -427,7 +427,7 @@ GO
 
 GO
 
-CREATE OR ALTER PROCEDURE DeleteFromOrder(@Order int, @dishID int) -- /////////////////////////////
+CREATE OR ALTER PROCEDURE DeleteFromOrder(@Order int, @dishID int)
 AS
 BEGIN
 	BEGIN TRY
@@ -439,6 +439,7 @@ BEGIN
 			
 			IF((SELECT [Count] FROM [Dishes Order] WHERE [Order ID] = @Order AND [Dish ID] = @dishID) = 1)
 			BEGIN
+
 				DELETE FROM [Dishes Order]
 					WHERE [Order ID] = @Order AND [Dish ID] = @DishID
 			END
@@ -493,4 +494,38 @@ BEGIN
 END
 
 -- EXEC ApplyOrder 'Alex'
+GO
+
+CREATE OR ALTER PROC ChangeOrderAddress(@Order int, @Address int)
+AS
+BEGIN
+	BEGIN TRY
+
+		IF NOT EXISTS (SELECT * FROM [Client Address] WHERE ID = @Address AND Active = 1)
+			THROW 50007, 'Dddress doesn''t exists', 1;
+
+		IF NOT EXISTS(SELECT * FROM [Order] WHERE ID = @Order)
+			THROW 50009, 'Order doesn''t exists', 1;
+
+		IF EXISTS(SELECT * FROM [Order] WHERE ID = @Order AND Status != 0)
+			THROW 50012, 'Order already applied; Address unchangeable', 1;
+		
+		BEGIN TRAN
+
+		UPDATE [Order]
+			SET [Client Address ID] = @Address
+			WHERE ID = @Order
+
+		COMMIT TRAN
+
+	END TRY
+	BEGIN CATCH
+
+		IF @@TRANCOUNT > 0
+			ROLLBACK TRAN;
+		THROW;
+
+	END CATCH
+END
+
 GO

@@ -5,8 +5,6 @@ using System.Data.SqlTypes;
 using System.Collections.Generic;
 using DeliveryApp.EF;
 using System.Linq;
-using System.Drawing;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace DeliveryApp
 {
@@ -272,6 +270,33 @@ namespace DeliveryApp
                 var order = new SqlParameter("@order", Order);
 
                 context.Database.ExecuteSqlCommand("exec ApplyOrder @order", order);
+            }
+        }
+
+        public static int GetAddressByOrder(int Order)
+        {
+            using (var context = new DeliveryAppContext())
+            {
+                return context.Order_Status_Table.Where(p => p.ID == Order).First().Client_Address_ID;
+            }
+        }
+
+        public static void ChangeAddressInOrder(int Order, int NewAddress)
+        {
+            using (var context = new DeliveryAppContext())
+            {
+                var order = new SqlParameter("@order", Order);
+                var address = new SqlParameter("@address", NewAddress);
+
+                context.Database.ExecuteSqlCommand("exec ChangeOrderAddress @order, @address", order, address);
+            }
+        }
+
+        public static List<Order_On_Producer> GetProducerByOrder(int Order)
+        {
+            using (var context = new DeliveryAppContext())
+            {
+                return context.Order_On_Producer.Where(p => p.Order_ID == Order).ToList();
             }
         }
     }

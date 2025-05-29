@@ -426,7 +426,10 @@ namespace DeliveryApp
                         throw new Exception("Client with login doesn't exists");
                     case 50007:
                         throw new Exception("Client with address doesn''t exists");
-                    default: throw new Exception($"Database error {ex.Message}");
+                    case 50013:
+                        throw new Exception("Address currently in order");
+                    default: 
+                        throw new Exception($"Database error {ex.Message}");
                 }
             }
             catch
@@ -449,7 +452,8 @@ namespace DeliveryApp
                         throw new Exception("Client with login doesn't exists");
                     case 50007:
                         throw new Exception("Client with address doesn't exists");
-                    default: throw new Exception("Database error");
+                    default:
+                        throw new Exception($"Database error {ex.Message}");
                 }
             }
             catch
@@ -476,9 +480,54 @@ namespace DeliveryApp
             {
                 Database.ApplyOrder(Order);
             }
+            catch (SqlException ex)
+            {
+                switch (ex.Number)
+                {
+                    case 50008:
+                        throw new Exception("Order can't be assembled");
+                    default:
+                        throw new Exception($"Database error {ex.Message}");
+                }
+            }
             catch
             {
                 throw new Exception("Error during applying order");
+            }
+        }
+
+        public static int GetAddressByOrder(int Order)
+        {
+            try
+            {
+                return Database.GetAddressByOrder(Order);
+            }
+            catch
+            {
+                throw new Exception("Error reciving address by order");
+            }
+        }
+
+        public static void ChangeAddressInOrder(int Order, int NewAddress)
+        {
+            try
+            {
+                Database.ChangeAddressInOrder(Order, NewAddress);
+            } catch
+            {
+                throw new Exception("Error during changing address in order");
+            }
+        }
+
+        public static List<Order_On_Producer> GetProducerByOrder(int Order)
+        {
+            try
+            {
+                return Database.GetProducerByOrder(Order);
+            }
+            catch
+            {
+                throw new Exception("Error during reciving producers by order");
             }
         }
     }

@@ -74,10 +74,11 @@ BEGIN
 			DELETE FROM [Order] 
 				WHERE [Order].ID = @OrderID
 
+		END
+
 		FETCH NEXT FROM DeltedOrdersCursorVar
 		INTO @OrderID
 
-		END
 	END
 	CLOSE DeltedOrdersCursorVar
 	DEALLOCATE DeltedOrdersCursorVar
@@ -133,50 +134,64 @@ CREATE OR ALTER TRIGGER DestroyOrderAfterAddressHide ON [Client Address]
 AFTER UPDATE
 AS
 BEGIN
-	DECLARE @Address int;
-	DECLARE AddressCursor CURSOR
-	SCROLL
-	FOR SELECT [ID] FROM inserted WHERE Active = 0
-
-	OPEN AddressCursor
-	FETCH FIRST FROM AddressCursor
-	INTO @Address
-
-	WHILE(@@FETCH_STATUS = 0)
-	BEGIN
-		-- По каждому заказу пробежать и если он не собран, отменить
-		DECLARE @Order int;
-		DECLARE @Status int;
-		DECLARE OrdersCursor CURSOR
+	BEGIN TRY
+		DECLARE @Address int;
+		DECLARE AddressCursor CURSOR
 		SCROLL
-		FOR SELECT ID, [Status] FROM [Order] WHERE [Client Address ID] = @Address
+		FOR SELECT [ID] FROM inserted WHERE Active = 0
 
-		OPEN OrdersCursor
-		FETCH FIRST FROM OrdersCursor
-			INTO @Order, @Status
+		OPEN AddressCursor
+		FETCH FIRST FROM AddressCursor
+		INTO @Address
 
 		WHILE(@@FETCH_STATUS = 0)
 		BEGIN
+			-- По каждому заказу пробежать и если он не собран, отменить
+			DECLARE @Order int;
+			DECLARE @Status int;
+			DECLARE OrdersCursor CURSOR
+			SCROLL
+			FOR SELECT ID, [Status] FROM [Order] WHERE [Client Address ID] = @Address
 
-			IF (@Status = 0)
+			OPEN OrdersCursor
+			FETCH FIRST FROM OrdersCursor
+				INTO @Order, @Status
+
+			WHILE(@@FETCH_STATUS = 0)
 			BEGIN
-				UPDATE [Order]
-				SET [Status] = 5
-					WHERE ID = @Order
-			END
 
-			FETCH NEXT FROM OrdersCursor
-				INTO @Order
+				IF (@Status = 0)
+					THROW 50013, 'Current order address can''not be deleted', 1
+
+				FETCH NEXT FROM OrdersCursor
+					INTO @Order, @Status
+
+			END
+			CLOSE OrdersCursor
+			DEALLOCATE OrdersCursor
+
+			FETCH NEXT FROM AddressCursor
+				INTO @Address
 
 		END
-		CLOSE OrdersCursor
-		DEALLOCATE OrdersCursor
+		CLOSE AddressCursor
+		DEALLOCATE AddressCursor
+	END TRY
+	BEGIN CATCH
 
-		FETCH NEXT FROM AddressCursor
-			INTO @Address
+		IF CURSOR_STATUS('variable', '@OrdersCursor') >= 0 
+			CLOSE OrdersCursor;
+    
+		DEALLOCATE OrdersCursor;
 
-	END
-	CLOSE AddressCursor
-	DEALLOCATE AddressCursor
+		IF CURSOR_STATUS('variable', '@AddressCursor') >= 0 
+			CLOSE AddressCursor;
+    
+		DEALLOCATE AddressCursor;
+
+		
+		THROW;
+
+	END CATCH
 END
 GO

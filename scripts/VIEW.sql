@@ -29,8 +29,15 @@ GO
 CREATE OR ALTER VIEW [All Dishes]
 AS
 SELECT Dish.ID AS [Dish ID], Producer.ID AS [Producer ID], Dish.[Name] AS [Dish Name], [Image], Cost, [Description], Calories, Mass, Producer.[Name] AS [Producer Name]
-FROM Dish LEFT JOIN Producer ON Dish.[Producer ID] = Producer.ID 
+FROM Dish LEFT JOIN Producer ON Dish.[Producer ID] = Producer.ID
 WHERE Dish.Visible = 1
 WITH CHECK OPTION
+
+GO
+
+CREATE OR ALTER VIEW [Order On Producer]
+AS
+SELECT DISTINCT [Order ID], [Producer ID], Producer.Name AS [Producer Name]
+FROM ([Dishes Order] LEFT JOIN Dish ON [Dishes Order].[Dish ID]=Dish.ID) LEFT JOIN Producer ON Dish.[Producer ID] = Producer.ID
 
 GO

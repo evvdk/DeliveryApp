@@ -16,7 +16,6 @@ namespace DeliveryApp.Forms
             UpdateOrder();
         }
 
-
         private void UpdateOrder()
         {
             List<Order_Set> order = ClientActions.GetOrderSet(this.OrderID);
@@ -29,7 +28,7 @@ namespace DeliveryApp.Forms
                 this.Status.Text = "";
                 this.Dishes.Controls.Clear();
                 this.Apply.Text = "Close";
-
+                this.ChangeAddressButton.Enabled = false;
                 return;
             }
 
@@ -47,14 +46,22 @@ namespace DeliveryApp.Forms
                 this.Apply.Text = "Apply";
                 this.Apply.Click += (s, e) =>
                 {
-                    ClientActions.ApplyOrder(this.OrderID);
-                    this.Close();
+                    try
+                    {
+                        if(ClientActions.HasOpenedOrder())
+                            ClientActions.ApplyOrder(this.OrderID);
+                        this.Close();
+                    } catch(Exception ex)
+                    {
+                        MessageBox.Show($"{ex.Message}");
+                    }
                 };
             }
             else
             {
                 this.Status.Text = $"{Status}";
                 this.Apply.Text = "Close";
+                this.ChangeAddressButton.Enabled = false;
                 this.Apply.Click += (s, e) =>
                 {
                     this.Close();
@@ -179,6 +186,11 @@ namespace DeliveryApp.Forms
             int dishId = (int)button.Tag;
             ClientActions.DeleteFromOrder(this.OrderID, dishId);
             UpdateOrder();
+        }
+
+        private void ChangeAddressButton_Click(object sender, EventArgs e)
+        {
+            (new AddressChooser(this.OrderID)).Show();
         }
     }
 }
