@@ -1,10 +1,7 @@
 namespace DeliveryApp.EF
 {
-    using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
 
     [Table("Order On Producer")]
     public partial class Order_On_Producer

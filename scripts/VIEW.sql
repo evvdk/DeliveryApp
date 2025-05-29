@@ -41,3 +41,11 @@ SELECT DISTINCT [Order ID], [Producer ID], Producer.Name AS [Producer Name]
 FROM ([Dishes Order] LEFT JOIN Dish ON [Dishes Order].[Dish ID]=Dish.ID) LEFT JOIN Producer ON Dish.[Producer ID] = Producer.ID
 
 GO
+
+CREATE VIEW [Dish All Info]
+AS
+SELECT *
+FROM -- (Dish LEFT JOIN Producer ON Dish.[Producer ID] = Producer.ID)
+
+
+([Dish Ingredients] JOIN Ingredient ON [Dish Ingredients].[Ingredient ID] = Ingredient.[Ingredient ID])

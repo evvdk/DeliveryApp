@@ -142,6 +142,7 @@
     <Compile Include="EF\Courier.cs" />
     <Compile Include="EF\Dish.cs" />
     <Compile Include="EF\Dishes_Order.cs" />
+    <Compile Include="EF\Dish_All_Info.cs" />
     <Compile Include="EF\Ingredient.cs" />
     <Compile Include="EF\DeliveryAppContext.cs" />
     <Compile Include="EF\Notifications.cs" />
@@ -187,6 +188,12 @@
     <Compile Include="Forms\OrderWindow.Designer.cs">
       <DependentUpon>OrderWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\SingleDish.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SingleDish.Designer.cs">
+      <DependentUpon>SingleDish.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="User.cs" />
@@ -207,6 +214,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\OrderWindow.resx">
       <DependentUpon>OrderWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SingleDish.resx">
+      <DependentUpon>SingleDish.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

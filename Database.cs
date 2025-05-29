@@ -299,5 +299,13 @@ namespace DeliveryApp
                 return context.Order_On_Producer.Where(p => p.Order_ID == Order).ToList();
             }
         }
+
+        public static List<Dish_All_Info> GetDishInfo(int dishID)
+        {
+            using (var context = new DeliveryAppContext())
+            {
+                return context.Dish_All_Info.Where(p => p.ID == dishID).ToList();
+            }
+        }
     }
 }

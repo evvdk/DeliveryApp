@@ -132,6 +132,7 @@ namespace DeliveryApp
                 foreach (var dish in producersDishes)
                 {
                     TableLayoutPanel DishTable = new TableLayoutPanel();
+                    DishTable.Click += (s, e) => { (new SingleDish(dish.Dish_ID)).Show(); };
 
                     Button AddDish = new Button();
                     Label DishName = new Label();
@@ -143,7 +144,11 @@ namespace DeliveryApp
 
                     ImagePanel.Dock = DockStyle.Fill;
                     if (dish.Image != null)
-                        ImagePanel.BackgroundImage = DatabaseImage.ResizeImage(DatabaseImage.BytesToImage(dish.Image), 72, 72);
+                    {
+                        ImagePanel.BackgroundImage = DatabaseImage.BytesToImage(dish.Image);
+                        ImagePanel.BackgroundImageLayout = ImageLayout.Zoom;
+                    }
+                    ImagePanel.Click += (s, e) => { (new SingleDish(dish.Dish_ID)).Show(); };
 
                     DishTable.BackColor = Color.Silver;
                     DishTable.ColumnCount = 2;
@@ -165,7 +170,8 @@ namespace DeliveryApp
                     DishName.Size = new Size(74, 72);
                     DishName.Text = $"{dish.Dish_Name}";
                     DishName.TextAlign = ContentAlignment.MiddleCenter;
-                    
+                    DishName.Click += (s, e) => { (new SingleDish(dish.Dish_ID)).Show(); };
+
                     AddDish.AutoSize = true;
                     AddDish.Dock = DockStyle.Fill;
                     AddDish.Location = new Point(3, 75);

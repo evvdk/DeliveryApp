@@ -530,5 +530,17 @@ namespace DeliveryApp
                 throw new Exception("Error during reciving producers by order");
             }
         }
+
+        public static List<Dish_All_Info> GetDishInfo(int DishID)
+        {
+            try
+            {
+                return Database.GetDishInfo(DishID);
+            }
+            catch
+            {
+                throw new Exception("Error during reciving dish data");
+            }
+        }
     }
 }
