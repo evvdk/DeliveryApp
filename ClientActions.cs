@@ -48,7 +48,10 @@ namespace DeliveryApp
             foreach (string c in charsToRemoveFromPhone)
                 phone = phone.Replace(c, string.Empty);
 
-            phone = phone.Replace("8", "+7");
+            if (phone[0] == '8')
+            {
+                phone = "+7" + phone;
+            }
 
             return phone;
         }
@@ -60,6 +63,8 @@ namespace DeliveryApp
             Password = HashString(Password);
 
             Phone = FormatPhone(Phone);
+
+            MessageBox.Show(Phone);
 
             try
             {
@@ -254,7 +259,7 @@ namespace DeliveryApp
         {
             try
             {
-                ClientActions.DeleteAccount();
+                Database.DeleteAccount(User.userInfo.Login, User.userInfo.Password);
             }
             catch (SqlException ex)
             {

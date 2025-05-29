@@ -44,8 +44,8 @@ GO
 
 CREATE VIEW [Dish All Info]
 AS
-SELECT *
-FROM -- (Dish LEFT JOIN Producer ON Dish.[Producer ID] = Producer.ID)
+SELECT Dish.ID, [Producer ID], Producer.Name AS [Producer Name], Dish.Name AS [Dish Name], Dish.Image, Dish.Cost, Dish.Calories, Dish.Description, Ingredient.[Ingredient Name]
+FROM (Dish LEFT JOIN Producer ON Dish.[Producer ID] = Producer.ID) LEFT JOIN([Dish Ingredients] LEFT JOIN Ingredient ON [Dish Ingredients].[Ingredient ID] = Ingredient.[Ingredient ID]) 
+ON [Dish Ingredients].[Dish ID] = Dish.Id
 
-
-([Dish Ingredients] JOIN Ingredient ON [Dish Ingredients].[Ingredient ID] = Ingredient.[Ingredient ID])
+GO

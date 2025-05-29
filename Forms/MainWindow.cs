@@ -377,8 +377,8 @@ namespace DeliveryApp
                     MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (dialogResult == DialogResult.Yes)
                 {
-                    User.userInfo = null;
                     ClientActions.DeleteAccount();
+                    User.userInfo = null;
                     (new LoginForm()).Show();
                     this.Dispose();
                 }
