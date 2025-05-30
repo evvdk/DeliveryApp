@@ -146,7 +146,6 @@ BEGIN
 
 		WHILE(@@FETCH_STATUS = 0)
 		BEGIN
-			-- По каждому заказу пробежать и если он не собран, отменить
 			DECLARE @Order int;
 			DECLARE @Status int;
 			DECLARE OrdersCursor CURSOR

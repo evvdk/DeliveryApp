@@ -34,8 +34,6 @@ namespace DeliveryApp.EF
         [StringLength(10)]
         public string Building { get; set; }
 
-        public int? Floor { get; set; }
-
         [Required]
         [StringLength(10)]
         public string Room { get; set; }

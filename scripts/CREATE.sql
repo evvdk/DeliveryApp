@@ -53,7 +53,7 @@ CREATE TABLE "Client"
 (
 	ID int IDENTITY(1,1) PRIMARY KEY,
 	Login nvarchar(30) NOT NULL,
-	Password char(64) NOT NULL,
+	Password binary(32) NOT NULL,
     Name nvarchar(20) NOT NULL,
     Phone PhoneNumber NOT NULL,
     Email nvarchar(50),
@@ -97,7 +97,7 @@ CREATE TABLE "Producer"
 (
     "ID" int IDENTITY(1, 1) NOT NULL,
 	"Login" nvarchar(30) NOT NULL,
-	"Password" char(60) NOT NULL,
+	"Password" binary(32) NOT NULL,
     "Name" nvarchar(30) NOT NULL,
 	"Grade" int,
 	"Region" nvarchar(50) NOT NULL,
@@ -105,7 +105,6 @@ CREATE TABLE "Producer"
     "District" nvarchar(50) NOT NULL,
     "Street" nvarchar(50) NOT NULL,
     "Building" nvarchar(10) NOT NULL,
-    "Floor" int,
     "Room" nvarchar(10) NOT NULL,
     CONSTRAINT "C_PK_ProducerID" PRIMARY KEY ("ID"),
 	CONSTRAINT "C_U_Login" UNIQUE ("Login")
@@ -131,7 +130,9 @@ CREATE TABLE "Courier"
 	"Phone" PhoneNumber NOT NULL,
     "Passport Number" char(10) NOT NULL,
     "Work Book" char(7) NOT NULL,
-    CONSTRAINT "C_CourierID" PRIMARY KEY ("ID")
+    CONSTRAINT "C_CourierID" PRIMARY KEY ("ID"),
+	CONSTRAINT "C_U_Passport_Number" UNIQUE ("Passport Number"),
+	CONSTRAINT "C_U_Work_Book" UNIQUE ("Work Book")
 );
 
 -- ProducerDishes
@@ -161,22 +162,16 @@ CREATE TABLE "Order"
     "ID" int IDENTITY(1, 1) NOT NULL,
 	"Client ID" int NOT NULL,
 	"Client Address ID" int NOT NULL,
-    "Courier" int,
     "Ordered At" datetime,
 	"Complited At" datetime,
 	"Status" int NOT NULL,
 	"Order Grade" int,
-    CONSTRAINT "C_PK_OrderID" PRIMARY KEY ("ID"),
+    CONSTRAINT "C_PK_Order" PRIMARY KEY ("ID"),
 	
 	CONSTRAINT "C_FK_OrderStatus" FOREIGN KEY ("Status")
         REFERENCES "Status" ("ID") 
         ON UPDATE NO ACTION
         ON DELETE NO ACTION,
-	
-	CONSTRAINT "C_FK_Assgned_to" FOREIGN KEY ("Courier")
-        REFERENCES "Courier" ("ID") 
-        ON UPDATE SET NULL
-        ON DELETE SET NULL,
 
 	CONSTRAINT "C_FK_Client_Address" FOREIGN KEY ("Client ID", "Client Address ID")
         REFERENCES "Client Address" ("Client ID", "ID")
@@ -187,6 +182,24 @@ CREATE TABLE "Order"
 EXEC sp_bindrule 'Grade', 'Order.Order Grade'
 EXEC sp_bindefault 'DefaultZeroValue', 'Order.Status'
 GO
+
+CREATE TABLE "Order Courier"
+(
+	"Order ID" int NOT NULL,
+	"Courier ID" int NOT NULL,
+
+	CONSTRAINT "C_PK_Order_Courier" PRIMARY KEY ("Order ID"),
+
+	CONSTRAINT "C_FK_Order" FOREIGN KEY ("Order ID")
+        REFERENCES "Order" ("ID")
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+
+	CONSTRAINT "C_FK_Courier" FOREIGN KEY ("Courier ID")
+        REFERENCES "Courier" ("ID")
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+)
 
 -- Dishes-Order
 CREATE TABLE "Dishes Order"

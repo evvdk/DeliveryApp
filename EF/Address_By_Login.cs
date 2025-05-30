@@ -17,7 +17,7 @@ namespace DeliveryApp.EF
         [Key]
         [Column(Order = 1)]
         [StringLength(64)]
-        public string Password { get; set; }
+        public byte[] Password { get; set; }
 
         [Key]
         [Column("Active Account", Order = 2)]
@@ -52,8 +52,6 @@ namespace DeliveryApp.EF
         [Column(Order = 8)]
         [StringLength(10)]
         public string Building { get; set; }
-
-        public int? Floor { get; set; }
 
         [Key]
         [Column(Order = 9)]

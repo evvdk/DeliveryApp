@@ -10,7 +10,7 @@ namespace DeliveryApp
 {
     static class Database
     {
-        public static bool IsValidUser(string Login, string Password)
+        public static bool IsValidUser(string Login, byte[] Password)
         {
             using (var context = new DeliveryAppContext())
             {
@@ -18,7 +18,7 @@ namespace DeliveryApp
             }
         }
 
-        public static void InsertUser(string Login, string Password, string Name, string Phone, string Email)
+        public static void InsertUser(string Login, byte[] Password, string Name, string Phone, string Email)
         {
             using (var context = new DeliveryAppContext())
             {
@@ -43,7 +43,7 @@ namespace DeliveryApp
             }
         }
 
-        public static Client GetUserInfo(string Login, string Password)
+        public static Client GetUserInfo(string Login, byte[] Password)
         {
             using (var context = new DeliveryAppContext())
             {
@@ -51,7 +51,7 @@ namespace DeliveryApp
             }
         }
 
-        public static void ChangePassword(string Login, string OldPassword, string NewPassword)
+        public static void ChangePassword(string Login, byte[] OldPassword, byte[] NewPassword)
         {
             using (var context = new DeliveryAppContext())
             {
@@ -64,7 +64,7 @@ namespace DeliveryApp
             }
         }
 
-        public static void ChangeLogin(string Login, string Password, string NewLogin)
+        public static void ChangeLogin(string Login, byte[] Password, string NewLogin)
         {
             using (var context = new DeliveryAppContext())
             {
@@ -77,7 +77,7 @@ namespace DeliveryApp
             }
         }
 
-        public static void ChangeName(string Login, string Password, string NewName)
+        public static void ChangeName(string Login, byte[] Password, string NewName)
         {
             using (var context = new DeliveryAppContext())
             {
@@ -90,7 +90,7 @@ namespace DeliveryApp
             }
         }
 
-        public static void ChangePhone(string Login, string Password, string NewPhone)
+        public static void ChangePhone(string Login, byte[] Password, string NewPhone)
         {
             using (var context = new DeliveryAppContext())
             {
@@ -103,7 +103,7 @@ namespace DeliveryApp
             }
         }
 
-        public static void ChangeEmail(string Login, string Password, string NewEmail)
+        public static void ChangeEmail(string Login, byte[] Password, string NewEmail)
         {
             using (var context = new DeliveryAppContext())
             {
@@ -116,7 +116,7 @@ namespace DeliveryApp
             }
         }
 
-        public static void DeleteAccount(string Login, string Password)
+        public static void DeleteAccount(string Login, byte[] Password)
         {
             using (var context = new DeliveryAppContext())
             {
@@ -127,7 +127,7 @@ namespace DeliveryApp
             }
         }
 
-        public static List<Address_By_Login> GetAddresses(string Login, string Password)
+        public static List<Address_By_Login> GetAddresses(string Login, byte[] Password)
         {
             using (var context = new DeliveryAppContext())
             {
@@ -210,7 +210,7 @@ namespace DeliveryApp
             }
         }
 
-        public static void AddAdress(string Login, string Password, string Region, string City, string District, string Street, string Building, int? Floor, string Room)
+        public static void AddAdress(string Login, byte[] Password, string Region, string City, string District, string Street, string Building, string Room)
         {
             using (var context = new DeliveryAppContext())
             {
@@ -221,16 +221,14 @@ namespace DeliveryApp
                 var district = new SqlParameter("@district", District);
                 var street = new SqlParameter("@street", Street);
                 var building = new SqlParameter("@building", Building);
-
-                var floor = (Floor is null) ? new SqlParameter("@floor", SqlInt32.Null) : new SqlParameter("@floor", Floor);
                 var room = new SqlParameter("@room", Room);
 
-                context.Database.ExecuteSqlCommand("exec AddClientAddress @login, @password, @region, @city, @district, @street, @building, @floor, @room", 
-                    login, password, region, city, district, street, building, floor, room);
+                context.Database.ExecuteSqlCommand("exec AddClientAddress @login, @password, @region, @city, @district, @street, @building, @room", 
+                    login, password, region, city, district, street, building, room);
             }
         }
 
-        public static void DeleteAddress(int Address, string Login, string Password)
+        public static void DeleteAddress(int Address, string Login, byte[] Password)
         {
             using (var context = new DeliveryAppContext())
             {
@@ -243,7 +241,7 @@ namespace DeliveryApp
             }
         }
 
-        public static void EditAdress(int Address, string Login, string Password, string Region, string City, string District, string Street, string Building, int? Floor, string Room)
+        public static void EditAdress(int Address, string Login, byte[] Password, string Region, string City, string District, string Street, string Building, string Room)
         {
             using (var context = new DeliveryAppContext())
             {
@@ -255,11 +253,10 @@ namespace DeliveryApp
                 var district = new SqlParameter("@district", District);
                 var street = new SqlParameter("@street", Street);
                 var building = new SqlParameter("@building", Building);
-                var floor = (Floor is null) ? new SqlParameter("@floor", SqlInt32.Null) : new SqlParameter("@floor", Floor);
                 var room = new SqlParameter("@room", Room);
 
-                context.Database.ExecuteSqlCommand("exec EditClientAddress @address, @login, @password, @region, @city, @district, @street, @building, @floor, @room",
-                    address, login, password, region, city, district, street, building, floor, room);
+                context.Database.ExecuteSqlCommand("exec EditClientAddress @address, @login, @password, @region, @city, @district, @street, @building, @room",
+                    address, login, password, region, city, district, street, building, room);
             }
         }
 

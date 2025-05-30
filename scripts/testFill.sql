@@ -3,18 +3,18 @@ USE Delivery
 GO
 
 INSERT INTO "Producer" 
-("Login", "Password", "Name", "Grade", "Region", "City", "District", "Street", "Building", "Floor", "Room")
+("Login", "Password", "Name", "Grade", "Region", "City", "District", "Street", "Building", "Room")
 VALUES
-('bella_pizza', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'Пицца Белла', 5, 'Московская область', 'Москва', 'Центральный', 'Тверская', '15', 2, '201'),
-('sushi_master', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'Суши Мастер', 4, 'Ленинградская область', 'Санкт-Петербург', 'Центральный', 'Невский проспект', '22А', 3, '305'),
-('utro_bakery', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'Пекарня Утро', NULL, 'Московская область', 'Москва', 'Западный', 'Кутузовский проспект', '12Б', 1, '101'),
-('vegan_house', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'Веган Хаус', 4, 'Татарстан', 'Казань', 'Приволжский', 'Баумана', '7', NULL, 'A5'),
-('wok_empire', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'Wok Империя', 5, 'Свердловская область', 'Екатеринбург', 'Верх-Исетский', 'Малышева', '34В', 4, '412'),
-('coffee_bean', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'Кофейное Зерно', NULL, 'Краснодарский край', 'Краснодар', 'Центральный', 'Красная', '56', 1, '12'),
-('dumpling_king', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'Король Пельменей', 3, 'Новосибирская область', 'Новосибирск', 'Октябрьский', 'Ленина', '11/2', 2, '204'),
-('grill_hero', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'Гриль Герой', 4, 'Самарская область', 'Самара', 'Промышленный', 'Гагарина', '77', 5, '501'),
-('fresh_salad', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'Свежий Салат', 5, 'Ростовская область', 'Ростов-на-Дону', 'Советский', 'Большая Садовая', '25', 1, '1А'),
-('donut_world', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'Мир Пончиков', 4, 'Челябинская область', 'Челябинск', 'Металлургический', 'Свободы', '8К1', 3, '317');
+('bella_pizza', CONVERT(BINARY(32),'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'), 'Пицца Белла', 5, 'Московская область', 'Москва', 'Центральный', 'Тверская', '15', '201'),
+('sushi_master', CONVERT(BINARY(32),'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'), 'Суши Мастер', 4, 'Ленинградская область', 'Санкт-Петербург', 'Центральный', 'Невский проспект', '22А', '305'),
+('utro_bakery', CONVERT(BINARY(32),'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'), 'Пекарня Утро', NULL, 'Московская область', 'Москва', 'Западный', 'Кутузовский проспект', '12Б', '101'),
+('vegan_house', CONVERT(BINARY(32),'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'), 'Веган Хаус', 4, 'Татарстан', 'Казань', 'Приволжский', 'Баумана', '7', 'A5'),
+('wok_empire', CONVERT(BINARY(32),'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'), 'Wok Империя', 5, 'Свердловская область', 'Екатеринбург', 'Верх-Исетский', 'Малышева', '34В', '412'),
+('coffee_bean', CONVERT(BINARY(32),'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'), 'Кофейное Зерно', NULL, 'Краснодарский край', 'Краснодар', 'Центральный', 'Красная', '56', '12'),
+('dumpling_king', CONVERT(BINARY(32),'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'), 'Король Пельменей', 3, 'Новосибирская область', 'Новосибирск', 'Октябрьский', 'Ленина', '11/2', '204'),
+('grill_hero', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'Гриль Герой', 4, 'Самарская область', 'Самара', 'Промышленный', 'Гагарина', '77', '501'),
+('fresh_salad', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'Свежий Салат', 5, 'Ростовская область', 'Ростов-на-Дону', 'Советский', 'Большая Садовая', '25', '1А'),
+('donut_world', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'Мир Пончиков', 4, 'Челябинская область', 'Челябинск', 'Металлургический', 'Свободы', '8К1', '317');
 
 INSERT INTO "Courier" 
 ("First Name", "Second Name", "Last Name", "Phone", "Passport Number", "Work Book")

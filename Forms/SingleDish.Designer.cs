@@ -39,8 +39,9 @@
             this.CalValue = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.ProducerName = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.IngridientsLabel = new System.Windows.Forms.Label();
             this.CloseButton = new System.Windows.Forms.Button();
+            this.DishDescription = new System.Windows.Forms.Label();
             this.DishFlowLayout.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -50,8 +51,9 @@
             // 
             this.DishFlowLayout.AutoScroll = true;
             this.DishFlowLayout.Controls.Add(this.tableLayoutPanel1);
+            this.DishFlowLayout.Controls.Add(this.DishDescription);
             this.DishFlowLayout.Controls.Add(this.tableLayoutPanel2);
-            this.DishFlowLayout.Controls.Add(this.label3);
+            this.DishFlowLayout.Controls.Add(this.IngridientsLabel);
             this.DishFlowLayout.Dock = System.Windows.Forms.DockStyle.Top;
             this.DishFlowLayout.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.DishFlowLayout.Location = new System.Drawing.Point(0, 0);
@@ -107,7 +109,7 @@
             this.tableLayoutPanel2.Controls.Add(this.CalValue, 1, 2);
             this.tableLayoutPanel2.Controls.Add(this.label4, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.ProducerName, 1, 0);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 144);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 169);
             this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 3;
@@ -191,15 +193,15 @@
             this.ProducerName.Text = "ProdVal";
             this.ProducerName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label3
+            // IngridientsLabel
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.Location = new System.Drawing.Point(3, 210);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(101, 25);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Ingridients";
+            this.IngridientsLabel.AutoSize = true;
+            this.IngridientsLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.IngridientsLabel.Location = new System.Drawing.Point(3, 235);
+            this.IngridientsLabel.Name = "IngridientsLabel";
+            this.IngridientsLabel.Size = new System.Drawing.Size(101, 25);
+            this.IngridientsLabel.TabIndex = 2;
+            this.IngridientsLabel.Text = "Ingridients";
             // 
             // CloseButton
             // 
@@ -212,6 +214,16 @@
             this.CloseButton.Text = "Close";
             this.CloseButton.UseVisualStyleBackColor = true;
             this.CloseButton.Click += new System.EventHandler(this.CloseButton_Click);
+            // 
+            // DishDescription
+            // 
+            this.DishDescription.AutoSize = true;
+            this.DishDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.DishDescription.Location = new System.Drawing.Point(3, 144);
+            this.DishDescription.Name = "DishDescription";
+            this.DishDescription.Size = new System.Drawing.Size(109, 25);
+            this.DishDescription.TabIndex = 3;
+            this.DishDescription.Text = "Description";
             // 
             // SingleDish
             // 
@@ -246,9 +258,10 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label CostLabelValue;
         private System.Windows.Forms.Label CalValue;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label IngridientsLabel;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label ProducerName;
         private System.Windows.Forms.Button CloseButton;
+        private System.Windows.Forms.Label DishDescription;
     }
 }

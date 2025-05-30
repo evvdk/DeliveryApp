@@ -23,8 +23,6 @@ namespace DeliveryApp.EF
         [Column("Client Address ID")]
         public int Client_Address_ID { get; set; }
 
-        public int? Courier { get; set; }
-
         [Column("Ordered At")]
         public DateTime? Ordered_At { get; set; }
 

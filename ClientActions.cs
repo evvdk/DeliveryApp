@@ -4,25 +4,17 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Collections.Generic;
 using DeliveryApp.EF;
-using System.Windows.Forms;
 
 namespace DeliveryApp
 {
     class ClientActions
     {
-        private static string HashString(string Input)
+        private static byte[] HashString(string Input)
         {
             using (SHA256 sha256 = SHA256.Create())
             {
                 byte[] InputBytes = Encoding.UTF8.GetBytes(Input);
-                byte[] HashBytes = sha256.ComputeHash(InputBytes);
-
-                StringBuilder sb = new StringBuilder();
-                foreach (byte b in HashBytes)
-                {
-                    sb.Append(b.ToString("x2"));
-                }
-                return sb.ToString();
+                return sha256.ComputeHash(InputBytes);
             }
         }
 
@@ -31,14 +23,14 @@ namespace DeliveryApp
             if (Login.Length == 0 || Password.Length == 0) throw new Exception("Required fields are empthy");
             try
             {
-                Password = HashString(Password);
-                if (!Database.IsValidUser(Login, Password))
+                byte[] password = HashString(Password);
+                if (!Database.IsValidUser(Login, password))
                     throw new Exception("Wrong login or password");
-                User.userInfo = new User(Login, Password);
+                User.userInfo = new User(Login, password);
             }
-            catch (SqlException)
+            catch (SqlException ex)
             {
-                throw new Exception("Database login error");
+                throw new Exception($"Database error {ex.Number}\n{ex.Message}");
             }
         }
 
@@ -60,16 +52,14 @@ namespace DeliveryApp
         {
             if (Password.Length < 5 || Password.Length > 16)
                 throw new Exception("Password should be more than 5 and less than 16 letters");
-            Password = HashString(Password);
+            byte[] password = HashString(Password);
 
             Phone = FormatPhone(Phone);
 
-            MessageBox.Show(Phone);
-
             try
             {
-                Database.InsertUser(Login, Password, Name, Phone, Email);
-                User.userInfo = new User(Login, Password);
+                Database.InsertUser(Login, password, Name, Phone, Email);
+                User.userInfo = new User(Login, password);
             }
             catch (SqlException ex)
             {
@@ -88,12 +78,12 @@ namespace DeliveryApp
                     case 50005:
                         throw new Exception("Check if email is correct");
                     default:
-                        throw new Exception("Database error");
+                        throw new Exception($"Database error {ex.Number}\n{ex.Message}");
                 }
             }
-            catch
+            catch(Exception ex)
             {
-                throw new Exception("Processing error. Try again");
+                throw new Exception($"Processing error. Try again\n{ex.Message}");
             }
 
         }
@@ -104,9 +94,9 @@ namespace DeliveryApp
             {
                 return Database.GetClosedUserOrders(Login);
             }
-            catch
+            catch(Exception ex)
             {
-                throw new Exception("Error retriving orders");
+                throw new Exception($"Error retriving orders\n{ex.Message}");
             }
         }
 
@@ -116,9 +106,9 @@ namespace DeliveryApp
             {
                 return Database.GetUserInfo(User.userInfo.Login, User.userInfo.Password);
             }
-            catch
+            catch(Exception ex)
             {
-                throw new Exception("Error retriving user data");
+                throw new Exception($"Error retriving user data\n{ex.Message}");
             }
         }
 
@@ -130,15 +120,15 @@ namespace DeliveryApp
 
             if (NewPassword != RetypedPassword) throw new Exception("Retyped password doesn't match");
 
-            NewPassword = HashString(NewPassword);
+            byte[] newPassword = HashString(NewPassword);
 
-            if (User.userInfo.Password == NewPassword)
+            if (User.userInfo.Password == newPassword)
                 throw new Exception("Old and new password are equal");
 
             try
             {
-                Database.ChangePassword(User.userInfo.Login, User.userInfo.Password, NewPassword);
-                User.userInfo.Password = NewPassword;
+                Database.ChangePassword(User.userInfo.Login, User.userInfo.Password, newPassword);
+                User.userInfo.Password = newPassword;
             }
             catch (SqlException ex)
             {
@@ -147,12 +137,12 @@ namespace DeliveryApp
                     case 50006:
                         throw new Exception("User with such login doesn't exitst");
                     default:
-                        throw new Exception("Database error");
+                        throw new Exception($"Database error{ex.Number}\n{ex.Message}");
                 }
             }
-            catch
+            catch(Exception ex)
             {
-                throw new Exception("Error during changing password");
+                throw new Exception($"Error during changing password\n{ex.Message}");
             }
         }
 
@@ -174,12 +164,12 @@ namespace DeliveryApp
                     case 50006:
                         throw new Exception("Wrong login or password");
                     default:
-                        throw new Exception("Database error");
+                        throw new Exception($"Database error{ex.Number}\n{ex.Message}");
                 }
             }
-            catch
+            catch(Exception ex)
             {
-                throw new Exception("Error during changing password");
+                throw new Exception($"Error during changing password\n{ex.Message}");
             }
         }
 
@@ -199,12 +189,12 @@ namespace DeliveryApp
                     case 50006:
                         throw new Exception("Wrong login or password");
                     default:
-                        throw new Exception("Database error");
+                        throw new Exception($"Database error{ex.Number}\n{ex.Message}");
                 }
             }
-            catch
+            catch(Exception ex)
             {
-                throw new Exception("Error during changing name");
+                throw new Exception($"Error during changing name\n{ex.Message}");
             }
         }
 
@@ -224,12 +214,12 @@ namespace DeliveryApp
                     case 50004:
                         throw new Exception("Phone doesn't match pattern");
                     default:
-                        throw new Exception("Database error");
+                        throw new Exception($"Database error{ex.Number}\n{ex.Message}");
                 }
             }
-            catch
+            catch(Exception ex)
             {
-                throw new Exception("Error during changing phone");
+                throw new Exception($"Error during changing phone\n{ex.Message}");
             }
         }
 
@@ -246,12 +236,12 @@ namespace DeliveryApp
                     case 50005:
                         throw new Exception("Email doesn't match pattern");
                     default:
-                        throw new Exception("Database error");
+                        throw new Exception($"Database error{ex.Number}\n{ex.Message}");
                 }
             }
-            catch
+            catch(Exception ex)
             {
-                throw new Exception("Error during changing email");
+                throw new Exception($"Error during changing email\n{ex.Message}");
             }
         }
 
@@ -268,12 +258,12 @@ namespace DeliveryApp
                     case 50006:
                         throw new Exception("User doesn't exist");
                     default:
-                        throw new Exception("Database error");
+                        throw new Exception($"Database error{ex.Number}\n{ex.Message}");
                 }
             }
-            catch
+            catch(Exception ex)
             {
-                throw new Exception("Error during deleting account");
+                throw new Exception($"Error during deleting account\n{ex.Message}");
             }
         }
 
@@ -283,9 +273,9 @@ namespace DeliveryApp
             {
                 return Database.GetAddresses(User.userInfo.Login, User.userInfo.Password);
             }
-            catch
+            catch(Exception ex)
             {
-                throw new Exception("Error during reciving addresses");
+                throw new Exception($"Error during reciving addresses\n{ex.Message}");
             }
         }
 
@@ -295,9 +285,9 @@ namespace DeliveryApp
             {
                 return Database.GetAllDishes();
             }
-            catch
+            catch(Exception ex)
             {
-                throw new Exception("Error during reciving dishes");
+                throw new Exception($"Error during reciving dishes\n{ex.Message}");
             }
         }
 
@@ -307,9 +297,9 @@ namespace DeliveryApp
             {
                 return Database.HasOpenedOrder(User.userInfo.Login);
             }
-            catch
+            catch(Exception ex)
             {
-                throw new Exception("Error during reciving order");
+                throw new Exception($"Error during reciving order\n{ex.Message}");
             }
         }
 
@@ -321,11 +311,11 @@ namespace DeliveryApp
             }
             catch(InvalidOperationException)
             {
-                throw new Exception("Order doesn't exist");
+                throw new Exception($"Address haven't selected");
             }
-            catch
+            catch(Exception ex)
             {
-                throw new Exception("Error during reciving order");
+                throw new Exception($"Error during reciving order\n{ex.Message}");
             }
         }
 
@@ -342,12 +332,13 @@ namespace DeliveryApp
                         throw new Exception("Client with login doesn't exists");
                     case 50011:
                         throw new Exception("More than one opened order");
-                    default: throw new Exception("Database error");
+                    default: 
+                        throw new Exception($"Database error{ex.Number}\n{ex.Message}");
                 }
             }
-            catch
+            catch(Exception ex)
             {
-                throw new Exception("Error during initing order");
+                throw new Exception($"Error during initing order\n{ex.Message}");
             }
         }
 
@@ -365,12 +356,13 @@ namespace DeliveryApp
                         throw new Exception("Order doesn't exists");
                     case 50010:
                         throw new Exception("Different producers can't be in the same order");
-                    default: throw new Exception("Database error");
+                    default:
+                        throw new Exception($"Database error{ex.Number}\n{ex.Message}");
                 }
             }
-            catch
+            catch(Exception ex)
             {
-                throw new Exception("Error during adding dish to order");
+                throw new Exception($"Error during adding dish to order\n{ex.Message}");
             }
         }
 
@@ -386,20 +378,21 @@ namespace DeliveryApp
                 {
                     case 50012:
                         throw new Exception("Dish doesn''t found in order");
-                    default: throw new Exception("Database error");
+                    default: 
+                        throw new Exception($"Database error{ex.Number}\n{ex.Message}");
                 }
             }
-            catch
+            catch(Exception ex)
             {
-                throw new Exception("Error during deleting dish from order");
+                throw new Exception($"Error during deleting dish from order\n{ex.Message}");
             }
         }
 
-        public static void AddAdress(string Region, string City, string District, string Street, string Building, int? Floor, string Room)
+        public static void AddAdress(string Region, string City, string District, string Street, string Building, string Room)
         {
             try
             {
-                Database.AddAdress(User.userInfo.Login, User.userInfo.Password, Region, City, District, Street, Building, Floor, Room);
+                Database.AddAdress(User.userInfo.Login, User.userInfo.Password, Region, City, District, Street, Building, Room);
             }
             catch (SqlException ex)
             {
@@ -407,13 +400,15 @@ namespace DeliveryApp
                 {
                     case 50006:
                         throw new Exception("Client with login doesn't exists");
+                    case 50014:
+                        throw new Exception("Address already exists");
                     default:
-                        throw new Exception("Database error");
+                        throw new Exception($"Database error{ex.Number}\n{ex.Message}");
                 }
             }
-            catch
+            catch(Exception ex)
             {
-                throw new Exception("Error during adding address");
+                throw new Exception($"Error during adding address\n{ex.Message}");
             }
         }
 
@@ -433,21 +428,21 @@ namespace DeliveryApp
                         throw new Exception("Client with address doesn''t exists");
                     case 50013:
                         throw new Exception("Address currently in order");
-                    default: 
-                        throw new Exception($"Database error {ex.Message}");
+                    default:
+                        throw new Exception($"Database error{ex.Number}\n{ex.Message}");
                 }
             }
-            catch
+            catch(Exception ex)
             {
-                throw new Exception("Error during deleting address");
+                throw new Exception($"Error during deleting address\n{ex.Message}");
             }
         }
 
-        public static void EditAddress(int Address, string Region, string City, string District, string Street, string Building, int? Floor, string Room)
+        public static void EditAddress(int Address, string Region, string City, string District, string Street, string Building, string Room)
         {
             try
             {
-                Database.EditAdress(Address, User.userInfo.Login, User.userInfo.Password, Region, City, District, Street, Building, Floor, Room);
+                Database.EditAdress(Address, User.userInfo.Login, User.userInfo.Password, Region, City, District, Street, Building, Room);
             }
             catch (SqlException ex)
             {
@@ -457,13 +452,15 @@ namespace DeliveryApp
                         throw new Exception("Client with login doesn't exists");
                     case 50007:
                         throw new Exception("Client with address doesn't exists");
+                    case 50014:
+                        throw new Exception("Address already exists");
                     default:
-                        throw new Exception($"Database error {ex.Message}");
+                        throw new Exception($"Database error{ex.Number}\n{ex.Message}");
                 }
             }
-            catch
+            catch(Exception ex)
             {
-                throw new Exception("Error during deleting address");
+                throw new Exception($"Error during deleting address\n{ex.Message}");
             }
         }
 
@@ -473,9 +470,9 @@ namespace DeliveryApp
             {
                 return Database.GetOrderSet(order);
             }
-            catch
+            catch(Exception ex)
             {
-                throw new Exception("Error during reciving order data");
+                throw new Exception($"Error during reciving order data\n{ex.Message}");
             }
         }
 
@@ -492,12 +489,12 @@ namespace DeliveryApp
                     case 50008:
                         throw new Exception("Order can't be assembled");
                     default:
-                        throw new Exception($"Database error {ex.Message}");
+                        throw new Exception($"Database error{ex.Number}\n{ex.Message}");
                 }
             }
-            catch
+            catch(Exception ex)
             {
-                throw new Exception("Error during applying order");
+                throw new Exception($"Error during applying order\n{ex.Message}");
             }
         }
 
@@ -507,9 +504,9 @@ namespace DeliveryApp
             {
                 return Database.GetAddressByOrder(Order);
             }
-            catch
+            catch(Exception ex)
             {
-                throw new Exception("Error reciving address by order");
+                throw new Exception($"Error reciving address by order\n{ex.Message}");
             }
         }
 
@@ -518,9 +515,10 @@ namespace DeliveryApp
             try
             {
                 Database.ChangeAddressInOrder(Order, NewAddress);
-            } catch
+            } 
+            catch(Exception ex)
             {
-                throw new Exception("Error during changing address in order");
+                throw new Exception($"Error during changing address in order\n{ex.Message}");
             }
         }
 
@@ -530,9 +528,9 @@ namespace DeliveryApp
             {
                 return Database.GetProducerByOrder(Order);
             }
-            catch
+            catch(Exception ex)
             {
-                throw new Exception("Error during reciving producers by order");
+                throw new Exception($"Error during reciving producers by order\n{ex.Message}");
             }
         }
 
@@ -542,9 +540,9 @@ namespace DeliveryApp
             {
                 return Database.GetDishInfo(DishID);
             }
-            catch
+            catch(Exception ex)
             {
-                throw new Exception("Error during reciving dish data");
+                throw new Exception($"Error during reciving dish data\n{ex.Message}");
             }
         }
     }

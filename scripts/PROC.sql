@@ -2,7 +2,7 @@
 USE Delivery
 GO
 
-CREATE OR ALTER PROCEDURE RegisterClient(@login nvarchar(30), @password char(64), @name nvarchar(20), @phone PhoneNumber, @email nvarchar(50))
+CREATE OR ALTER PROCEDURE RegisterClient(@login nvarchar(30), @password binary(32), @name nvarchar(20), @phone PhoneNumber, @email nvarchar(50))
 AS
 BEGIN
 	BEGIN TRY
@@ -55,7 +55,7 @@ END
 
 GO
 
-CREATE OR ALTER PROCEDURE DeleteClient(@login nvarchar(30), @password char(64))
+CREATE OR ALTER PROCEDURE DeleteClient(@login nvarchar(30), @password binary(32))
 AS
 BEGIN
 	BEGIN TRY
@@ -83,7 +83,7 @@ END
 
 GO
 
-CREATE OR ALTER PROCEDURE ChangeClientLogin(@login nvarchar(30), @password char(64), @newLogin nvarchar(30))
+CREATE OR ALTER PROCEDURE ChangeClientLogin(@login nvarchar(30), @password binary(32), @newLogin nvarchar(30))
 AS
 BEGIN
 	BEGIN TRY
@@ -123,7 +123,7 @@ END
 
 GO
 
-CREATE OR ALTER PROCEDURE ChangeClientName(@login nvarchar(30), @password char(64), @newName nvarchar(20))
+CREATE OR ALTER PROCEDURE ChangeClientName(@login nvarchar(30), @password binary(32), @newName nvarchar(20))
 AS
 BEGIN
 	BEGIN TRY
@@ -157,7 +157,7 @@ END
 GO
 
 
-CREATE OR ALTER PROCEDURE ChangeClientPhone(@login nvarchar(30), @password char(64), @newPhone PhoneNumber)
+CREATE OR ALTER PROCEDURE ChangeClientPhone(@login nvarchar(30), @password binary(32), @newPhone PhoneNumber)
 AS
 BEGIN
 	BEGIN TRY
@@ -187,7 +187,7 @@ END
 GO
 
 
-CREATE OR ALTER PROCEDURE ChangeClientEmail(@login nvarchar(30), @password char(64), @newEmail nvarchar(50))
+CREATE OR ALTER PROCEDURE ChangeClientEmail(@login nvarchar(30), @password binary(32), @newEmail nvarchar(50))
 AS
 BEGIN
 	BEGIN TRY
@@ -213,7 +213,7 @@ END
 
 GO
 
-CREATE OR ALTER PROCEDURE ChangeClientPassword(@login nvarchar(30), @oldPassword char(64), @newPassword char(64))
+CREATE OR ALTER PROCEDURE ChangeClientPassword(@login nvarchar(30), @oldPassword binary(32), @newPassword binary(32))
 AS
 BEGIN
 
@@ -244,8 +244,8 @@ END
 
 GO
 
-CREATE OR ALTER PROCEDURE AddClientAddress(@login nvarchar(30), @password char(64),  @region nvarchar(50), @city nvarchar(50), @district nvarchar(50),
-		@street nvarchar(50), @building nvarchar(10), @floor int, @room nvarchar(10))
+CREATE OR ALTER PROCEDURE AddClientAddress(@login nvarchar(30), @password binary(32),  @region nvarchar(50), @city nvarchar(50), @district nvarchar(50),
+		@street nvarchar(50), @building nvarchar(10),@room nvarchar(10))
 AS
 BEGIN
 	BEGIN TRY
@@ -255,11 +255,16 @@ BEGIN
 		DECLARE @clientID int;
 		SELECT @clientID = ID FROM Client
 			WHERE Login = @login AND Password = @password AND [Active Account] = 1
+
+		IF EXISTS (SELECT * FROM [Client Address] WHERE [Client ID] = @clientID AND Region = @region AND City = @City AND 
+									District = @district AND Street = @street AND Building = @building AND Room = @room AND Active = 1)
+			THROW 50014, 'Address already exists', 1;
+
 	
 		BEGIN TRAN
 
-			INSERT INTO [Client Address] ([Client ID], Region, City, District, Street, Building, [Floor], Room)
-				VALUES (@clientID, @region, @city, @district, @street, @building, @floor, @room)
+			INSERT INTO [Client Address] ([Client ID], Region, City, District, Street, Building, Room)
+				VALUES (@clientID, @region, @city, @district, @street, @building, @room)
 
 		COMMIT TRAN
 
@@ -276,16 +281,14 @@ END
 -- EXEC AddClientAddress 'UserLogin', 'e7cf3ef4f17c3999a94f2c6f612e8a888e5b1026878e4e19398b23bd38ec221a', 'Ryazan Oblsat', 'Ryazan', 'Diadkovo','1th Boluvar','56',5,'656'
 GO
 
-CREATE OR ALTER PROCEDURE EditClientAddress(@address int, @login nvarchar(30), @password char(64),  @region nvarchar(50), @city nvarchar(50), 
-		@district nvarchar(50), @street nvarchar(50), @building nvarchar(10), @floor int, @room nvarchar(10))
+CREATE OR ALTER PROCEDURE EditClientAddress(@address int, @login nvarchar(30), @password binary(32),  @region nvarchar(50), @city nvarchar(50), 
+		@district nvarchar(50), @street nvarchar(50), @building nvarchar(10), @room nvarchar(10))
 AS
 BEGIN
 	BEGIN TRY
+		
 		IF NOT EXISTS (SELECT * FROM Client WHERE Login = @login AND Password = @password AND [Active Account] = 1)
 			THROW 50006, 'Client with login doesn''t exists', 1;
-
-		
-			
 
 		DECLARE @clientID int;
 		SELECT @clientID = ID FROM Client
@@ -295,10 +298,15 @@ BEGIN
 			THROW 50007, 'Client with address doesn''t exists', 1;
 
 
+		IF EXISTS (SELECT * FROM [Client Address] WHERE [Client ID] = @clientID AND Region = @region AND City = @City AND 
+									District = @district AND Street = @street AND Building = @building 
+									AND Room = @room AND Active = 1 AND ID != @address)
+			THROW 50014, 'Address already exists', 1;
+
 		BEGIN TRAN
 
 			UPDATE [Client Address]
-			SET Region = @region, City = @city, District = @district, Street = @street, Building = @building, [Floor] = @floor, Room = @room
+			SET Region = @region, City = @city, District = @district, Street = @street, Building = @building, Room = @room
 			WHERE ID = @address AND [Client ID] = @clientID AND [Active] = 1
  
 		COMMIT TRAN
@@ -315,7 +323,7 @@ END
 
 GO
 
-CREATE OR ALTER PROCEDURE DeleteClientAddress(@addressID int, @login nvarchar(30), @password char(64))
+CREATE OR ALTER PROCEDURE DeleteClientAddress(@addressID int, @login nvarchar(30), @password binary(32))
 AS
 BEGIN
 

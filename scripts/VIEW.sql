@@ -11,7 +11,7 @@ GO
 CREATE OR ALTER VIEW [Address By Login]
 AS
 SELECT Client.[Login] AS [Client Login], [Password], [Active Account], [Client Address].ID AS [Address ID], [Region],[City],[District],
-		[Street],[Building],[Floor],[Room],[Active] AS [Active Address]
+		[Street],[Building],[Room],[Active] AS [Active Address]
 FROM Client JOIN [Client Address] ON Client.ID = [Client Address].[Client ID]
 GO
 

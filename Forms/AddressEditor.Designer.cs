@@ -37,12 +37,10 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.DistrictField = new System.Windows.Forms.TextBox();
             this.StreetField = new System.Windows.Forms.TextBox();
             this.BuildingField = new System.Windows.Forms.TextBox();
-            this.FloorField = new System.Windows.Forms.TextBox();
             this.RoomField = new System.Windows.Forms.TextBox();
             this.Apply = new System.Windows.Forms.Button();
             this.flowLayoutPanel1.SuspendLayout();
@@ -58,7 +56,7 @@
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(624, 239);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(624, 210);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
             // tableLayoutPanel1
@@ -74,24 +72,22 @@
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.label4, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.label5, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this.label6, 0, 5);
-            this.tableLayoutPanel1.Controls.Add(this.label7, 0, 6);
+            this.tableLayoutPanel1.Controls.Add(this.label7, 0, 5);
             this.tableLayoutPanel1.Controls.Add(this.DistrictField, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.StreetField, 1, 3);
             this.tableLayoutPanel1.Controls.Add(this.BuildingField, 1, 4);
-            this.tableLayoutPanel1.Controls.Add(this.FloorField, 1, 5);
-            this.tableLayoutPanel1.Controls.Add(this.RoomField, 1, 6);
+            this.tableLayoutPanel1.Controls.Add(this.RoomField, 1, 5);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 7;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(618, 196);
+            this.tableLayoutPanel1.RowCount = 6;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(618, 168);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // RegionField
@@ -165,22 +161,11 @@
             this.label5.Text = "Building";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label6.Location = new System.Drawing.Point(3, 140);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(95, 28);
-            this.label6.TabIndex = 7;
-            this.label6.Text = "Floor";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // label7
             // 
             this.label7.AutoSize = true;
             this.label7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label7.Location = new System.Drawing.Point(3, 168);
+            this.label7.Location = new System.Drawing.Point(3, 140);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(95, 28);
             this.label7.TabIndex = 8;
@@ -211,18 +196,10 @@
             this.BuildingField.Size = new System.Drawing.Size(511, 22);
             this.BuildingField.TabIndex = 11;
             // 
-            // FloorField
-            // 
-            this.FloorField.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.FloorField.Location = new System.Drawing.Point(104, 143);
-            this.FloorField.Name = "FloorField";
-            this.FloorField.Size = new System.Drawing.Size(511, 22);
-            this.FloorField.TabIndex = 12;
-            // 
             // RoomField
             // 
             this.RoomField.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.RoomField.Location = new System.Drawing.Point(104, 171);
+            this.RoomField.Location = new System.Drawing.Point(104, 143);
             this.RoomField.Name = "RoomField";
             this.RoomField.Size = new System.Drawing.Size(511, 22);
             this.RoomField.TabIndex = 13;
@@ -231,7 +208,7 @@
             // 
             this.Apply.AutoSize = true;
             this.Apply.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.Apply.Location = new System.Drawing.Point(3, 205);
+            this.Apply.Location = new System.Drawing.Point(3, 177);
             this.Apply.Name = "Apply";
             this.Apply.Size = new System.Drawing.Size(618, 26);
             this.Apply.TabIndex = 1;
@@ -244,7 +221,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(624, 239);
+            this.ClientSize = new System.Drawing.Size(624, 210);
             this.Controls.Add(this.flowLayoutPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "AddressEditor";
@@ -268,14 +245,12 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox RegionField;
         private System.Windows.Forms.TextBox CityField;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox DistrictField;
         private System.Windows.Forms.TextBox StreetField;
         private System.Windows.Forms.TextBox BuildingField;
-        private System.Windows.Forms.TextBox FloorField;
         private System.Windows.Forms.TextBox RoomField;
         private System.Windows.Forms.Button Apply;
     }

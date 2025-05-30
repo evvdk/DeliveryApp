@@ -3,9 +3,9 @@
     class User
     {
         public string Login { get; set; }
-        public string Password { get; set; }
+        public byte[] Password { get; set; }
 
-        public User(string login, string password)
+        public User(string login, byte[] password)
         {
             Login = login;
             Password = password;

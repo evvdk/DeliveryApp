@@ -23,7 +23,7 @@ namespace DeliveryApp.EF
 
         [Required]
         [StringLength(60)]
-        public string Password { get; set; }
+        public byte[] Password { get; set; }
 
         [Required]
         [StringLength(30)]

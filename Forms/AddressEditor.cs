@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using DeliveryApp.EF;
@@ -29,8 +28,6 @@ namespace DeliveryApp.Forms
                 DistrictField.Text = address.District;
                 StreetField.Text = address.Street;
                 BuildingField.Text = address.Building;
-                if(!(address.Floor is null))
-                    FloorField.Text = address.Floor.ToString();
                 RoomField.Text = address.Room;
             }catch
             {
@@ -48,20 +45,14 @@ namespace DeliveryApp.Forms
                     || this.StreetField.Text.Length == 0 || this.BuildingField.Text.Length == 0 
                     || this.RoomField.Text.Length == 0)
                     throw new Exception("Some fields are empthy");
-                int? Floor;
-                if (FloorField.Text.Length == 0)
-                {
-                    Floor = null;
-                }
-                else Floor = Convert.ToInt32(this.FloorField.Text);
 
                 if (!editMode)
                 {
-                    ClientActions.AddAdress(this.RegionField.Text, this.CityField.Text, this.DistrictField.Text, this.StreetField.Text, this.BuildingField.Text, Floor, this.RoomField.Text);
+                    ClientActions.AddAdress(this.RegionField.Text, this.CityField.Text, this.DistrictField.Text, this.StreetField.Text, this.BuildingField.Text, this.RoomField.Text);
                 }
                 else
                 {
-                    ClientActions.EditAddress(this.addressID, this.RegionField.Text, this.CityField.Text, this.DistrictField.Text, this.StreetField.Text, this.BuildingField.Text, Floor, this.RoomField.Text);
+                    ClientActions.EditAddress(this.addressID, this.RegionField.Text, this.CityField.Text, this.DistrictField.Text, this.StreetField.Text, this.BuildingField.Text, this.RoomField.Text);
                 }
                 this.Close();
             }
