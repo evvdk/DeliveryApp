@@ -34,7 +34,8 @@ namespace DeliveryApp.Forms
             this.ProducerName.Text = producer;
             this.CalValue.Text = cal.ToString();
             this.CostLabelValue.Text = $"{cost.ToString()} ₽";
-            this.Image.BackgroundImage = DatabaseImage.BytesToImage(imageBytes);
+            if(imageBytes != null)
+                this.Image.BackgroundImage = DatabaseImage.BytesToImage(imageBytes);
             this.Image.BackgroundImageLayout = ImageLayout.Zoom;
         }
 

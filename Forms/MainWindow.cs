@@ -110,7 +110,7 @@ namespace DeliveryApp
                 ProducerDishes.Margin = new Padding(0);
                 ProducerDishes.Padding = new Padding(0);
                 ProducerDishes.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-                ProducerDishes.RowStyles.Add(new RowStyle(SizeType.Absolute, 119F));
+                ProducerDishes.RowStyles.Add(new RowStyle(SizeType.Absolute, 120F));
                 
                 Producer.AutoSize = true;
                 Producer.Dock = DockStyle.Top;
