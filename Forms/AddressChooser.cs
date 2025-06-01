@@ -84,7 +84,6 @@ namespace DeliveryApp.Forms
             AddressText.Text = $"{address.Region}, {address.City}, {address.District}, {address.Street}, {address.Building}, {address.Room}";
             AddressText.AutoSize = true;
             AddressText.Dock = DockStyle.Fill;
-            //AddressText.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(204)));
             AddressText.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // FlowLayoutAddress

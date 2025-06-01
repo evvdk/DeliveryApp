@@ -1,17 +1,9 @@
 USE master
 CREATE DATABASE Delivery
 ON
-(NAME = 'Delivery',
-FILENAME = 'C:\Databases\Delivery.mdf',
-SIZE = 1,
-MAXSIZE = 10,
-FILEGROWTH = 1)
+(NAME = 'Delivery', FILENAME = 'C:\Databases\Delivery.mdf', SIZE = 1, MAXSIZE = 10,FILEGROWTH = 1)
 LOG ON
-(NAME = 'Delivery_log',
-FILENAME = 'C:\Databases\Delivery_log.ldf',
-SIZE = 1,
-MAXSIZE = 5,
-FILEGROWTH = 1)
+(NAME = 'Delivery_log', FILENAME = 'C:\Databases\Delivery_log.ldf', SIZE = 1, MAXSIZE = 5, FILEGROWTH = 1)
 GO
 
 USE Delivery
@@ -182,7 +174,7 @@ CREATE TABLE "Producer"
 	"Login" nvarchar(30) NOT NULL,
 	"Password" binary(32) NOT NULL,
     "Name" nvarchar(30) NOT NULL,
-	"Grade" tinyint,
+	"Grade" smallint,
 	Room int NOT NULL,
     CONSTRAINT "C_PK_ProducerID" PRIMARY KEY ("ID"),
 	CONSTRAINT "C_U_Login" UNIQUE ("Login"),
@@ -198,7 +190,7 @@ EXEC sp_bindrule 'Grade', 'Producer.Grade'
 -- Status
 CREATE TABLE "Status"
 (
-    "ID" tinyint NOT NULL,
+    "ID" smallint NOT NULL,
     "Value" nvarchar(20) NOT NULL,
     CONSTRAINT "C_PK_StatusID" PRIMARY KEY ("ID")
 );
@@ -246,8 +238,8 @@ CREATE TABLE "Order"
 	"Client Address ID" int NOT NULL,
     "Ordered At" datetime,
 	"Complited At" datetime,
-	"Status" tinyint NOT NULL,
-	"Order Grade" tinyint,
+	"Status" smallint NOT NULL,
+	"Order Grade" smallint,
     CONSTRAINT "C_PK_Order" PRIMARY KEY ("ID"),
 	
 	CONSTRAINT "C_FK_OrderStatus" FOREIGN KEY ("Status")
@@ -290,6 +282,7 @@ CREATE TABLE "Dishes Order"
 	"Dish ID" int NOT NULL,
 	"Count" integer NOT NULL,
     CONSTRAINT "C_PK_DishID_OrderID" PRIMARY KEY ("Dish ID", "Order ID"),
+
     CONSTRAINT "C_FK_Dishes" FOREIGN KEY ("Dish ID")
         REFERENCES "Dish" ("ID")
         ON UPDATE CASCADE
@@ -298,7 +291,7 @@ CREATE TABLE "Dishes Order"
     CONSTRAINT "C_FK_OrderID" FOREIGN KEY ("Order ID")
         REFERENCES "Order" ("ID")
         ON UPDATE CASCADE
-		ON DELETE CASCADE,
+		ON DELETE CASCADE
 );
 
 EXEC sp_bindefault 'DefaultOneValue', 'Dishes Order.Count'
