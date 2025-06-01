@@ -56,7 +56,7 @@ CREATE TABLE "Client"
 	Password binary(32) NOT NULL,
     Name nvarchar(20) NOT NULL,
     Phone PhoneNumber NOT NULL,
-    Email nvarchar(50),
+    Email varchar(50),
 	Created datetime NOT NULL,
 	"Active Account" tinyint NOT NULL,
 	CONSTRAINT "C_Unique_Phones" UNIQUE ("Phone"),
@@ -67,25 +67,108 @@ EXEC sp_bindefault 'RightNow', 'Client.Created'
 EXEC sp_bindefault 'DefaultOneValue', 'Client.Active Account'
 GO
 
+CREATE TABLE Region
+(
+	ID int IDENTITY(1,1) NOT NULL,
+	Region nvarchar(50) NOT NULL,
+	
+	CONSTRAINT "C_PK_Region" PRIMARY KEY ("ID"),
+	CONSTRAINT "C_U_Region" UNIQUE ("Region")
+)
+
+
+CREATE TABLE City
+(
+	ID int IDENTITY(1,1) NOT NULL,
+	City nvarchar(50) NOT NULL,
+	Region int NOT NULL,
+
+	CONSTRAINT "C_PK_City" PRIMARY KEY ("ID"),
+	CONSTRAINT "C_U_Region_City" UNIQUE ("Region", "City"),
+
+	CONSTRAINT "C_FK_Region" FOREIGN KEY ("Region")
+        REFERENCES "Region" ("ID")
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+)
+
+CREATE TABLE District
+(
+	ID int IDENTITY(1,1) NOT NULL,
+	District nvarchar(50) NOT NULL,
+	City int NOT NULL,
+
+	CONSTRAINT "C_PK_District" PRIMARY KEY ("ID"),
+	CONSTRAINT "C_U_District_City" UNIQUE ("District", "City"),
+
+	CONSTRAINT "C_FK_City" FOREIGN KEY ("City")
+        REFERENCES "City" ("ID")
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+)
+
+CREATE TABLE Street
+(
+	ID int IDENTITY(1,1) NOT NULL,
+	Street nvarchar(50) NOT NULL,
+	District int NOT NULL,
+
+	CONSTRAINT "C_PK_Street" PRIMARY KEY ("ID"),
+	CONSTRAINT "C_U_Street_District" UNIQUE ("Street", "District"),
+
+	CONSTRAINT "C_FK_District" FOREIGN KEY ("District")
+        REFERENCES "District" ("ID")
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+)
+
+CREATE TABLE Building
+(
+	ID int IDENTITY(1,1) NOT NULL,
+	Building nvarchar(50) NOT NULL,
+	Street int NOT NULL,
+
+	CONSTRAINT "C_PK_Building" PRIMARY KEY ("ID"),
+	CONSTRAINT "C_U_Building_Street" UNIQUE ("Building", "Street"),
+
+	CONSTRAINT "C_FK_Street" FOREIGN KEY ("Street")
+        REFERENCES "Street" ("ID")
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+)
+
+CREATE TABLE Room
+(
+	ID int IDENTITY(1,1) NOT NULL,
+	Room nvarchar(50) NOT NULL,
+	Building int NOT NULL,
+
+	CONSTRAINT "C_PK_Room" PRIMARY KEY ("ID"),
+	CONSTRAINT "C_U_Room_Building" UNIQUE ("Room", "Building"),
+
+	CONSTRAINT "C_FK_Building" FOREIGN KEY ("Building")
+        REFERENCES "Building" ("ID")
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+)
+
 -- Client Address
 CREATE TABLE "Client Address"
 (
     [ID] int IDENTITY(1, 1) NOT NULL,
 	[Client ID] int NOT NULL,
-    Region nvarchar(50) NOT NULL,
-    City nvarchar(50) NOT NULL,
-    District nvarchar(50) NOT NULL,
-    Street nvarchar(50) NOT NULL,
-    Building nvarchar(10) NOT NULL,
-    Floor int,
-    Room nvarchar(10) NOT NULL,
+    Room int NOT NULL,
 	Active tinyint,
+
     CONSTRAINT "C_PK_ClientAddress_Address" PRIMARY KEY ("ID"),
-	
-	CONSTRAINT "C_Unique_ClientAdress" UNIQUE ("Client ID", "ID"),
 	
 	CONSTRAINT "C_FK_Login" FOREIGN KEY ("Client ID")
         REFERENCES "Client" ("ID")
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+
+	CONSTRAINT "C_FK_Address_Room" FOREIGN KEY ("Room")
+        REFERENCES "Room" ("ID")
         ON UPDATE CASCADE
         ON DELETE CASCADE
 );
@@ -99,15 +182,15 @@ CREATE TABLE "Producer"
 	"Login" nvarchar(30) NOT NULL,
 	"Password" binary(32) NOT NULL,
     "Name" nvarchar(30) NOT NULL,
-	"Grade" int,
-	"Region" nvarchar(50) NOT NULL,
-    "City" nvarchar(50) NOT NULL,
-    "District" nvarchar(50) NOT NULL,
-    "Street" nvarchar(50) NOT NULL,
-    "Building" nvarchar(10) NOT NULL,
-    "Room" nvarchar(10) NOT NULL,
+	"Grade" tinyint,
+	Room int NOT NULL,
     CONSTRAINT "C_PK_ProducerID" PRIMARY KEY ("ID"),
-	CONSTRAINT "C_U_Login" UNIQUE ("Login")
+	CONSTRAINT "C_U_Login" UNIQUE ("Login"),
+
+	CONSTRAINT "C_FK_Producer_Room" FOREIGN KEY ("Room")
+        REFERENCES "Room" ("ID")
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
 );
 
 EXEC sp_bindrule 'Grade', 'Producer.Grade'
@@ -115,8 +198,8 @@ EXEC sp_bindrule 'Grade', 'Producer.Grade'
 -- Status
 CREATE TABLE "Status"
 (
-    "ID" int NOT NULL,
-    "Value" nvarchar(50) NOT NULL,
+    "ID" tinyint NOT NULL,
+    "Value" nvarchar(20) NOT NULL,
     CONSTRAINT "C_PK_StatusID" PRIMARY KEY ("ID")
 );
 
@@ -160,12 +243,11 @@ EXEC sp_bindefault 'DefaultOneValue', 'Dish.Visible'
 CREATE TABLE "Order"
 (
     "ID" int IDENTITY(1, 1) NOT NULL,
-	"Client ID" int NOT NULL,
 	"Client Address ID" int NOT NULL,
     "Ordered At" datetime,
 	"Complited At" datetime,
-	"Status" int NOT NULL,
-	"Order Grade" int,
+	"Status" tinyint NOT NULL,
+	"Order Grade" tinyint,
     CONSTRAINT "C_PK_Order" PRIMARY KEY ("ID"),
 	
 	CONSTRAINT "C_FK_OrderStatus" FOREIGN KEY ("Status")
@@ -173,8 +255,8 @@ CREATE TABLE "Order"
         ON UPDATE NO ACTION
         ON DELETE NO ACTION,
 
-	CONSTRAINT "C_FK_Client_Address" FOREIGN KEY ("Client ID", "Client Address ID")
-        REFERENCES "Client Address" ("Client ID", "ID")
+	CONSTRAINT "C_FK_Client_Address" FOREIGN KEY ("Client Address ID")
+        REFERENCES "Client Address" ([ID])
         ON UPDATE CASCADE
         ON DELETE CASCADE
 );
@@ -224,7 +306,7 @@ EXEC sp_bindefault 'DefaultOneValue', 'Dishes Order.Count'
 CREATE TABLE "Ingredient" 
 (
 	"Ingredient ID" int IDENTITY(1, 1) NOT NULL,
-	"Ingredient Name" nvarchar(30) NOT NULL,
+	"Ingredient Name" nvarchar(30) UNIQUE NOT NULL,
 	CONSTRAINT "C_PK_Ingredient" PRIMARY KEY ("Ingredient ID")
 );
 

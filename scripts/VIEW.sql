@@ -8,6 +8,13 @@ SELECT [Order].ID, Client.[Login] AS [Client Login],[Client Address ID],[Ordered
   FROM ([Order] JOIN Status ON [Order].Status = Status.ID) JOIN Client ON [Order].[Client ID] = Client.ID
 GO
 
+CREATE OR ALTER VIEW [Address As Single table]
+AS
+SELECT *
+FROM [Client Address] JOIN 
+
+GO
+
 CREATE OR ALTER VIEW [Address By Login]
 AS
 SELECT Client.[Login] AS [Client Login], [Password], [Active Account], [Client Address].ID AS [Address ID], [Region],[City],[District],

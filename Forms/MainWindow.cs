@@ -38,7 +38,7 @@ namespace DeliveryApp
             SingleOrder.Controls.Add(Status);
             SingleOrder.Location = new Point(0, 0);
             SingleOrder.Margin = new Padding(0, 10, 0, 0);
-            SingleOrder.Size = new Size(550, 37);
+            SingleOrder.Size = new Size(680, 37);
             SingleOrder.Tag = order.ID;
             SingleOrder.Click += new EventHandler(this.SingleOrder_Click);
             
@@ -150,7 +150,7 @@ namespace DeliveryApp
                     }
                     ImagePanel.Click += (s, e) => { (new SingleDish(dish.Dish_ID)).Show(); };
 
-                    DishTable.BackColor = Color.Silver;
+                    DishTable.BackColor = SystemColors.InactiveCaption;
                     DishTable.ColumnCount = 2;
                     DishTable.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 72F));
                     DishTable.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 136F));

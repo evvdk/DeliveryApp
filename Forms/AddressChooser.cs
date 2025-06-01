@@ -3,6 +3,7 @@ using DeliveryApp.EF;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using System.Drawing;
 
 namespace DeliveryApp.Forms
 {
@@ -58,7 +59,8 @@ namespace DeliveryApp.Forms
         private void AddAddressPanel(Address_By_Login address)
         {
             FlowLayoutPanel FlowLayoutAddress = new FlowLayoutPanel();
-            RadioButton radioButton1 = new RadioButton();
+            RadioButton RadioButton = new RadioButton();
+            Label AddressText = new Label();
             Button Edit = new Button();
             Button Delete = new Button();
 
@@ -68,32 +70,39 @@ namespace DeliveryApp.Forms
             // 
             // radioButton1
             // 
-            radioButton1.AutoSize = true;
-            radioButton1.Dock = DockStyle.Fill;
-            radioButton1.Location = new System.Drawing.Point(3, 3);
-            if (this.Mode == Mode.Order || this.Mode == Mode.ReadyOrderChange) radioButton1.Checked = false;
-            else radioButton1.Checked = true;
-            radioButton1.Text = $"{address.Region}, {address.City}, {address.District}, {address.Street}, {address.Building}, {address.Room}";
-            radioButton1.UseVisualStyleBackColor = true;
-            radioButton1.Tag = address.Address_ID;
-            if (this.Mode == Mode.Order || this.Mode == Mode.ReadyOrderChange) radioButton1.Click += new EventHandler(radioButton_Clear);
-            radioButtons.Add(radioButton1);
+            RadioButton.AutoSize = true;
+            RadioButton.Dock = DockStyle.Fill;
+            RadioButton.Location = new Point(3, 3);
+            if (this.Mode == Mode.Order || this.Mode == Mode.ReadyOrderChange) RadioButton.Checked = false;
+            else RadioButton.Enabled = false;
+            RadioButton.Text = $"{address.Region}, {address.City}, {address.District}, {address.Street}, {address.Building}, {address.Room}";
+            RadioButton.Tag = address.Address_ID;
+            if (this.Mode == Mode.Order || this.Mode == Mode.ReadyOrderChange) RadioButton.Click += new EventHandler(radioButton_Clear);
+            radioButtons.Add(RadioButton);
+
+
+            AddressText.Text = $"{address.Region}, {address.City}, {address.District}, {address.Street}, {address.Building}, {address.Room}";
+            AddressText.AutoSize = true;
+            AddressText.Dock = DockStyle.Fill;
+            //AddressText.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(204)));
+            AddressText.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // FlowLayoutAddress
             // 
             FlowLayoutAddress.AutoSize = true;
-            FlowLayoutAddress.Controls.Add(radioButton1);
+            if(this.Mode == Mode.Edit) FlowLayoutAddress.Controls.Add(AddressText);
+            else FlowLayoutAddress.Controls.Add(RadioButton);
             FlowLayoutAddress.Controls.Add(Edit);
             FlowLayoutAddress.Controls.Add(Delete);
-            FlowLayoutAddress.Location = new System.Drawing.Point(0, 0);
+            FlowLayoutAddress.Location = new Point(0, 0);
             FlowLayoutAddress.Margin = new Padding(0);
-            FlowLayoutAddress.Size = new System.Drawing.Size(400, 38);
+            FlowLayoutAddress.Size = new Size(400, 38);
             //
             // Edit
             // 
             Edit.AutoSize = true;
             Edit.Dock = DockStyle.Fill;
-            Edit.Location = new System.Drawing.Point(122, 3);
+            Edit.Location = new Point(122, 3);
             Edit.Name = "Edit";
             Edit.Text = "Edit";
             Edit.Tag = address.Address_ID;
@@ -102,7 +111,7 @@ namespace DeliveryApp.Forms
 
             Delete.AutoSize = true;
             Delete.Dock = DockStyle.Fill;
-            Delete.Location = new System.Drawing.Point(122, 3);
+            Delete.Location = new Point(122, 3);
             Delete.Name = "Delete";
             Delete.Text = "Delete";
             Delete.Tag = address.Address_ID;
@@ -113,7 +122,7 @@ namespace DeliveryApp.Forms
             FlowLayoutAddress.PerformLayout();
         }
 
-        private void radioButton_Clear(object sender, System.EventArgs e)
+        private void radioButton_Clear(object sender, EventArgs e)
         {
             try
             {
