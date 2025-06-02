@@ -6,22 +6,27 @@ namespace DeliveryApp.EF
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class Status
+    [Table("Building")]
+    public partial class Building
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Status()
+        public Building()
         {
-            Order = new HashSet<Order>();
+            Room = new HashSet<Room>();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public short ID { get; set; }
+        public int ID { get; set; }
 
+        [Column("Building")]
         [Required]
-        [StringLength(20)]
-        public string Value { get; set; }
+        [StringLength(6)]
+        public string Building1 { get; set; }
+
+        public int Street { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Order> Order { get; set; }
+        public virtual ICollection<Room> Room { get; set; }
+
+        public virtual Street Street1 { get; set; }
     }
 }

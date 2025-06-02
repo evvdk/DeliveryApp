@@ -22,7 +22,7 @@ namespace DeliveryApp.Forms
             InitializeComponent();
             try
             {
-                Address_By_Login address = ClientActions.GetAddresses().Where(p => p.Address_ID == addressID).First();
+                Address_By_Login address = ClientActions.GetAddresses().Where(p => p.ID == addressID).First();
                 RegionField.Text = address.Region;
                 CityField.Text = address.City;
                 DistrictField.Text = address.District;

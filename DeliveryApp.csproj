@@ -137,21 +137,27 @@
     <Compile Include="DatabaseImage.cs" />
     <Compile Include="EF\Address_By_Login.cs" />
     <Compile Include="EF\All_Dishes.cs" />
+    <Compile Include="EF\Building.cs" />
+    <Compile Include="EF\City.cs" />
     <Compile Include="EF\Client.cs" />
     <Compile Include="EF\Client_Address.cs" />
     <Compile Include="EF\Courier.cs" />
+    <Compile Include="EF\DeliveryAppContext.cs" />
     <Compile Include="EF\Dish.cs" />
     <Compile Include="EF\Dishes_Order.cs" />
     <Compile Include="EF\Dish_All_Info.cs" />
+    <Compile Include="EF\District.cs" />
     <Compile Include="EF\Ingredient.cs" />
-    <Compile Include="EF\DeliveryAppContext.cs" />
     <Compile Include="EF\Notifications.cs" />
     <Compile Include="EF\Order.cs" />
     <Compile Include="EF\Order_On_Producer.cs" />
     <Compile Include="EF\Order_Set.cs" />
     <Compile Include="EF\Order_Status_Table.cs" />
     <Compile Include="EF\Producer.cs" />
+    <Compile Include="EF\Region.cs" />
+    <Compile Include="EF\Room.cs" />
     <Compile Include="EF\Status.cs" />
+    <Compile Include="EF\Street.cs" />
     <Compile Include="Forms\AddressChooser.cs">
       <SubType>Form</SubType>
     </Compile>

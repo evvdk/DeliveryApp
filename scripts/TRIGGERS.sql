@@ -1,6 +1,36 @@
 USE Delivery
 GO
 
+CREATE TRIGGER CheckIfAddressBelongsToClient ON [Order]
+AFTER INSERT, UPDATE
+AS
+BEGIN
+	DECLARE @Client int, @Address int;
+	DECLARE @Found tinyint;
+	SET @Found = 0
+	DECLARE OrderCheckAddressCursor CURSOR
+	SCROLL 
+	FOR SELECT DISTINCT [Client], [Client Address] FROM inserted;
+
+	OPEN OrderCheckAddressCursor
+	FETCH FIRST FROM OrderCheckAddressCursor
+	INTO  @Client, @Address
+
+	WHILE(@@FETCH_STATUS = 0 AND @Found = 0)
+	BEGIN
+			IF NOT EXISTS(SELECT * FROM [Client Address] WHERE [ID] = @Address AND [Client] = @Client)
+				SET @Found = 1
+
+		FETCH NEXT FROM OrderCheckAddressCursor
+		INTO @Client, @Address
+	END
+	CLOSE OrderCheckAddressCursor
+	DEALLOCATE OrderCheckAddressCursor
+	IF (@Found != 0) THROW 50015, 'Address doesn''t belong to user', 1;
+END
+
+GO
+
 CREATE OR ALTER TRIGGER OneProducerInSingleOreder ON "Dishes Order"
 AFTER INSERT
 AS
@@ -44,7 +74,7 @@ AS
 BEGIN
 	IF ((
 	SELECT COUNT(*)
-		FROM [Order] JOIN inserted ON [Order].[Client ID] = inserted.[Client ID]
+		FROM [Order] JOIN inserted ON [Order].[Client] = inserted.[Client]
 		WHERE [Order].[Ordered At] IS NULL AND [Order].[Status] = 0
 	) > 1) THROW 50011, 'More than one opened order', 1;
 		
@@ -94,7 +124,7 @@ BEGIN
 	DECLARE @Order int, @Status int, @Client int;
 	DECLARE MessageOnOrderCursor CURSOR
 	SCROLL
-	FOR SELECT inserted.[ID], inserted.[Status], inserted.[Client ID] FROM inserted JOIN deleted ON inserted.[Status] != deleted.[Status]
+	FOR SELECT inserted.[ID], inserted.[Status], inserted.[Client] FROM inserted JOIN deleted ON inserted.[Status] != deleted.[Status]
 
 	OPEN MessageOnOrderCursor
 
@@ -150,7 +180,7 @@ BEGIN
 			DECLARE @Status int;
 			DECLARE OrdersCursor CURSOR
 			SCROLL
-			FOR SELECT ID, [Status] FROM [Order] WHERE [Client Address ID] = @Address
+			FOR SELECT ID, [Status] FROM [Order] WHERE [Client Address] = @Address
 
 			OPEN OrdersCursor
 			FETCH FIRST FROM OrdersCursor

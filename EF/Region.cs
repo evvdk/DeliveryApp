@@ -6,22 +6,23 @@ namespace DeliveryApp.EF
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class Status
+    [Table("Region")]
+    public partial class Region
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Status()
+        public Region()
         {
-            Order = new HashSet<Order>();
+            City = new HashSet<City>();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public short ID { get; set; }
+        public int ID { get; set; }
 
+        [Column("Region")]
         [Required]
-        [StringLength(20)]
-        public string Value { get; set; }
+        [StringLength(50)]
+        public string Region1 { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Order> Order { get; set; }
+        public virtual ICollection<City> City { get; set; }
     }
 }
