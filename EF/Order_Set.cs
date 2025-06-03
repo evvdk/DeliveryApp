@@ -17,10 +17,10 @@ namespace DeliveryApp.EF
         public string Client_Login { get; set; }
 
         [Column("Order Status")]
-        public short? Order_Status { get; set; }
+        public int? Order_Status { get; set; }
 
         [Column("Order Status Value")]
-        [StringLength(20)]
+        [StringLength(50)]
         public string Order_Status_Value { get; set; }
 
         [Key]

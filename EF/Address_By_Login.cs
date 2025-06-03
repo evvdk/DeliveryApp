@@ -10,38 +10,55 @@ namespace DeliveryApp.EF
     public partial class Address_By_Login
     {
         [Key]
-        [Column(Order = 0)]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int ID { get; set; }
-
-        [Key]
-        [Column("Client ID", Order = 1)]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int Client_ID { get; set; }
-
-        [Key]
-        [Column(Order = 2)]
+        [Column("Client Login", Order = 0)]
         [StringLength(30)]
-        public string Login { get; set; }
+        public string Client_Login { get; set; }
 
+        [Key]
+        [Column(Order = 1)]
+        [StringLength(64)]
+        public byte[] Password { get; set; }
+
+        [Key]
+        [Column("Active Account", Order = 2)]
+        public byte Active_Account { get; set; }
+
+        [Key]
+        [Column("Address ID", Order = 3)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int Address_ID { get; set; }
+
+        [Key]
+        [Column(Order = 4)]
         [StringLength(50)]
         public string Region { get; set; }
 
+        [Key]
+        [Column(Order = 5)]
         [StringLength(50)]
         public string City { get; set; }
 
+        [Key]
+        [Column(Order = 6)]
         [StringLength(50)]
         public string District { get; set; }
 
+        [Key]
+        [Column(Order = 7)]
         [StringLength(50)]
         public string Street { get; set; }
 
-        [StringLength(6)]
+        [Key]
+        [Column(Order = 8)]
+        [StringLength(10)]
         public string Building { get; set; }
 
-        [StringLength(5)]
+        [Key]
+        [Column(Order = 9)]
+        [StringLength(10)]
         public string Room { get; set; }
 
-        public byte? Active { get; set; }
+        [Column("Active Address")]
+        public byte? Active_Address { get; set; }
     }
 }

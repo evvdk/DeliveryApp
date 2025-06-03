@@ -20,9 +20,9 @@ namespace DeliveryApp.EF
         public string Client_Login { get; set; }
 
         [Key]
-        [Column("Client Address", Order = 2)]
+        [Column("Client Address ID", Order = 2)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int Client_Address { get; set; }
+        public int Client_Address_ID { get; set; }
 
         [Column("Ordered At")]
         public DateTime? Ordered_At { get; set; }
@@ -33,14 +33,14 @@ namespace DeliveryApp.EF
         [Key]
         [Column("Status ID", Order = 3)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public short Status_ID { get; set; }
+        public int Status_ID { get; set; }
 
         [Key]
         [Column("Status Value", Order = 4)]
-        [StringLength(20)]
+        [StringLength(50)]
         public string Status_Value { get; set; }
 
         [Column("Order Grade")]
-        public short? Order_Grade { get; set; }
+        public int? Order_Grade { get; set; }
     }
 }

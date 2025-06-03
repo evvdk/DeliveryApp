@@ -119,7 +119,7 @@ END
 
 
 -- EXEC DeleteClient 'AnotherLogin', 'Password'
--- EXEC DeleteClient 'UserLogin', 'Password'
+-- EXEC DeleteClient 'UserLogin', 'Password'\
 
 GO
 
@@ -244,114 +244,28 @@ END
 
 GO
 
-CREATE OR ALTER PROCEDURE AddClientAddress(@login nvarchar(30), @password binary(32), @region nvarchar(50), @city nvarchar(50), @district nvarchar(50),
-		@street nvarchar(50), @building nvarchar(10), @room nvarchar(10))
+CREATE OR ALTER PROCEDURE AddClientAddress(@login nvarchar(30), @password binary(32),  @region nvarchar(50), @city nvarchar(50), @district nvarchar(50),
+		@street nvarchar(50), @building nvarchar(10),@room nvarchar(10))
 AS
 BEGIN
 	BEGIN TRY
-		
 		IF NOT EXISTS (SELECT * FROM Client WHERE Login = @login AND Password = @password AND [Active Account] = 1)
-			THROW 50006, 'Client with login doesn''t exists', 1;	
+			THROW 50006, 'Client with login doesn''t exists', 1;
 
+		DECLARE @clientID int;
+		SELECT @clientID = ID FROM Client
+			WHERE Login = @login AND Password = @password AND [Active Account] = 1
 
-		IF EXISTS (SELECT * FROM [Address By Login] WHERE [Login] = @login AND Region = @region AND City = @city AND -- if this user have it enabled
+		IF EXISTS (SELECT * FROM [Client Address] WHERE [Client ID] = @clientID AND Region = @region AND City = @City AND 
 									District = @district AND Street = @street AND Building = @building AND Room = @room AND Active = 1)
 			THROW 50014, 'Address already exists', 1;
-		
+
+	
 		BEGIN TRAN
-			
-			IF EXISTS (SELECT * FROM [Address By Login] WHERE [Login] = @login AND Region = @region AND City = @City AND -- if this user have it disabled
-									District = @district AND Street = @street AND Building = @building AND Room = @room AND Active = 0)
-			BEGIN
-				DECLARE @AddressID int;
 
-				SELECT @AddressID = ID FROM [Address By Login] WHERE [Login] = @login AND Region = @region AND City = @City AND
-									District = @district AND Street = @street AND Building = @building AND Room = @room AND Active = 0;
+			INSERT INTO [Client Address] ([Client ID], Region, City, District, Street, Building, Room)
+				VALUES (@clientID, @region, @city, @district, @street, @building, @room)
 
-				UPDATE [Client Address] 
-				SET Active = 1
-				WHERE ID = @AddressID
-
-			END
-			ELSE 
-			BEGIN
-				DECLARE @tmp int;
-				
-				IF NOT EXISTS (SELECT * FROM Region WHERE Region = @region)
-				BEGIN
-					INSERT INTO Region(Region) VALUES(@region);
-						SET @tmp = SCOPE_IDENTITY();
-				END
-				ELSE
-				BEGIN
-					SELECT @tmp = ID FROM Region WHERE Region = @region
-				END
-
-				IF NOT EXISTS (SELECT * FROM City WHERE City = @City AND Region = @tmp)
-				BEGIN
-					INSERT INTO City(City, Region) VALUES(@city, @tmp);
-						SET @tmp = SCOPE_IDENTITY();
-				END
-				ELSE
-				BEGIN
-					SELECT @tmp = ID FROM City WHERE City = @City AND Region = @tmp
-				END
-
-				IF NOT EXISTS (SELECT * FROM City WHERE City = @City AND Region = @tmp)
-				BEGIN
-					INSERT INTO City(City, Region) VALUES(@city, @tmp);
-						SET @tmp = SCOPE_IDENTITY();
-					END
-				ELSE
-				BEGIN
-					SELECT @tmp = ID FROM City WHERE City = @City AND Region = @tmp
-				END
-				
-				IF NOT EXISTS (SELECT * FROM District WHERE District = @district AND City = @tmp)
-				BEGIN
-					INSERT INTO District(District, City) VALUES(@district, @tmp);
-						SET @tmp = SCOPE_IDENTITY();
-				END
-				ELSE
-				BEGIN
-					SELECT @tmp = ID FROM District WHERE District = @district AND City = @tmp
-				END
-				
-				IF NOT EXISTS (SELECT * FROM Street WHERE Street = @street AND District = @tmp)
-				BEGIN
-					INSERT INTO Street(Street, District) VALUES(@street, @tmp);
-						SET @tmp = SCOPE_IDENTITY();
-				END
-				ELSE
-				BEGIN
-					SELECT @tmp = ID FROM Street WHERE Street = @street AND District = @tmp
-				END
-
-				IF NOT EXISTS (SELECT * FROM Building WHERE Building = @building AND Street = @tmp)
-				BEGIN
-					INSERT INTO Building(Building, Street) VALUES(@building, @tmp);
-						SET @tmp = SCOPE_IDENTITY();
-				END
-				ELSE
-				BEGIN
-					SELECT @tmp = ID FROM Building WHERE Building = @building AND Street = @tmp
-				END
-				
-				IF NOT EXISTS (SELECT * FROM Room WHERE Room = @room AND Building = @tmp)
-				BEGIN
-					INSERT INTO Room(Room, Building) VALUES(@room, @tmp);
-						SET @tmp = SCOPE_IDENTITY();
-				END
-				ELSE
-				BEGIN
-					SELECT @tmp = ID FROM Room WHERE Room = @room AND Building = @tmp
-				END
-				
-				DECLARE @Client int;
-				SELECT @Client = ID FROM Client WHERE Login = @login
-				INSERT INTO [Client Address](Client, Room) VALUES(@Client, @tmp);
-
-			END
 		COMMIT TRAN
 
 	END TRY
@@ -364,7 +278,7 @@ BEGIN
 	END CATCH
 END
 
---EXEC AddClientAddress 'Irina',0x48656C6C6F000000000000000000000000000000000000000000000000000000, 'Ryazan Oblsati', 'Ryazan', 'Diadkovo','1th Boluvar','56','66'
+-- EXEC AddClientAddress 'UserLogin', 'e7cf3ef4f17c3999a94f2c6f612e8a888e5b1026878e4e19398b23bd38ec221a', 'Ryazan Oblsat', 'Ryazan', 'Diadkovo','1th Boluvar','56',5,'656'
 GO
 
 CREATE OR ALTER PROCEDURE EditClientAddress(@address int, @login nvarchar(30), @password binary(32),  @region nvarchar(50), @city nvarchar(50), 
@@ -380,20 +294,20 @@ BEGIN
 		SELECT @clientID = ID FROM Client
 			WHERE Login = @login AND Password = @password AND [Active Account] = 1
 	
-		IF NOT EXISTS (SELECT * FROM [Client Address] WHERE [Client] = @clientID AND ID = @address AND Active = 1)
+		IF NOT EXISTS (SELECT * FROM [Client Address] WHERE [Client ID] = @clientID AND ID = @address AND Active = 1)
 			THROW 50007, 'Client with address doesn''t exists', 1;
 
-		IF EXISTS (SELECT * FROM [Address By Login] WHERE [Login] = @login AND Region = @region AND City = @City AND
-					District = @district AND Street = @street AND Building = @building AND Room = @room AND Active = 1 AND ID != @address)
+
+		IF EXISTS (SELECT * FROM [Client Address] WHERE [Client ID] = @clientID AND Region = @region AND City = @City AND 
+									District = @district AND Street = @street AND Building = @building 
+									AND Room = @room AND Active = 1 AND ID != @address)
 			THROW 50014, 'Address already exists', 1;
 
 		BEGIN TRAN
 
 			UPDATE [Client Address]
-			SET Active = 0
-			WHERE ID = @address AND [Client] = @clientID AND [Active] = 1
-
-			EXEC AddClientAddress @login,@password, @region, @city, @district, @street, @building, @room
+			SET Region = @region, City = @city, District = @district, Street = @street, Building = @building, Room = @room
+			WHERE ID = @address AND [Client ID] = @clientID AND [Active] = 1
  
 		COMMIT TRAN
 
@@ -406,7 +320,7 @@ BEGIN
 
 	END CATCH
 END
---EXEC EditClientAddress 9, 'Irina', 0x48656C6C6F000000000000000000000000000000000000000000000000000000, 'Ryazan Ob', 'Ryazan', 'Diadkovo','1th Boluvar','56','66'
+
 GO
 
 CREATE OR ALTER PROCEDURE DeleteClientAddress(@addressID int, @login nvarchar(30), @password binary(32))
@@ -422,14 +336,14 @@ BEGIN
 		SELECT @clientID = ID FROM Client
 			WHERE Login = @login AND Password = @password AND [Active Account] = 1
 
-		IF NOT EXISTS (SELECT * FROM [Client Address] WHERE [Client] = @clientID AND ID = @addressID AND Active = 1)
+		IF NOT EXISTS (SELECT * FROM [Client Address] WHERE [Client ID] = @clientID AND ID = @addressID AND Active = 1)
 			THROW 50007, 'Client with address doesn''t exists', 1;
 
 		BEGIN TRAN
 
 			UPDATE [Client Address]
 				SET Active = 0
-				WHERE [Client] = @clientID AND ID = @addressID AND Active = 1
+				WHERE [Client ID] = @clientID AND ID = @addressID AND Active = 1
 
 		COMMIT TRAN
 
@@ -461,43 +375,8 @@ BEGIN
 			SELECT @clientID = ID FROM Client
 				WHERE [Login] = @login AND [Active Account] = 1
 
-			INSERT INTO [Order] ([Client], [Client Address]) 
+			INSERT INTO [Order] ([Client ID], [Client Address ID]) 
 					VALUES (@ClientID, @AddressID);
-
-		COMMIT TRAN
-
-	END TRY
-	BEGIN CATCH
-
-		IF @@TRANCOUNT > 0
-			ROLLBACK TRAN;
-		THROW;
-
-	END CATCH
-END
-
-GO
-
-CREATE OR ALTER PROCEDURE SetAddressToOpenedOrder(@login nvarchar(30), @addressID int)
-AS
-BEGIN
-	BEGIN TRY
-		BEGIN TRAN
-			
-			IF NOT EXISTS(SELECT * FROM Client WHERE [Login] = @login AND [Active Account] = 1)
-				THROW 50006, 'Client with login doesn''t exists', 1;
-
-
-			DECLARE @clientID int;
-			SELECT @clientID = ID FROM Client
-				WHERE [Login] = @login AND [Active Account] = 1
-
-			IF NOT EXISTS(SELECT * FROM [Order] WHERE Client = @ClientID AND [Status] = 0)
-				THROW 50009, 'Order doesn''t exists', 1;
-
-			UPDATE [Order]
-			SET [Client Address] = @addressID
-			WHERE Client = @ClientID AND [Status] = 0
 
 		COMMIT TRAN
 
@@ -642,7 +521,7 @@ BEGIN
 		BEGIN TRAN
 
 		UPDATE [Order]
-			SET [Client Address] = @Address
+			SET [Client Address ID] = @Address
 			WHERE ID = @Order
 
 		COMMIT TRAN

@@ -12,7 +12,6 @@ namespace DeliveryApp.EF
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Client()
         {
-            Order = new HashSet<Order>();
             Client_Address = new HashSet<Client_Address>();
             Notifications = new HashSet<Notifications>();
         }
@@ -24,7 +23,7 @@ namespace DeliveryApp.EF
         public string Login { get; set; }
 
         [Required]
-        [MaxLength(32)]
+        [StringLength(64)]
         public byte[] Password { get; set; }
 
         [Required]
@@ -42,9 +41,6 @@ namespace DeliveryApp.EF
 
         [Column("Active Account")]
         public byte Active_Account { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Order> Order { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Client_Address> Client_Address { get; set; }

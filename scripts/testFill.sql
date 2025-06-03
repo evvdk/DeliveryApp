@@ -2,118 +2,19 @@
 USE Delivery
 GO
 
-CREATE OR ALTER PROCEDURE InsertProdData(@login nvarchar(30), @password binary(32), @name nvarchar(30), @region nvarchar(50), @city nvarchar(50), @district nvarchar(50),
-		@street nvarchar(50), @building nvarchar(10), @room nvarchar(10))
-AS
-BEGIN
-	BEGIN TRY
-		
-		BEGIN TRAN
-
-			DECLARE @tmp int;
-				
-			IF NOT EXISTS (SELECT * FROM Region WHERE Region = @region)
-			BEGIN
-				INSERT INTO Region(Region) VALUES(@region);
-					SET @tmp = SCOPE_IDENTITY();
-			END
-			ELSE
-			BEGIN
-				SELECT @tmp = ID FROM Region WHERE Region = @region
-			END
-			
-			IF NOT EXISTS (SELECT * FROM City WHERE City = @City AND Region = @tmp)
-			BEGIN
-				INSERT INTO City(City, Region) VALUES(@city, @tmp);
-					SET @tmp = SCOPE_IDENTITY();
-			END
-			ELSE
-			BEGIN
-				SELECT @tmp = ID FROM City WHERE City = @City AND Region = @tmp
-			END
-
-			IF NOT EXISTS (SELECT * FROM City WHERE City = @City AND Region = @tmp)
-			BEGIN
-				INSERT INTO City(City, Region) VALUES(@city, @tmp);
-					SET @tmp = SCOPE_IDENTITY();
-				END
-			ELSE
-			BEGIN
-				SELECT @tmp = ID FROM City WHERE City = @City AND Region = @tmp
-			END
-			
-			IF NOT EXISTS (SELECT * FROM District WHERE District = @district AND City = @tmp)
-			BEGIN
-				INSERT INTO District(District, City) VALUES(@district, @tmp);
-					SET @tmp = SCOPE_IDENTITY();
-			END
-			ELSE
-			BEGIN
-				SELECT @tmp = ID FROM District WHERE District = @district AND City = @tmp
-			END
-			
-			IF NOT EXISTS (SELECT * FROM Street WHERE Street = @street AND District = @tmp)
-			BEGIN
-				INSERT INTO Street(Street, District) VALUES(@street, @tmp);
-					SET @tmp = SCOPE_IDENTITY();
-			END
-			ELSE
-			BEGIN
-				SELECT @tmp = ID FROM Street WHERE Street = @street AND District = @tmp
-			END
-			
-			IF NOT EXISTS (SELECT * FROM Building WHERE Building = @building AND Street = @tmp)
-			BEGIN
-				INSERT INTO Building(Building, Street) VALUES(@building, @tmp);
-					SET @tmp = SCOPE_IDENTITY();
-			END
-			ELSE
-			BEGIN
-				SELECT @tmp = ID FROM Building WHERE Building = @building AND Street = @tmp
-			END
-			
-			IF NOT EXISTS (SELECT * FROM Room WHERE Room = @room AND Building = @tmp)
-			BEGIN
-				INSERT INTO Room(Room, Building) VALUES(@room, @tmp);
-					SET @tmp = SCOPE_IDENTITY();
-			END
-			ELSE
-			BEGIN
-				SELECT @tmp = ID FROM Room WHERE Room = @room AND Building = @tmp
-			END
-
-			INSERT INTO Producer(Login, Password, Name, Room) VALUES(@login, @password, @name, @tmp)
-
-		COMMIT TRAN
-
-	END TRY
-	BEGIN CATCH
-
-		IF @@TRANCOUNT > 0
-			ROLLBACK TRAN;
-		THROW;
-
-	END CATCH
-END
-
-GO
-
-DECLARE @password binary(32);
-SET @password = CONVERT(BINARY(32), 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
-
-EXEC InsertProdData 'bella_pizza', @password, 'Пицца Белла', 'Московская область', 'Москва', 'Центральный', 'Тверская', '15', '201'
-EXEC InsertProdData 'sushi_master', @password, 'Суши Мастер', 'Ленинградская область', 'Санкт-Петербург', 'Центральный', 'Невский проспект', '22А', '305'
-EXEC InsertProdData 'utro_bakery', @password, 'Пекарня Утро', 'Московская область', 'Москва', 'Западный', 'Кутузовский проспект', '12Б', '101'
-EXEC InsertProdData 'vegan_house', @password, 'Веган Хаус', 'Татарстан', 'Казань', 'Приволжский', 'Баумана', '7', 'A5'
-EXEC InsertProdData 'wok_empire', @password, 'Wok Империя', 'Свердловская область', 'Екатеринбург', 'Верх-Исетский', 'Малышева', '34В', '412'
-EXEC InsertProdData 'coffee_bean', @password, 'Кофейное Зерно', 'Краснодарский край', 'Краснодар', 'Центральный', 'Красная', '56', '12'
-EXEC InsertProdData 'dumpling_king', @password, 'Король Пельменей', 'Новосибирская область', 'Новосибирск', 'Октябрьский', 'Ленина', '11/2', '204'
-
-EXEC InsertProdData 'grill_hero', @password, 'Гриль Герой', 'Самарская область', 'Самара', 'Промышленный', 'Гагарина', '77', '501'
-EXEC InsertProdData 'fresh_salad', @password, 'Свежий Салат', 'Ростовская область', 'Ростов-на-Дону', 'Советский', 'Большая Садовая', '25', '1А'
-
-EXEC InsertProdData 'donut_world', @password, 'Мир Пончиков', 'Челябинская область', 'Челябинск', 'Металлургический', 'Свободы', '8К1', '317'
-
+INSERT INTO "Producer" 
+("Login", "Password", "Name", "Grade", "Region", "City", "District", "Street", "Building", "Room")
+VALUES
+('bella_pizza', CONVERT(BINARY(32),'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'), 'Пицца Белла', 5, 'Московская область', 'Москва', 'Центральный', 'Тверская', '15', '201'),
+('sushi_master', CONVERT(BINARY(32),'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'), 'Суши Мастер', 4, 'Ленинградская область', 'Санкт-Петербург', 'Центральный', 'Невский проспект', '22А', '305'),
+('utro_bakery', CONVERT(BINARY(32),'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'), 'Пекарня Утро', NULL, 'Московская область', 'Москва', 'Западный', 'Кутузовский проспект', '12Б', '101'),
+('vegan_house', CONVERT(BINARY(32),'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'), 'Веган Хаус', 4, 'Татарстан', 'Казань', 'Приволжский', 'Баумана', '7', 'A5'),
+('wok_empire', CONVERT(BINARY(32),'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'), 'Wok Империя', 5, 'Свердловская область', 'Екатеринбург', 'Верх-Исетский', 'Малышева', '34В', '412'),
+('coffee_bean', CONVERT(BINARY(32),'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'), 'Кофейное Зерно', NULL, 'Краснодарский край', 'Краснодар', 'Центральный', 'Красная', '56', '12'),
+('dumpling_king', CONVERT(BINARY(32),'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'), 'Король Пельменей', 3, 'Новосибирская область', 'Новосибирск', 'Октябрьский', 'Ленина', '11/2', '204'),
+('grill_hero', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'Гриль Герой', 4, 'Самарская область', 'Самара', 'Промышленный', 'Гагарина', '77', '501'),
+('fresh_salad', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'Свежий Салат', 5, 'Ростовская область', 'Ростов-на-Дону', 'Советский', 'Большая Садовая', '25', '1А'),
+('donut_world', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'Мир Пончиков', 4, 'Челябинская область', 'Челябинск', 'Металлургический', 'Свободы', '8К1', '317');
 
 INSERT INTO "Courier" 
 ("First Name", "Second Name", "Last Name", "Phone", "Passport Number", "Work Book")

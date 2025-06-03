@@ -22,20 +22,42 @@ namespace DeliveryApp.EF
         public string Login { get; set; }
 
         [Required]
-        [MaxLength(32)]
+        [StringLength(60)]
         public byte[] Password { get; set; }
 
         [Required]
         [StringLength(30)]
         public string Name { get; set; }
 
-        public short? Grade { get; set; }
+        public int? Grade { get; set; }
 
-        public int Room { get; set; }
+        [Required]
+        [StringLength(50)]
+        public string Region { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        public string City { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        public string District { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        public string Street { get; set; }
+
+        [Required]
+        [StringLength(10)]
+        public string Building { get; set; }
+
+        public int? Floor { get; set; }
+
+        [Required]
+        [StringLength(10)]
+        public string Room { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Dish> Dish { get; set; }
-
-        public virtual Room Room1 { get; set; }
     }
 }

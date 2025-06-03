@@ -131,7 +131,7 @@ namespace DeliveryApp
         {
             using (var context = new DeliveryAppContext())
             {
-                return context.Address_By_Login.Where(p => p.Login == Login && p.Active == 1).ToList();
+                return context.Address_By_Login.Where(p => p.Client_Login == Login && p.Password == Password && p.Active_Address == 1).ToList();
             }
         }
 
@@ -156,17 +156,6 @@ namespace DeliveryApp
             using (var context = new DeliveryAppContext())
             {
                 return context.Order_Status_Table.Where(p => p.Client_Login == Login && p.Status_ID == 0).Count() == 1;
-            }
-        }
-
-        public static void UpdateAddressOnOpenOrder(string Login, int NewAddress)
-        {
-            using (var context = new DeliveryAppContext())
-            {
-                var login = new SqlParameter("@login", Login);
-                var newAddress = new SqlParameter("@address", NewAddress);
-
-                context.Database.ExecuteSqlCommand("exec SetAddressToOpenedOrder @login, @address", login, newAddress);
             }
         }
 
@@ -285,7 +274,7 @@ namespace DeliveryApp
         {
             using (var context = new DeliveryAppContext())
             {
-                return context.Order_Status_Table.Where(p => p.ID == Order).First().Client_Address;
+                return context.Order_Status_Table.Where(p => p.ID == Order).First().Client_Address_ID;
             }
         }
 

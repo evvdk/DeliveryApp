@@ -4,22 +4,22 @@ GO
 
 CREATE OR ALTER VIEW [Order Status Table]
 AS
-SELECT [Order].ID, Client.[Login] AS [Client Login],[Client Address],[Ordered At],[Complited At], [Status].ID AS [Status ID], [Status].Value AS [Status Value],[Order Grade]
-  FROM ([Order] JOIN Status ON [Order].Status = Status.ID) JOIN Client ON [Order].[Client] = Client.ID
+SELECT [Order].ID, Client.[Login] AS [Client Login],[Client Address ID],[Ordered At],[Complited At], [Status].ID AS [Status ID], [Status].Value AS [Status Value],[Order Grade]
+  FROM ([Order] JOIN Status ON [Order].Status = Status.ID) JOIN Client ON [Order].[Client ID] = Client.ID
+GO
+
+CREATE OR ALTER VIEW [Address As Single table]
+AS
+SELECT *
+FROM [Client Address] JOIN 
 
 GO
 
 CREATE OR ALTER VIEW [Address By Login]
 AS
-SELECT [Client Address].ID AS [ID], Client.ID AS [Client ID], Client.Login, Region.Region, City.City,District.District,Street.Street, Building.Building,
-Room.Room, [Client Address].Active
-FROM (((((((Client JOIN [Client Address] ON Client.ID = [Client Address].[Client]) 
-		LEFT JOIN Room ON [Client Address].Room = Room.ID)
-		LEFT JOIN Building ON Room.Building = Building.ID)
-		LEFT JOIN Street ON Street.ID = Building.Street)
-		LEFT JOIN District ON District.ID = Street.District)
-		LEFT JOIN City ON City.ID = District.City)
-		LEFT JOIN Region ON Region.ID = City.Region)
+SELECT Client.[Login] AS [Client Login], [Password], [Active Account], [Client Address].ID AS [Address ID], [Region],[City],[District],
+		[Street],[Building],[Room],[Active] AS [Active Address]
+FROM Client JOIN [Client Address] ON Client.ID = [Client Address].[Client ID]
 GO
 
 CREATE OR ALTER VIEW [Order Set]
@@ -28,8 +28,8 @@ SELECT [Order].ID AS [Order ID], Client.[Login] AS [Client Login], [Status] AS [
 FROM (((([Order] RIGHT JOIN [Status] ON [Order].[Status] = [Status].ID)
 RIGHT JOIN [Dishes Order] ON [Order].ID = [Dishes Order].[Order ID])
 LEFT JOIN Dish ON [Dishes Order].[Dish ID] = Dish.ID) 
-LEFT JOIN Client ON ([Order].[Client] = Client.ID)
-LEFT JOIN Producer ON Dish.[Producer ID] = Producer.ID)
+LEFT JOIN Client ON [Order].[Client ID] = Client.ID)
+LEFT JOIN Producer ON Dish.[Producer ID] = Producer.ID
 
 GO
 
@@ -49,7 +49,7 @@ FROM ([Dishes Order] LEFT JOIN Dish ON [Dishes Order].[Dish ID]=Dish.ID) LEFT JO
 
 GO
 
-CREATE OR ALTER VIEW [Dish All Info]
+CREATE VIEW [Dish All Info]
 AS
 SELECT Dish.ID, [Producer ID], Producer.Name AS [Producer Name], Dish.Name AS [Dish Name], Dish.Image, Dish.Cost, Dish.Calories, Dish.Description, Ingredient.[Ingredient Name]
 FROM (Dish LEFT JOIN Producer ON Dish.[Producer ID] = Producer.ID) LEFT JOIN([Dish Ingredients] LEFT JOIN Ingredient ON [Dish Ingredients].[Ingredient ID] = Ingredient.[Ingredient ID]) 

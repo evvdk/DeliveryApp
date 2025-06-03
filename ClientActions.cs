@@ -342,30 +342,6 @@ namespace DeliveryApp
             }
         }
 
-        public static void UpdateAddressOnOpenOrder(int NewAddress)
-        {
-            try
-            {
-                Database.UpdateAddressOnOpenOrder(User.userInfo.Login, NewAddress);
-            }
-            catch (SqlException ex)
-            {
-                switch (ex.Number)
-                {
-                    case 50005:
-                        throw new Exception("Client with login doesn't exists");
-                    case 50009:
-                        throw new Exception("There's no open order");
-                    default:
-                        throw new Exception($"Database error{ex.Number}\n{ex.Message}");
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Error during initing order\n{ex.Message}");
-            }
-        }
-
         public static void AddToOrder(int OrderID, int DishID)
         {
             try
@@ -426,7 +402,6 @@ namespace DeliveryApp
                         throw new Exception("Client with login doesn't exists");
                     case 50014:
                         throw new Exception("Address already exists");
-                    
                     default:
                         throw new Exception($"Database error{ex.Number}\n{ex.Message}");
                 }
@@ -477,8 +452,6 @@ namespace DeliveryApp
                         throw new Exception("Client with login doesn't exists");
                     case 50007:
                         throw new Exception("Client with address doesn't exists");
-                    case 50013:
-                        throw new Exception("Can not edit current order address");
                     case 50014:
                         throw new Exception("Address already exists");
                     default:

@@ -18,10 +18,17 @@ namespace DeliveryApp.Forms
             List <Address_By_Login> addresses = ClientActions.GetAddresses();
             InitializeComponent();
             UpdateList();
-
-            this.Apply.Click += (p, e) => {
-                this.Close();
-            };
+            switch (Mode)
+            {
+                case Mode.Order:
+                    this.Apply.Click += new EventHandler(this.Apply_InitOrder);
+                    break;
+                case Mode.Edit:
+                    this.Apply.Click += (p, e) => {
+                        this.Close();
+                    };
+                    break;
+            }
         }
 
         private int OrderId;
@@ -69,7 +76,7 @@ namespace DeliveryApp.Forms
             if (this.Mode == Mode.Order || this.Mode == Mode.ReadyOrderChange) RadioButton.Checked = false;
             else RadioButton.Enabled = false;
             RadioButton.Text = $"{address.Region}, {address.City}, {address.District}, {address.Street}, {address.Building}, {address.Room}";
-            RadioButton.Tag = address.ID;
+            RadioButton.Tag = address.Address_ID;
             if (this.Mode == Mode.Order || this.Mode == Mode.ReadyOrderChange) RadioButton.Click += new EventHandler(radioButton_Clear);
             radioButtons.Add(RadioButton);
 
@@ -97,7 +104,7 @@ namespace DeliveryApp.Forms
             Edit.Location = new Point(122, 3);
             Edit.Name = "Edit";
             Edit.Text = "Edit";
-            Edit.Tag = address.ID;
+            Edit.Tag = address.Address_ID;
             Edit.UseVisualStyleBackColor = true;
             Edit.Click += new EventHandler(this.Apply_EditAddress);
 
@@ -106,7 +113,7 @@ namespace DeliveryApp.Forms
             Delete.Location = new Point(122, 3);
             Delete.Name = "Delete";
             Delete.Text = "Delete";
-            Delete.Tag = address.ID;
+            Delete.Tag = address.Address_ID;
             Delete.UseVisualStyleBackColor = true;
             Delete.Click += new EventHandler(this.Apply_DeleteAddress);
 
@@ -127,8 +134,6 @@ namespace DeliveryApp.Forms
                     throw new Exception("Error during cast");
 
                 radio.Checked = true;
-                Apply_InitOrder();
-
             }
             catch
             {
@@ -136,15 +141,15 @@ namespace DeliveryApp.Forms
             }
         }
 
-        private void Apply_InitOrder()
+        private void Apply_InitOrder(object sender, EventArgs e)
         {
             try
             {
                 var selected = radioButtons.Where(p=>p.Checked);
                 if (selected.Count() != 1) throw new Exception("None radios selected");
                 int address = (int)selected.First().Tag;
-                if (ClientActions.HasOpenedOrder()) ClientActions.UpdateAddressOnOpenOrder(address);
-                else ClientActions.InitOrder(address);
+                ClientActions.InitOrder(address);
+                this.Close();
             }
             catch(Exception ex)
             {

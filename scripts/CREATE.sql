@@ -117,7 +117,7 @@ CREATE TABLE Street
 CREATE TABLE Building
 (
 	ID int IDENTITY(1,1) NOT NULL,
-	Building nvarchar(6) NOT NULL,
+	Building nvarchar(50) NOT NULL,
 	Street int NOT NULL,
 
 	CONSTRAINT "C_PK_Building" PRIMARY KEY ("ID"),
@@ -132,7 +132,7 @@ CREATE TABLE Building
 CREATE TABLE Room
 (
 	ID int IDENTITY(1,1) NOT NULL,
-	Room nvarchar(5) NOT NULL,
+	Room nvarchar(50) NOT NULL,
 	Building int NOT NULL,
 
 	CONSTRAINT "C_PK_Room" PRIMARY KEY ("ID"),
@@ -148,15 +148,13 @@ CREATE TABLE Room
 CREATE TABLE "Client Address"
 (
     [ID] int IDENTITY(1, 1) NOT NULL,
-	[Client] int NOT NULL,
+	[Client ID] int NOT NULL,
     Room int NOT NULL,
 	Active tinyint,
 
     CONSTRAINT "C_PK_ClientAddress_Address" PRIMARY KEY ("ID"),
-
-	CONSTRAINT "C_U_Client_Room" UNIQUE ("Room", "Client"),
 	
-	CONSTRAINT "C_FK_Login" FOREIGN KEY ("Client")
+	CONSTRAINT "C_FK_Login" FOREIGN KEY ("Client ID")
         REFERENCES "Client" ("ID")
         ON UPDATE CASCADE
         ON DELETE CASCADE,
@@ -237,8 +235,7 @@ EXEC sp_bindefault 'DefaultOneValue', 'Dish.Visible'
 CREATE TABLE "Order"
 (
     "ID" int IDENTITY(1, 1) NOT NULL,
-	"Client Address" int NOT NULL,
-	"Client" int NOT NULL,
+	"Client Address ID" int NOT NULL,
     "Ordered At" datetime,
 	"Complited At" datetime,
 	"Status" smallint NOT NULL,
@@ -250,15 +247,10 @@ CREATE TABLE "Order"
         ON UPDATE NO ACTION
         ON DELETE NO ACTION,
 
-	CONSTRAINT "C_FK_Client_Address" FOREIGN KEY ("Client Address")
+	CONSTRAINT "C_FK_Client_Address" FOREIGN KEY ("Client Address ID")
         REFERENCES "Client Address" ([ID])
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION,
-
-	CONSTRAINT "C_FK_Client" FOREIGN KEY ("Client")
-        REFERENCES "Client" ([ID])
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
 );
 
 EXEC sp_bindrule 'Grade', 'Order.Order Grade'
