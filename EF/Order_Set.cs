@@ -17,7 +17,7 @@ namespace DeliveryApp.EF
         public string Client_Login { get; set; }
 
         [Column("Order Status")]
-        public int? Order_Status { get; set; }
+        public short? Order_Status { get; set; }
 
         [Column("Order Status Value")]
         [StringLength(50)]

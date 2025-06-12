@@ -210,21 +210,20 @@ namespace DeliveryApp
             }
         }
 
-        public static void AddAdress(string Login, byte[] Password, string Region, string City, string District, string Street, string Building, string Room)
+        public static void AddAdress(string Login, byte[] Password, string City, string District, string Street, string Building, string Room)
         {
             using (var context = new DeliveryAppContext())
             {
                 var login = new SqlParameter("@login", Login);
                 var password = new SqlParameter("@password", Password);
-                var region = new SqlParameter("@region", Region);
                 var city = new SqlParameter("@city", City);
                 var district = new SqlParameter("@district", District);
                 var street = new SqlParameter("@street", Street);
                 var building = new SqlParameter("@building", Building);
                 var room = new SqlParameter("@room", Room);
 
-                context.Database.ExecuteSqlCommand("exec AddClientAddress @login, @password, @region, @city, @district, @street, @building, @room", 
-                    login, password, region, city, district, street, building, room);
+                context.Database.ExecuteSqlCommand("exec AddClientAddress @login, @password, @city, @district, @street, @building, @room", 
+                    login, password, city, district, street, building, room);
             }
         }
 
@@ -241,22 +240,21 @@ namespace DeliveryApp
             }
         }
 
-        public static void EditAdress(int Address, string Login, byte[] Password, string Region, string City, string District, string Street, string Building, string Room)
+        public static void EditAdress(int Address, string Login, byte[] Password, string City, string District, string Street, string Building, string Room)
         {
             using (var context = new DeliveryAppContext())
             {
                 var address = new SqlParameter("@address", Address);
                 var login = new SqlParameter("@login", Login);
                 var password = new SqlParameter("@password", Password);
-                var region = new SqlParameter("@region", Region);
                 var city = new SqlParameter("@city", City);
                 var district = new SqlParameter("@district", District);
                 var street = new SqlParameter("@street", Street);
                 var building = new SqlParameter("@building", Building);
                 var room = new SqlParameter("@room", Room);
 
-                context.Database.ExecuteSqlCommand("exec EditClientAddress @address, @login, @password, @region, @city, @district, @street, @building, @room",
-                    address, login, password, region, city, district, street, building, room);
+                context.Database.ExecuteSqlCommand("exec EditClientAddress @address, @login, @password, @city, @district, @street, @building, @room",
+                    address, login, password, city, district, street, building, room);
             }
         }
 

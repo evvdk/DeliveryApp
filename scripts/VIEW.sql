@@ -10,7 +10,7 @@ GO
 
 CREATE OR ALTER VIEW [Address By Login]
 AS
-SELECT Client.[Login] AS [Client Login], [Password], [Active Account], [Client Address].ID AS [Address ID], [Region],[City],[District],
+SELECT Client.[Login] AS [Client Login], [Password], [Active Account], [Client Address].ID AS [Address ID], [City],[District],
 		[Street],[Building],[Room],[Active] AS [Active Address]
 FROM Client JOIN [Client Address] ON Client.ID = [Client Address].[Client ID]
 GO
@@ -42,7 +42,7 @@ FROM ([Dishes Order] LEFT JOIN Dish ON [Dishes Order].[Dish ID]=Dish.ID) LEFT JO
 
 GO
 
-CREATE VIEW [Dish All Info]
+CREATE OR ALTER VIEW [Dish All Info]
 AS
 SELECT Dish.ID, [Producer ID], Producer.Name AS [Producer Name], Dish.Name AS [Dish Name], Dish.Image, Dish.Cost, Dish.Calories, Dish.Description, Ingredient.[Ingredient Name]
 FROM (Dish LEFT JOIN Producer ON Dish.[Producer ID] = Producer.ID) LEFT JOIN([Dish Ingredients] LEFT JOIN Ingredient ON [Dish Ingredients].[Ingredient ID] = Ingredient.[Ingredient ID]) 

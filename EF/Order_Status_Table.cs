@@ -33,7 +33,7 @@ namespace DeliveryApp.EF
         [Key]
         [Column("Status ID", Order = 3)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int Status_ID { get; set; }
+        public short Status_ID { get; set; }
 
         [Key]
         [Column("Status Value", Order = 4)]
@@ -41,6 +41,6 @@ namespace DeliveryApp.EF
         public string Status_Value { get; set; }
 
         [Column("Order Grade")]
-        public int? Order_Grade { get; set; }
+        public short? Order_Grade { get; set; }
     }
 }

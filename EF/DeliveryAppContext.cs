@@ -19,11 +19,11 @@ namespace DeliveryApp.EF
         public virtual DbSet<Order> Order { get; set; }
         public virtual DbSet<Producer> Producer { get; set; }
         public virtual DbSet<Status> Status { get; set; }
-        public virtual DbSet<Order_Status_Table> Order_Status_Table { get; set; }
         public virtual DbSet<Address_By_Login> Address_By_Login { get; set; }
-        public virtual DbSet<Order_Set> Order_Set { get; set; }
         public virtual DbSet<All_Dishes> All_Dishes { get; set; }
-        public virtual DbSet<Order_On_Producer> Order_On_Producer { get; set; }
         public virtual DbSet<Dish_All_Info> Dish_All_Info { get; set; }
+        public virtual DbSet<Order_On_Producer> Order_On_Producer { get; set; }
+        public virtual DbSet<Order_Set> Order_Set { get; set; }
+        public virtual DbSet<Order_Status_Table> Order_Status_Table { get; set; }
     }
 }

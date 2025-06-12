@@ -16,7 +16,7 @@ namespace DeliveryApp.EF
 
         [Key]
         [Column(Order = 1)]
-        [StringLength(64)]
+        [MaxLength(32)]
         public byte[] Password { get; set; }
 
         [Key]
@@ -31,31 +31,26 @@ namespace DeliveryApp.EF
         [Key]
         [Column(Order = 4)]
         [StringLength(50)]
-        public string Region { get; set; }
+        public string City { get; set; }
 
         [Key]
         [Column(Order = 5)]
         [StringLength(50)]
-        public string City { get; set; }
+        public string District { get; set; }
 
         [Key]
         [Column(Order = 6)]
         [StringLength(50)]
-        public string District { get; set; }
-
-        [Key]
-        [Column(Order = 7)]
-        [StringLength(50)]
         public string Street { get; set; }
 
         [Key]
-        [Column(Order = 8)]
-        [StringLength(10)]
+        [Column(Order = 7)]
+        [StringLength(6)]
         public string Building { get; set; }
 
         [Key]
-        [Column(Order = 9)]
-        [StringLength(10)]
+        [Column(Order = 8)]
+        [StringLength(5)]
         public string Room { get; set; }
 
         [Column("Active Address")]

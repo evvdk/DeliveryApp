@@ -140,11 +140,11 @@
     <Compile Include="EF\Client.cs" />
     <Compile Include="EF\Client_Address.cs" />
     <Compile Include="EF\Courier.cs" />
+    <Compile Include="EF\DeliveryAppContext.cs" />
     <Compile Include="EF\Dish.cs" />
     <Compile Include="EF\Dishes_Order.cs" />
     <Compile Include="EF\Dish_All_Info.cs" />
     <Compile Include="EF\Ingredient.cs" />
-    <Compile Include="EF\DeliveryAppContext.cs" />
     <Compile Include="EF\Notifications.cs" />
     <Compile Include="EF\Order.cs" />
     <Compile Include="EF\Order_On_Producer.cs" />

@@ -73,7 +73,7 @@ namespace DeliveryApp.Forms
             radioButton1.Location = new System.Drawing.Point(3, 3);
             if (this.Mode == Mode.Order || this.Mode == Mode.ReadyOrderChange) radioButton1.Checked = false;
             else radioButton1.Checked = true;
-            radioButton1.Text = $"{address.Region}, {address.City}, {address.District}, {address.Street}, {address.Building}, {address.Room}";
+            radioButton1.Text = $"{address.City}, {address.District}, {address.Street}, {address.Building}, {address.Room}";
             radioButton1.UseVisualStyleBackColor = true;
             radioButton1.Tag = address.Address_ID;
             if (this.Mode == Mode.Order || this.Mode == Mode.ReadyOrderChange) radioButton1.Click += new EventHandler(radioButton_Clear);

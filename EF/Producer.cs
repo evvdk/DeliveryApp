@@ -22,18 +22,14 @@ namespace DeliveryApp.EF
         public string Login { get; set; }
 
         [Required]
-        [StringLength(60)]
+        [MaxLength(32)]
         public byte[] Password { get; set; }
 
         [Required]
         [StringLength(30)]
         public string Name { get; set; }
 
-        public int? Grade { get; set; }
-
-        [Required]
-        [StringLength(50)]
-        public string Region { get; set; }
+        public short? Grade { get; set; }
 
         [Required]
         [StringLength(50)]
@@ -48,13 +44,11 @@ namespace DeliveryApp.EF
         public string Street { get; set; }
 
         [Required]
-        [StringLength(10)]
+        [StringLength(6)]
         public string Building { get; set; }
 
-        public int? Floor { get; set; }
-
         [Required]
-        [StringLength(10)]
+        [StringLength(5)]
         public string Room { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

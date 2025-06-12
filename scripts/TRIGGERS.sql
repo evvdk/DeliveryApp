@@ -1,6 +1,48 @@
 USE Delivery
 GO
 
+CREATE OR ALTER TRIGGER CheckIfAddressBelongsToClient ON "Order"
+AFTER INSERT, UPDATE
+AS
+BEGIN
+	BEGIN TRY
+		
+		DECLARE @Client int, @Address int;
+		DECLARE OrderAddressCursor CURSOR
+		SCROLL 
+		FOR SELECT [Client ID], [Client Address ID] FROM inserted;
+
+		OPEN OrderAddressCursor
+		FETCH FIRST FROM OrderAddressCursor
+		INTO @Client, @Address
+
+		WHILE(@@FETCH_STATUS = 0)
+		BEGIN
+		
+			IF NOT EXISTS (SELECT * FROM [Client Address] WHERE ID = @Address AND [Client ID] = @Client)
+				THROW 50020, 'Address doesn''t belong to client', 1
+		
+			FETCH NEXT FROM OrderAddressCursor
+			INTO @Client, @Address
+		END
+		CLOSE OrderAddressCursor
+		DEALLOCATE OrderAddressCursor
+
+	END TRY
+	BEGIN CATCH
+
+		IF CURSOR_STATUS('variable', '@OrderAddressCursor') >= 0 
+			CLOSE OrderAddressCursor;
+    
+		DEALLOCATE OrderAddressCursor;
+		THROW;
+
+	END CATCH
+
+END
+
+GO
+
 CREATE OR ALTER TRIGGER OneProducerInSingleOreder ON "Dishes Order"
 AFTER INSERT
 AS

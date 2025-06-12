@@ -15,7 +15,7 @@ namespace DeliveryApp.EF
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int ID { get; set; }
+        public short ID { get; set; }
 
         [Required]
         [StringLength(50)]

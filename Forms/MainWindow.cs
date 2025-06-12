@@ -38,7 +38,7 @@ namespace DeliveryApp
             SingleOrder.Controls.Add(Status);
             SingleOrder.Location = new Point(0, 0);
             SingleOrder.Margin = new Padding(0, 10, 0, 0);
-            SingleOrder.Size = new Size(550, 37);
+            SingleOrder.Size = new Size(720, 37);
             SingleOrder.Tag = order.ID;
             SingleOrder.Click += new EventHandler(this.SingleOrder_Click);
             

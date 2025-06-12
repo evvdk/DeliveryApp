@@ -30,8 +30,6 @@
         {
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.RegionField = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.CityField = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -56,7 +54,7 @@
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(624, 210);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(624, 181);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
             // tableLayoutPanel1
@@ -65,55 +63,33 @@
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.38045F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 83.61955F));
-            this.tableLayoutPanel1.Controls.Add(this.RegionField, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.label2, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.CityField, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.label3, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.label4, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.label5, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this.label7, 0, 5);
-            this.tableLayoutPanel1.Controls.Add(this.DistrictField, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.StreetField, 1, 3);
-            this.tableLayoutPanel1.Controls.Add(this.BuildingField, 1, 4);
-            this.tableLayoutPanel1.Controls.Add(this.RoomField, 1, 5);
+            this.tableLayoutPanel1.Controls.Add(this.label2, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.CityField, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.label3, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.label4, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.label5, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.label7, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.DistrictField, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.StreetField, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.BuildingField, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.RoomField, 1, 4);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 6;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
+            this.tableLayoutPanel1.RowCount = 5;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(618, 168);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(618, 140);
             this.tableLayoutPanel1.TabIndex = 0;
-            // 
-            // RegionField
-            // 
-            this.RegionField.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.RegionField.Location = new System.Drawing.Point(104, 3);
-            this.RegionField.Name = "RegionField";
-            this.RegionField.Size = new System.Drawing.Size(511, 22);
-            this.RegionField.TabIndex = 0;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Location = new System.Drawing.Point(3, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(95, 28);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Region";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label2.Location = new System.Drawing.Point(3, 28);
+            this.label2.Location = new System.Drawing.Point(3, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(95, 28);
             this.label2.TabIndex = 2;
@@ -123,7 +99,7 @@
             // CityField
             // 
             this.CityField.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.CityField.Location = new System.Drawing.Point(104, 31);
+            this.CityField.Location = new System.Drawing.Point(104, 3);
             this.CityField.Name = "CityField";
             this.CityField.Size = new System.Drawing.Size(511, 22);
             this.CityField.TabIndex = 3;
@@ -132,7 +108,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label3.Location = new System.Drawing.Point(3, 56);
+            this.label3.Location = new System.Drawing.Point(3, 28);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(95, 28);
             this.label3.TabIndex = 4;
@@ -143,7 +119,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label4.Location = new System.Drawing.Point(3, 84);
+            this.label4.Location = new System.Drawing.Point(3, 56);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(95, 28);
             this.label4.TabIndex = 5;
@@ -154,7 +130,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label5.Location = new System.Drawing.Point(3, 112);
+            this.label5.Location = new System.Drawing.Point(3, 84);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(95, 28);
             this.label5.TabIndex = 6;
@@ -165,7 +141,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label7.Location = new System.Drawing.Point(3, 140);
+            this.label7.Location = new System.Drawing.Point(3, 112);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(95, 28);
             this.label7.TabIndex = 8;
@@ -175,7 +151,7 @@
             // DistrictField
             // 
             this.DistrictField.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.DistrictField.Location = new System.Drawing.Point(104, 59);
+            this.DistrictField.Location = new System.Drawing.Point(104, 31);
             this.DistrictField.Name = "DistrictField";
             this.DistrictField.Size = new System.Drawing.Size(511, 22);
             this.DistrictField.TabIndex = 9;
@@ -183,7 +159,7 @@
             // StreetField
             // 
             this.StreetField.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.StreetField.Location = new System.Drawing.Point(104, 87);
+            this.StreetField.Location = new System.Drawing.Point(104, 59);
             this.StreetField.Name = "StreetField";
             this.StreetField.Size = new System.Drawing.Size(511, 22);
             this.StreetField.TabIndex = 10;
@@ -191,7 +167,7 @@
             // BuildingField
             // 
             this.BuildingField.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.BuildingField.Location = new System.Drawing.Point(104, 115);
+            this.BuildingField.Location = new System.Drawing.Point(104, 87);
             this.BuildingField.Name = "BuildingField";
             this.BuildingField.Size = new System.Drawing.Size(511, 22);
             this.BuildingField.TabIndex = 11;
@@ -199,7 +175,7 @@
             // RoomField
             // 
             this.RoomField.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.RoomField.Location = new System.Drawing.Point(104, 143);
+            this.RoomField.Location = new System.Drawing.Point(104, 115);
             this.RoomField.Name = "RoomField";
             this.RoomField.Size = new System.Drawing.Size(511, 22);
             this.RoomField.TabIndex = 13;
@@ -208,7 +184,7 @@
             // 
             this.Apply.AutoSize = true;
             this.Apply.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.Apply.Location = new System.Drawing.Point(3, 177);
+            this.Apply.Location = new System.Drawing.Point(3, 149);
             this.Apply.Name = "Apply";
             this.Apply.Size = new System.Drawing.Size(618, 26);
             this.Apply.TabIndex = 1;
@@ -221,7 +197,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(624, 210);
+            this.ClientSize = new System.Drawing.Size(624, 181);
             this.Controls.Add(this.flowLayoutPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "AddressEditor";
@@ -240,12 +216,10 @@
 
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox RegionField;
         private System.Windows.Forms.TextBox CityField;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox DistrictField;

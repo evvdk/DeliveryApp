@@ -23,7 +23,6 @@ namespace DeliveryApp.Forms
             try
             {
                 Address_By_Login address = ClientActions.GetAddresses().Where(p => p.Address_ID == addressID).First();
-                RegionField.Text = address.Region;
                 CityField.Text = address.City;
                 DistrictField.Text = address.District;
                 StreetField.Text = address.Street;
@@ -40,19 +39,18 @@ namespace DeliveryApp.Forms
         {
             try
             {
-                if(this.RegionField.Text.Length == 0 
-                    || this.CityField.Text.Length == 0 || this.DistrictField.Text.Length == 0
+                if(this.CityField.Text.Length == 0 || this.DistrictField.Text.Length == 0
                     || this.StreetField.Text.Length == 0 || this.BuildingField.Text.Length == 0 
                     || this.RoomField.Text.Length == 0)
                     throw new Exception("Some fields are empthy");
 
                 if (!editMode)
                 {
-                    ClientActions.AddAdress(this.RegionField.Text, this.CityField.Text, this.DistrictField.Text, this.StreetField.Text, this.BuildingField.Text, this.RoomField.Text);
+                    ClientActions.AddAdress(this.CityField.Text, this.DistrictField.Text, this.StreetField.Text, this.BuildingField.Text, this.RoomField.Text);
                 }
                 else
                 {
-                    ClientActions.EditAddress(this.addressID, this.RegionField.Text, this.CityField.Text, this.DistrictField.Text, this.StreetField.Text, this.BuildingField.Text, this.RoomField.Text);
+                    ClientActions.EditAddress(this.addressID, this.CityField.Text, this.DistrictField.Text, this.StreetField.Text, this.BuildingField.Text, this.RoomField.Text);
                 }
                 this.Close();
             }

@@ -388,11 +388,11 @@ namespace DeliveryApp
             }
         }
 
-        public static void AddAdress(string Region, string City, string District, string Street, string Building, string Room)
+        public static void AddAdress(string City, string District, string Street, string Building, string Room)
         {
             try
             {
-                Database.AddAdress(User.userInfo.Login, User.userInfo.Password, Region, City, District, Street, Building, Room);
+                Database.AddAdress(User.userInfo.Login, User.userInfo.Password, City, District, Street, Building, Room);
             }
             catch (SqlException ex)
             {
@@ -438,11 +438,11 @@ namespace DeliveryApp
             }
         }
 
-        public static void EditAddress(int Address, string Region, string City, string District, string Street, string Building, string Room)
+        public static void EditAddress(int Address, string City, string District, string Street, string Building, string Room)
         {
             try
             {
-                Database.EditAdress(Address, User.userInfo.Login, User.userInfo.Password, Region, City, District, Street, Building, Room);
+                Database.EditAdress(Address, User.userInfo.Login, User.userInfo.Password, City, District, Street, Building, Room);
             }
             catch (SqlException ex)
             {

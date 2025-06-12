@@ -244,8 +244,8 @@ END
 
 GO
 
-CREATE OR ALTER PROCEDURE AddClientAddress(@login nvarchar(30), @password binary(32),  @region nvarchar(50), @city nvarchar(50), @district nvarchar(50),
-		@street nvarchar(50), @building nvarchar(10),@room nvarchar(10))
+CREATE OR ALTER PROCEDURE AddClientAddress(@login nvarchar(30), @password binary(32), @city nvarchar(50), @district nvarchar(50),
+		@street nvarchar(50), @building nvarchar(10), @room nvarchar(10))
 AS
 BEGIN
 	BEGIN TRY
@@ -256,15 +256,15 @@ BEGIN
 		SELECT @clientID = ID FROM Client
 			WHERE Login = @login AND Password = @password AND [Active Account] = 1
 
-		IF EXISTS (SELECT * FROM [Client Address] WHERE [Client ID] = @clientID AND Region = @region AND City = @City AND 
+		IF EXISTS (SELECT * FROM [Client Address] WHERE [Client ID] = @clientID AND City = @City AND 
 									District = @district AND Street = @street AND Building = @building AND Room = @room AND Active = 1)
 			THROW 50014, 'Address already exists', 1;
 
 	
 		BEGIN TRAN
 
-			INSERT INTO [Client Address] ([Client ID], Region, City, District, Street, Building, Room)
-				VALUES (@clientID, @region, @city, @district, @street, @building, @room)
+			INSERT INTO [Client Address] ([Client ID],City, District, Street, Building, Room)
+				VALUES (@clientID, @city, @district, @street, @building, @room)
 
 		COMMIT TRAN
 
@@ -281,7 +281,7 @@ END
 -- EXEC AddClientAddress 'UserLogin', 'e7cf3ef4f17c3999a94f2c6f612e8a888e5b1026878e4e19398b23bd38ec221a', 'Ryazan Oblsat', 'Ryazan', 'Diadkovo','1th Boluvar','56',5,'656'
 GO
 
-CREATE OR ALTER PROCEDURE EditClientAddress(@address int, @login nvarchar(30), @password binary(32),  @region nvarchar(50), @city nvarchar(50), 
+CREATE OR ALTER PROCEDURE EditClientAddress(@address int, @login nvarchar(30), @password binary(32),  @city nvarchar(50), 
 		@district nvarchar(50), @street nvarchar(50), @building nvarchar(10), @room nvarchar(10))
 AS
 BEGIN
@@ -298,7 +298,7 @@ BEGIN
 			THROW 50007, 'Client with address doesn''t exists', 1;
 
 
-		IF EXISTS (SELECT * FROM [Client Address] WHERE [Client ID] = @clientID AND Region = @region AND City = @City AND 
+		IF EXISTS (SELECT * FROM [Client Address] WHERE [Client ID] = @clientID AND City = @City AND 
 									District = @district AND Street = @street AND Building = @building 
 									AND Room = @room AND Active = 1 AND ID != @address)
 			THROW 50014, 'Address already exists', 1;
@@ -306,7 +306,7 @@ BEGIN
 		BEGIN TRAN
 
 			UPDATE [Client Address]
-			SET Region = @region, City = @city, District = @district, Street = @street, Building = @building, Room = @room
+			SET City = @city, District = @district, Street = @street, Building = @building, Room = @room
 			WHERE ID = @address AND [Client ID] = @clientID AND [Active] = 1
  
 		COMMIT TRAN

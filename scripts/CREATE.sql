@@ -1,17 +1,9 @@
 USE master
 CREATE DATABASE Delivery
 ON
-(NAME = 'Delivery',
-FILENAME = 'C:\Databases\Delivery.mdf',
-SIZE = 1,
-MAXSIZE = 10,
-FILEGROWTH = 1)
+(NAME = 'Delivery',FILENAME = 'C:\Databases\Delivery.mdf',SIZE = 1,MAXSIZE = 10,FILEGROWTH = 1)
 LOG ON
-(NAME = 'Delivery_log',
-FILENAME = 'C:\Databases\Delivery_log.ldf',
-SIZE = 1,
-MAXSIZE = 5,
-FILEGROWTH = 1)
+(NAME = 'Delivery_log',FILENAME = 'C:\Databases\Delivery_log.ldf',SIZE = 1,MAXSIZE = 5,FILEGROWTH = 1)
 GO
 
 USE Delivery
@@ -28,9 +20,17 @@ GO
 EXEC sp_bindrule 'PhoneTamplate', 'PhoneNumber';
 GO
 
-CREATE RULE Grade
+CREATE TYPE GradeValue
+FROM smallint
+GO
+
+CREATE RULE GradeRange
 AS @value BETWEEN 0 AND 5
 GO
+
+EXEC sp_bindrule 'GradeRange', 'GradeValue';
+GO
+
 
 CREATE RULE EmailTemplate
 AS @value LIKE '%[_a-zA-Z0-9.-]%@%[_a-zA-Z0-9.-]%.[a-zA-Z][a-zA-Z]%'
@@ -72,17 +72,15 @@ CREATE TABLE "Client Address"
 (
     [ID] int IDENTITY(1, 1) NOT NULL,
 	[Client ID] int NOT NULL,
-    Region nvarchar(50) NOT NULL,
     City nvarchar(50) NOT NULL,
     District nvarchar(50) NOT NULL,
     Street nvarchar(50) NOT NULL,
-    Building nvarchar(10) NOT NULL,
-    Floor int,
-    Room nvarchar(10) NOT NULL,
+    Building nvarchar(6) NOT NULL,
+    Room nvarchar(5) NOT NULL,
 	Active tinyint,
     CONSTRAINT "C_PK_ClientAddress_Address" PRIMARY KEY ("ID"),
 	
-	CONSTRAINT "C_Unique_ClientAdress" UNIQUE ("Client ID", "ID"),
+	CONSTRAINT "C_Unique_ClientAdress" UNIQUE ("Client ID", "City", "District", "Street", "Building", "Room"),
 	
 	CONSTRAINT "C_FK_Login" FOREIGN KEY ("Client ID")
         REFERENCES "Client" ("ID")
@@ -99,23 +97,21 @@ CREATE TABLE "Producer"
 	"Login" nvarchar(30) NOT NULL,
 	"Password" binary(32) NOT NULL,
     "Name" nvarchar(30) NOT NULL,
-	"Grade" int,
-	"Region" nvarchar(50) NOT NULL,
+	"Grade" GradeValue,
     "City" nvarchar(50) NOT NULL,
     "District" nvarchar(50) NOT NULL,
     "Street" nvarchar(50) NOT NULL,
-    "Building" nvarchar(10) NOT NULL,
-    "Room" nvarchar(10) NOT NULL,
+    "Building" nvarchar(6) NOT NULL,
+    "Room" nvarchar(5) NOT NULL,
     CONSTRAINT "C_PK_ProducerID" PRIMARY KEY ("ID"),
-	CONSTRAINT "C_U_Login" UNIQUE ("Login")
+	CONSTRAINT "C_U_Login" UNIQUE ("Login"),
+	CONSTRAINT "C_U_Address" UNIQUE ("Login", "City", "District", "Street", "Building", "Room")
 );
-
-EXEC sp_bindrule 'Grade', 'Producer.Grade'
 
 -- Status
 CREATE TABLE "Status"
 (
-    "ID" int NOT NULL,
+    "ID" smallint NOT NULL,
     "Value" nvarchar(50) NOT NULL,
     CONSTRAINT "C_PK_StatusID" PRIMARY KEY ("ID")
 );
@@ -164,8 +160,8 @@ CREATE TABLE "Order"
 	"Client Address ID" int NOT NULL,
     "Ordered At" datetime,
 	"Complited At" datetime,
-	"Status" int NOT NULL,
-	"Order Grade" int,
+	"Status" smallint NOT NULL,
+	"Order Grade" GradeValue,
     CONSTRAINT "C_PK_Order" PRIMARY KEY ("ID"),
 	
 	CONSTRAINT "C_FK_OrderStatus" FOREIGN KEY ("Status")
@@ -173,13 +169,17 @@ CREATE TABLE "Order"
         ON UPDATE NO ACTION
         ON DELETE NO ACTION,
 
-	CONSTRAINT "C_FK_Client_Address" FOREIGN KEY ("Client ID", "Client Address ID")
-        REFERENCES "Client Address" ("Client ID", "ID")
+	CONSTRAINT "C_FK_Client_Address" FOREIGN KEY ("Client Address ID")
+        REFERENCES "Client Address" ("ID")
         ON UPDATE CASCADE
-        ON DELETE CASCADE
+        ON DELETE CASCADE,
+
+	CONSTRAINT "C_FK_Client" FOREIGN KEY ("Client ID")
+        REFERENCES "Client" ("ID")
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
 );
 
-EXEC sp_bindrule 'Grade', 'Order.Order Grade'
 EXEC sp_bindefault 'DefaultZeroValue', 'Order.Status'
 GO
 

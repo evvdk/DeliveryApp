@@ -29,16 +29,20 @@ namespace DeliveryApp.EF
         [Column("Complited At")]
         public DateTime? Complited_At { get; set; }
 
-        public int Status { get; set; }
+        public short Status { get; set; }
 
         [Column("Order Grade")]
-        public int? Order_Grade { get; set; }
+        public short? Order_Grade { get; set; }
 
-        public virtual Courier Courier1 { get; set; }
+        public virtual Client Client { get; set; }
+
+        public virtual Client_Address Client_Address { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Dishes_Order> Dishes_Order { get; set; }
 
         public virtual Status Status1 { get; set; }
+
+        public virtual Courier Courier { get; set; }
     }
 }
