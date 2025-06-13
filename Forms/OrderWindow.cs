@@ -41,7 +41,7 @@ namespace DeliveryApp.Forms
             this.OrderName.Text = $"Order#{OrderID}";
             this.TotalBill.Text = $"{Cost} ₽";
             this.Producer.Text = $"Ordered from {Producer}";
-            this.AddressLabel.Text = $"{address.City}, {address.District}, {address.Building}, {address.Room}";
+            this.AddressLabel.Text = $"Address: {address.City}, {address.District}, {address.Building}, {address.Room}";
             if (isOpen)
             {
                 this.Status.Text = "";
@@ -122,7 +122,7 @@ namespace DeliveryApp.Forms
                 Remove.Tag = each.Dish_ID;
                 Remove.Text = "-";
                 Remove.Enabled = isOpened;
-                Remove.Click += new System.EventHandler(this.Remove_Click);
+                Remove.Click += new EventHandler(this.Remove_Click);
                 // 
                 // DishName
                 // 

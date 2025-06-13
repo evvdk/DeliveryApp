@@ -58,7 +58,7 @@ namespace DeliveryApp.Forms
         private void AddAddressPanel(Address_By_Login address)
         {
             FlowLayoutPanel FlowLayoutAddress = new FlowLayoutPanel();
-            RadioButton radioButton1 = new RadioButton();
+            RadioButton radioButton = new RadioButton();
             Button Edit = new Button();
             Button Delete = new Button();
 
@@ -68,21 +68,21 @@ namespace DeliveryApp.Forms
             // 
             // radioButton1
             // 
-            radioButton1.AutoSize = true;
-            radioButton1.Dock = DockStyle.Fill;
-            radioButton1.Location = new System.Drawing.Point(3, 3);
-            if (this.Mode == Mode.Order || this.Mode == Mode.ReadyOrderChange) radioButton1.Checked = false;
-            else radioButton1.Checked = true;
-            radioButton1.Text = $"{address.City}, {address.District}, {address.Street}, {address.Building}, {address.Room}";
-            radioButton1.UseVisualStyleBackColor = true;
-            radioButton1.Tag = address.Address_ID;
-            if (this.Mode == Mode.Order || this.Mode == Mode.ReadyOrderChange) radioButton1.Click += new EventHandler(radioButton_Clear);
-            radioButtons.Add(radioButton1);
+            radioButton.AutoSize = true;
+            radioButton.Dock = DockStyle.Fill;
+            radioButton.Location = new System.Drawing.Point(3, 3);
+            if (this.Mode == Mode.Order || this.Mode == Mode.ReadyOrderChange) radioButton.Checked = false;
+            else radioButton.Checked = true;
+            radioButton.Text = $"{address.City}, {address.District}, {address.Street}, {address.Building}, {address.Room}";
+            radioButton.UseVisualStyleBackColor = true;
+            radioButton.Tag = address.Address_ID;
+            if (this.Mode == Mode.Order || this.Mode == Mode.ReadyOrderChange) radioButton.Click += new EventHandler(radioButton_Clear);
+            radioButtons.Add(radioButton);
             // 
             // FlowLayoutAddress
             // 
             FlowLayoutAddress.AutoSize = true;
-            FlowLayoutAddress.Controls.Add(radioButton1);
+            FlowLayoutAddress.Controls.Add(radioButton);
             FlowLayoutAddress.Controls.Add(Edit);
             FlowLayoutAddress.Controls.Add(Delete);
             FlowLayoutAddress.Location = new System.Drawing.Point(0, 0);

@@ -10,7 +10,6 @@ namespace DeliveryApp
         public CustomButton() : base() {
             this.FlatStyle = FlatStyle.Flat;
             this.FlatAppearance.BorderSize = 0;
-            this.Size = new Size(150, 40);
             this.BackColor = Color.MediumSlateBlue;
             this.ForeColor = Color.White;
             this.borderRadius = 5;

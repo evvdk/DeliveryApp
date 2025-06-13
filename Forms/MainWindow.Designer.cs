@@ -192,7 +192,7 @@ namespace DeliveryApp
             this.AccountTableLayout.ColumnCount = 3;
             this.AccountTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20.82585F));
             this.AccountTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 79.17415F));
-            this.AccountTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 236F));
+            this.AccountTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 237F));
             this.AccountTableLayout.Controls.Add(this.Account_EmailLabel, 0, 4);
             this.AccountTableLayout.Controls.Add(this.Account_UserEmail, 1, 4);
             this.AccountTableLayout.Controls.Add(this.Account_UserPhone, 1, 3);
@@ -246,7 +246,7 @@ namespace DeliveryApp
             this.Account_UserEmail.Location = new System.Drawing.Point(150, 182);
             this.Account_UserEmail.Margin = new System.Windows.Forms.Padding(0);
             this.Account_UserEmail.Name = "Account_UserEmail";
-            this.Account_UserEmail.Size = new System.Drawing.Size(572, 26);
+            this.Account_UserEmail.Size = new System.Drawing.Size(571, 26);
             this.Account_UserEmail.TabIndex = 1;
             // 
             // Account_UserPhone
@@ -260,7 +260,7 @@ namespace DeliveryApp
             this.Account_UserPhone.Location = new System.Drawing.Point(150, 137);
             this.Account_UserPhone.Margin = new System.Windows.Forms.Padding(0);
             this.Account_UserPhone.Name = "Account_UserPhone";
-            this.Account_UserPhone.Size = new System.Drawing.Size(572, 26);
+            this.Account_UserPhone.Size = new System.Drawing.Size(571, 26);
             this.Account_UserPhone.TabIndex = 1;
             // 
             // Account_PhoneLabel
@@ -284,9 +284,9 @@ namespace DeliveryApp
             this.Account_ChangePhoneButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Account_ChangePhoneButton.Font = new System.Drawing.Font("Microsoft YaHei UI", 8F);
             this.Account_ChangePhoneButton.ForeColor = System.Drawing.Color.White;
-            this.Account_ChangePhoneButton.Location = new System.Drawing.Point(725, 131);
+            this.Account_ChangePhoneButton.Location = new System.Drawing.Point(724, 131);
             this.Account_ChangePhoneButton.Name = "Account_ChangePhoneButton";
-            this.Account_ChangePhoneButton.Size = new System.Drawing.Size(231, 39);
+            this.Account_ChangePhoneButton.Size = new System.Drawing.Size(232, 39);
             this.Account_ChangePhoneButton.TabIndex = 2;
             this.Account_ChangePhoneButton.Tag = "3";
             this.Account_ChangePhoneButton.Text = "Change Phone";
@@ -302,9 +302,9 @@ namespace DeliveryApp
             this.Account_ChangeEmailButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Account_ChangeEmailButton.Font = new System.Drawing.Font("Microsoft YaHei UI", 8F);
             this.Account_ChangeEmailButton.ForeColor = System.Drawing.Color.White;
-            this.Account_ChangeEmailButton.Location = new System.Drawing.Point(725, 176);
+            this.Account_ChangeEmailButton.Location = new System.Drawing.Point(724, 176);
             this.Account_ChangeEmailButton.Name = "Account_ChangeEmailButton";
-            this.Account_ChangeEmailButton.Size = new System.Drawing.Size(231, 39);
+            this.Account_ChangeEmailButton.Size = new System.Drawing.Size(232, 39);
             this.Account_ChangeEmailButton.TabIndex = 2;
             this.Account_ChangeEmailButton.Tag = "4";
             this.Account_ChangeEmailButton.Text = "Change Email";
@@ -322,7 +322,7 @@ namespace DeliveryApp
             this.Account_UserName.Location = new System.Drawing.Point(150, 96);
             this.Account_UserName.Margin = new System.Windows.Forms.Padding(0);
             this.Account_UserName.Name = "Account_UserName";
-            this.Account_UserName.Size = new System.Drawing.Size(572, 26);
+            this.Account_UserName.Size = new System.Drawing.Size(571, 26);
             this.Account_UserName.TabIndex = 1;
             // 
             // Account_ChangeNameButton
@@ -334,9 +334,9 @@ namespace DeliveryApp
             this.Account_ChangeNameButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Account_ChangeNameButton.Font = new System.Drawing.Font("Microsoft YaHei UI", 8F);
             this.Account_ChangeNameButton.ForeColor = System.Drawing.Color.White;
-            this.Account_ChangeNameButton.Location = new System.Drawing.Point(725, 93);
+            this.Account_ChangeNameButton.Location = new System.Drawing.Point(724, 93);
             this.Account_ChangeNameButton.Name = "Account_ChangeNameButton";
-            this.Account_ChangeNameButton.Size = new System.Drawing.Size(231, 32);
+            this.Account_ChangeNameButton.Size = new System.Drawing.Size(232, 32);
             this.Account_ChangeNameButton.TabIndex = 2;
             this.Account_ChangeNameButton.Tag = 2;
             this.Account_ChangeNameButton.Text = "Change Name";
@@ -366,7 +366,7 @@ namespace DeliveryApp
             this.Account_UserPassword.Location = new System.Drawing.Point(150, 54);
             this.Account_UserPassword.Margin = new System.Windows.Forms.Padding(0);
             this.Account_UserPassword.Name = "Account_UserPassword";
-            this.Account_UserPassword.Size = new System.Drawing.Size(572, 26);
+            this.Account_UserPassword.Size = new System.Drawing.Size(571, 26);
             this.Account_UserPassword.TabIndex = 1;
             // 
             // Account_ChangePasswordButton
@@ -378,9 +378,9 @@ namespace DeliveryApp
             this.Account_ChangePasswordButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Account_ChangePasswordButton.Font = new System.Drawing.Font("Microsoft YaHei UI", 8F);
             this.Account_ChangePasswordButton.ForeColor = System.Drawing.Color.White;
-            this.Account_ChangePasswordButton.Location = new System.Drawing.Point(725, 48);
+            this.Account_ChangePasswordButton.Location = new System.Drawing.Point(724, 48);
             this.Account_ChangePasswordButton.Name = "Account_ChangePasswordButton";
-            this.Account_ChangePasswordButton.Size = new System.Drawing.Size(231, 39);
+            this.Account_ChangePasswordButton.Size = new System.Drawing.Size(232, 39);
             this.Account_ChangePasswordButton.TabIndex = 2;
             this.Account_ChangePasswordButton.Tag = "1";
             this.Account_ChangePasswordButton.Text = "Change Password";
@@ -408,9 +408,9 @@ namespace DeliveryApp
             this.Account_ChangeUsernameButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Account_ChangeUsernameButton.Font = new System.Drawing.Font("Microsoft YaHei UI", 8F);
             this.Account_ChangeUsernameButton.ForeColor = System.Drawing.Color.White;
-            this.Account_ChangeUsernameButton.Location = new System.Drawing.Point(725, 3);
+            this.Account_ChangeUsernameButton.Location = new System.Drawing.Point(724, 3);
             this.Account_ChangeUsernameButton.Name = "Account_ChangeUsernameButton";
-            this.Account_ChangeUsernameButton.Size = new System.Drawing.Size(231, 39);
+            this.Account_ChangeUsernameButton.Size = new System.Drawing.Size(232, 39);
             this.Account_ChangeUsernameButton.TabIndex = 2;
             this.Account_ChangeUsernameButton.Tag = "0";
             this.Account_ChangeUsernameButton.Text = "Change Username";
@@ -428,7 +428,7 @@ namespace DeliveryApp
             this.Account_UserLogin.Location = new System.Drawing.Point(150, 9);
             this.Account_UserLogin.Margin = new System.Windows.Forms.Padding(0);
             this.Account_UserLogin.Name = "Account_UserLogin";
-            this.Account_UserLogin.Size = new System.Drawing.Size(572, 26);
+            this.Account_UserLogin.Size = new System.Drawing.Size(571, 26);
             this.Account_UserLogin.TabIndex = 1;
             // 
             // Account_LoginLabel
@@ -464,9 +464,9 @@ namespace DeliveryApp
             this.Account_ChangeAddressButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Account_ChangeAddressButton.Font = new System.Drawing.Font("Microsoft YaHei UI", 8F);
             this.Account_ChangeAddressButton.ForeColor = System.Drawing.Color.White;
-            this.Account_ChangeAddressButton.Location = new System.Drawing.Point(725, 221);
+            this.Account_ChangeAddressButton.Location = new System.Drawing.Point(724, 221);
             this.Account_ChangeAddressButton.Name = "Account_ChangeAddressButton";
-            this.Account_ChangeAddressButton.Size = new System.Drawing.Size(231, 39);
+            this.Account_ChangeAddressButton.Size = new System.Drawing.Size(232, 39);
             this.Account_ChangeAddressButton.TabIndex = 5;
             this.Account_ChangeAddressButton.Text = "Edit Address";
             this.Account_ChangeAddressButton.UseVisualStyleBackColor = true;
@@ -526,7 +526,7 @@ namespace DeliveryApp
             this.ClientSize = new System.Drawing.Size(973, 494);
             this.Controls.Add(this.UserTabs);
             this.Controls.Add(this.WelcomeMessage);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.Name = "Delivery";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

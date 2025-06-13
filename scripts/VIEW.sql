@@ -49,10 +49,3 @@ FROM (Dish LEFT JOIN Producer ON Dish.[Producer ID] = Producer.ID) LEFT JOIN([Di
 ON [Dish Ingredients].[Dish ID] = Dish.Id
 
 GO
-
-CREATE OR ALTER VIEW [Address By Order]
-AS
-SELECT [Order].ID AS [Order ID], City, District, Street, Building, Room
-FROM [Order] JOIN [Client Address] ON [Order].[Client Address ID] = [Client Address].ID
-
-GO
