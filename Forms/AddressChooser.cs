@@ -36,7 +36,7 @@ namespace DeliveryApp.Forms
             this.Mode = Mode.ReadyOrderChange;
             this.OrderId = Order;
             List<Address_By_Login> addresses = ClientActions.GetAddresses();
-            int orderAddress = ClientActions.GetAddressByOrder(Order);
+            int orderAddress = ClientActions.GetAddressIdByOrder(Order);
             InitializeComponent();
             UpdateList();
             radioButtons.Where(p => (int)p.Tag == orderAddress).First().Checked = true;
@@ -195,7 +195,7 @@ namespace DeliveryApp.Forms
             }
             if(this.Mode == Mode.ReadyOrderChange)
             {
-                int orderAddress = ClientActions.GetAddressByOrder(this.OrderId);
+                int orderAddress = ClientActions.GetAddressIdByOrder(this.OrderId);
                 radioButtons.Where(p => (int)p.Tag == orderAddress).First().Checked = true;
             }
         }

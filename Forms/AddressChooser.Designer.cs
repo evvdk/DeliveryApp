@@ -30,8 +30,8 @@ namespace DeliveryApp.Forms
         private void InitializeComponent()
         {
             this.FlowLayout = new System.Windows.Forms.FlowLayoutPanel();
-            this.Add = new System.Windows.Forms.Button();
-            this.Apply = new System.Windows.Forms.Button();
+            this.Add = new DeliveryApp.CustomButton();
+            this.Apply = new DeliveryApp.CustomButton();
             this.SuspendLayout();
             // 
             // FlowLayout
@@ -47,8 +47,13 @@ namespace DeliveryApp.Forms
             // 
             // Add
             // 
-            this.Add.Dock = System.Windows.Forms.DockStyle.Top;
-            this.Add.Location = new System.Drawing.Point(0, 268);
+            this.Add.BackColor = System.Drawing.Color.MediumSlateBlue;
+            this.Add.BorderRadius = 5;
+            this.Add.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.Add.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Add.Font = new System.Drawing.Font("Microsoft YaHei UI", 10F);
+            this.Add.ForeColor = System.Drawing.Color.White;
+            this.Add.Location = new System.Drawing.Point(0, 304);
             this.Add.Name = "Add";
             this.Add.Size = new System.Drawing.Size(722, 35);
             this.Add.TabIndex = 0;
@@ -58,8 +63,13 @@ namespace DeliveryApp.Forms
             // 
             // Apply
             // 
-            this.Apply.Dock = System.Windows.Forms.DockStyle.Top;
-            this.Apply.Location = new System.Drawing.Point(0, 303);
+            this.Apply.BackColor = System.Drawing.Color.MediumSlateBlue;
+            this.Apply.BorderRadius = 5;
+            this.Apply.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.Apply.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Apply.Font = new System.Drawing.Font("Microsoft YaHei UI", 10F);
+            this.Apply.ForeColor = System.Drawing.Color.White;
+            this.Apply.Location = new System.Drawing.Point(0, 269);
             this.Apply.Name = "Apply";
             this.Apply.Size = new System.Drawing.Size(722, 35);
             this.Apply.TabIndex = 1;
@@ -71,7 +81,7 @@ namespace DeliveryApp.Forms
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(722, 348);
+            this.ClientSize = new System.Drawing.Size(722, 339);
             this.Controls.Add(this.Apply);
             this.Controls.Add(this.Add);
             this.Controls.Add(this.FlowLayout);
@@ -86,7 +96,7 @@ namespace DeliveryApp.Forms
         #endregion
 
         private FlowLayoutPanel FlowLayout;
-        private Button Add;
-        private Button Apply;
+        private CustomButton Add;
+        private CustomButton Apply;
     }
 }

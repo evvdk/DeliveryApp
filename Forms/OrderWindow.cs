@@ -19,6 +19,7 @@ namespace DeliveryApp.Forms
         private void UpdateOrder()
         {
             List<Order_Set> order = ClientActions.GetOrderSet(this.OrderID);
+            Order_Status_Table address = ClientActions.GetAddressOfOrder(this.OrderID);
 
             if(order.Count() == 0)
             {
@@ -40,6 +41,7 @@ namespace DeliveryApp.Forms
             this.OrderName.Text = $"Order#{OrderID}";
             this.TotalBill.Text = $"{Cost} ₽";
             this.Producer.Text = $"Ordered from {Producer}";
+            this.AddressLabel.Text = $"{address.City}, {address.District}, {address.Building}, {address.Room}";
             if (isOpen)
             {
                 this.Status.Text = "";
@@ -62,6 +64,7 @@ namespace DeliveryApp.Forms
                 this.Status.Text = $"{Status}";
                 this.Apply.Text = "Close";
                 this.ChangeAddressButton.Enabled = false;
+                this.ChangeAddressButton.Visible = false;
                 this.Apply.Click += (s, e) =>
                 {
                     this.Close();
@@ -190,7 +193,12 @@ namespace DeliveryApp.Forms
 
         private void ChangeAddressButton_Click(object sender, EventArgs e)
         {
-            (new AddressChooser(this.OrderID)).Show();
+            AddressChooser wnd = new AddressChooser(this.OrderID);
+            wnd.Show();
+            wnd.FormClosed += (s, ev) =>
+            {
+                UpdateOrder();
+            };
         }
     }
 }

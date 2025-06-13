@@ -32,6 +32,7 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.DishName = new System.Windows.Forms.Label();
             this.Image = new System.Windows.Forms.Panel();
+            this.DishDescription = new System.Windows.Forms.Label();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.CostLabel = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -40,8 +41,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.ProducerName = new System.Windows.Forms.Label();
             this.IngridientsLabel = new System.Windows.Forms.Label();
-            this.CloseButton = new System.Windows.Forms.Button();
-            this.DishDescription = new System.Windows.Forms.Label();
+            this.CloseButton = new DeliveryApp.CustomButton();
             this.DishFlowLayout.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -59,7 +59,7 @@
             this.DishFlowLayout.Location = new System.Drawing.Point(0, 0);
             this.DishFlowLayout.Margin = new System.Windows.Forms.Padding(0);
             this.DishFlowLayout.Name = "DishFlowLayout";
-            this.DishFlowLayout.Size = new System.Drawing.Size(579, 412);
+            this.DishFlowLayout.Size = new System.Drawing.Size(549, 412);
             this.DishFlowLayout.TabIndex = 0;
             this.DishFlowLayout.WrapContents = false;
             // 
@@ -97,6 +97,16 @@
             this.Image.Name = "Image";
             this.Image.Size = new System.Drawing.Size(200, 144);
             this.Image.TabIndex = 1;
+            // 
+            // DishDescription
+            // 
+            this.DishDescription.AutoSize = true;
+            this.DishDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.DishDescription.Location = new System.Drawing.Point(3, 144);
+            this.DishDescription.Name = "DishDescription";
+            this.DishDescription.Size = new System.Drawing.Size(109, 25);
+            this.DishDescription.TabIndex = 3;
+            this.DishDescription.Text = "Description";
             // 
             // tableLayoutPanel2
             // 
@@ -206,31 +216,26 @@
             // CloseButton
             // 
             this.CloseButton.AutoSize = true;
-            this.CloseButton.Dock = System.Windows.Forms.DockStyle.Top;
+            this.CloseButton.BackColor = System.Drawing.Color.MediumSlateBlue;
+            this.CloseButton.BorderRadius = 5;
+            this.CloseButton.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.CloseButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CloseButton.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F);
+            this.CloseButton.ForeColor = System.Drawing.Color.White;
             this.CloseButton.Location = new System.Drawing.Point(0, 412);
             this.CloseButton.Name = "CloseButton";
-            this.CloseButton.Size = new System.Drawing.Size(579, 35);
+            this.CloseButton.Size = new System.Drawing.Size(549, 39);
             this.CloseButton.TabIndex = 1;
             this.CloseButton.Text = "Close";
             this.CloseButton.UseVisualStyleBackColor = true;
             this.CloseButton.Click += new System.EventHandler(this.CloseButton_Click);
-            // 
-            // DishDescription
-            // 
-            this.DishDescription.AutoSize = true;
-            this.DishDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.DishDescription.Location = new System.Drawing.Point(3, 144);
-            this.DishDescription.Name = "DishDescription";
-            this.DishDescription.Size = new System.Drawing.Size(109, 25);
-            this.DishDescription.TabIndex = 3;
-            this.DishDescription.Text = "Description";
             // 
             // SingleDish
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(579, 450);
+            this.ClientSize = new System.Drawing.Size(549, 451);
             this.Controls.Add(this.CloseButton);
             this.Controls.Add(this.DishFlowLayout);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -261,7 +266,7 @@
         private System.Windows.Forms.Label IngridientsLabel;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label ProducerName;
-        private System.Windows.Forms.Button CloseButton;
+        private CustomButton CloseButton;
         private System.Windows.Forms.Label DishDescription;
     }
 }

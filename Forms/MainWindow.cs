@@ -32,7 +32,7 @@ namespace DeliveryApp
             Label Status = new Label();
 
             SingleOrder.SuspendLayout();
-            SingleOrder.BackColor = SystemColors.ControlLightLight;
+            SingleOrder.BackColor = Color.LightSteelBlue; ;
 
             SingleOrder.Controls.Add(OrderName);
             SingleOrder.Controls.Add(Status);
@@ -134,7 +134,7 @@ namespace DeliveryApp
                     TableLayoutPanel DishTable = new TableLayoutPanel();
                     DishTable.Click += (s, e) => { (new SingleDish(dish.Dish_ID)).Show(); };
 
-                    Button AddDish = new Button();
+                    CustomButton AddDish = new CustomButton();
                     Label DishName = new Label();
                     Panel ImagePanel = new Panel();
 
@@ -150,7 +150,7 @@ namespace DeliveryApp
                     }
                     ImagePanel.Click += (s, e) => { (new SingleDish(dish.Dish_ID)).Show(); };
 
-                    DishTable.BackColor = Color.Silver;
+                    DishTable.BackColor = Color.LightSteelBlue;
                     DishTable.ColumnCount = 2;
                     DishTable.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 72F));
                     DishTable.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 136F));

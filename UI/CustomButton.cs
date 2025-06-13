@@ -13,11 +13,9 @@ namespace DeliveryApp
             this.Size = new Size(150, 40);
             this.BackColor = Color.MediumSlateBlue;
             this.ForeColor = Color.White;
-            this.borderRadius = 15;
+            this.borderRadius = 5;
             this.Font = new Font("Microsoft YaHei UI", 12F);
         }
-
-        //Methods
         private GraphicsPath GetFigurePath(Rectangle rect, int radius)
         {
             GraphicsPath path = new GraphicsPath();
@@ -53,28 +51,21 @@ namespace DeliveryApp
             Rectangle rectSurface = this.ClientRectangle;
             int smoothSize = 2;
 
-            if (borderRadius > 2) //Rounded button
+            if (borderRadius > 2)
             {
                 using (GraphicsPath pathSurface = GetFigurePath(rectSurface, borderRadius))
                 using (Pen penSurface = new Pen(this.Parent.BackColor, smoothSize))
       
                 {
                     pevent.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-                    //Button surface
                     this.Region = new Region(pathSurface);
-                    //Draw surface border for HD result
                     pevent.Graphics.DrawPath(penSurface, pathSurface);
-
-                    //Button border                    
-                   
                 }
             }
-            else //Normal button
+            else
             {
                 pevent.Graphics.SmoothingMode = SmoothingMode.None;
-                //Button surface
                 this.Region = new Region(rectSurface);
-                //Button border
             }
         }
 

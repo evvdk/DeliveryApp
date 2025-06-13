@@ -81,14 +81,14 @@ namespace DeliveryApp
             this.AuthButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.AuthButton.AutoSize = true;
             this.AuthButton.BackColor = System.Drawing.Color.MediumSlateBlue;
-            this.AuthButton.BorderRadius = 15;
+            this.AuthButton.BorderRadius = 5;
             this.AuthButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.AuthButton.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F);
             this.AuthButton.ForeColor = System.Drawing.Color.White;
-            this.AuthButton.Location = new System.Drawing.Point(146, 182);
+            this.AuthButton.Location = new System.Drawing.Point(140, 182);
             this.AuthButton.Margin = new System.Windows.Forms.Padding(4);
             this.AuthButton.Name = "AuthButton";
-            this.AuthButton.Size = new System.Drawing.Size(130, 40);
+            this.AuthButton.Size = new System.Drawing.Size(143, 40);
             this.AuthButton.TabIndex = 2;
             this.AuthButton.Text = "Authenticate";
             this.AuthButton.UseVisualStyleBackColor = true;
@@ -151,9 +151,8 @@ namespace DeliveryApp
             this.LoginMessage.Location = new System.Drawing.Point(4, 27);
             this.LoginMessage.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LoginMessage.Name = "LoginMessage";
-            this.LoginMessage.Size = new System.Drawing.Size(48, 23);
+            this.LoginMessage.Size = new System.Drawing.Size(0, 23);
             this.LoginMessage.TabIndex = 4;
-            this.LoginMessage.Text = "";
             this.LoginMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // RegLoginLabel
@@ -170,7 +169,7 @@ namespace DeliveryApp
             this.Registrate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.Registrate.AutoSize = true;
             this.Registrate.BackColor = System.Drawing.Color.MediumSlateBlue;
-            this.Registrate.BorderRadius = 15;
+            this.Registrate.BorderRadius = 5;
             this.Registrate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Registrate.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F);
             this.Registrate.ForeColor = System.Drawing.Color.White;
@@ -325,9 +324,8 @@ namespace DeliveryApp
             this.RegMessage.AutoSize = true;
             this.RegMessage.Location = new System.Drawing.Point(3, 27);
             this.RegMessage.Name = "RegMessage";
-            this.RegMessage.Size = new System.Drawing.Size(51, 22);
+            this.RegMessage.Size = new System.Drawing.Size(0, 22);
             this.RegMessage.TabIndex = 14;
-            this.RegMessage.Text = "";
             // 
             // LoginRegistration
             // 
@@ -383,13 +381,13 @@ namespace DeliveryApp
             this.BackColor = System.Drawing.Color.SlateGray;
             this.ClientSize = new System.Drawing.Size(457, 403);
             this.Controls.Add(this.TabsControl);
-            this.FormClosed += new FormClosedEventHandler(this.LoginForm_Closed);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "LoginForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Login";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.LoginForm_Closed);
             this.LoginPanel.ResumeLayout(false);
             this.LoginPanel.PerformLayout();
             this.TabsControl.ResumeLayout(false);

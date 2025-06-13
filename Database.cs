@@ -268,7 +268,7 @@ namespace DeliveryApp
             }
         }
 
-        public static int GetAddressByOrder(int Order)
+        public static int GetAddressIdByOrder(int Order)
         {
             using (var context = new DeliveryAppContext())
             {
@@ -302,5 +302,14 @@ namespace DeliveryApp
                 return context.Dish_All_Info.Where(p => p.ID == dishID).ToList();
             }
         }
+
+        public static Order_Status_Table GetAddressOfOrder(int Order)
+        {
+            using (var context = new DeliveryAppContext())
+            {
+                return context.Order_Status_Table.Where(p => p.ID == Order).First();
+            }
+        }
+
     }
 }

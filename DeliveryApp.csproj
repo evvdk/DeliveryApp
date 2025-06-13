@@ -130,7 +130,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClientActions.cs" />
-    <Compile Include="CustomButton.cs">
+    <Compile Include="EF\Order_Status_Table.cs" />
+    <Compile Include="UI\CustomButton.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Database.cs" />
@@ -149,7 +150,6 @@
     <Compile Include="EF\Order.cs" />
     <Compile Include="EF\Order_On_Producer.cs" />
     <Compile Include="EF\Order_Set.cs" />
-    <Compile Include="EF\Order_Status_Table.cs" />
     <Compile Include="EF\Producer.cs" />
     <Compile Include="EF\Status.cs" />
     <Compile Include="Forms\AddressChooser.cs">
@@ -196,6 +196,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\CustomTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="User.cs" />
     <EmbeddedResource Include="Forms\AddressChooser.resx">
       <DependentUpon>AddressChooser.cs</DependentUpon>

@@ -42,5 +42,30 @@ namespace DeliveryApp.EF
 
         [Column("Order Grade")]
         public short? Order_Grade { get; set; }
+
+        [Key]
+        [Column(Order = 5)]
+        [StringLength(50)]
+        public string City { get; set; }
+
+        [Key]
+        [Column(Order = 6)]
+        [StringLength(50)]
+        public string District { get; set; }
+
+        [Key]
+        [Column(Order = 7)]
+        [StringLength(50)]
+        public string Street { get; set; }
+
+        [Key]
+        [Column(Order = 8)]
+        [StringLength(6)]
+        public string Building { get; set; }
+
+        [Key]
+        [Column(Order = 9)]
+        [StringLength(5)]
+        public string Room { get; set; }
     }
 }

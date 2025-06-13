@@ -498,11 +498,11 @@ namespace DeliveryApp
             }
         }
 
-        public static int GetAddressByOrder(int Order)
+        public static int GetAddressIdByOrder(int Order)
         {
             try
             {
-                return Database.GetAddressByOrder(Order);
+                return Database.GetAddressIdByOrder(Order);
             }
             catch(Exception ex)
             {
@@ -543,6 +543,18 @@ namespace DeliveryApp
             catch(Exception ex)
             {
                 throw new Exception($"Error during reciving dish data\n{ex.Message}");
+            }
+        }
+
+        public static Order_Status_Table GetAddressOfOrder(int Order)
+        {
+            try
+            {
+                return Database.GetAddressOfOrder(Order);
+            }
+            catch(Exception ex)
+            {
+                throw new Exception($"Error during reciving address of order\n{ex.Message}");
             }
         }
     }
