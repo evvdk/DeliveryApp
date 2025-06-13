@@ -20,27 +20,27 @@ namespace DeliveryApp.Forms
             switch (this.OperationType)
             {
                 case ChangeTypeValue.Login:
-                    NewFieldName.Text = "Login";
-                    this.Text = "Change Login";
+                    NewFieldName.Text = "Логин";
+                    this.Text = "Смена логина";
 
                     break;
                 case ChangeTypeValue.Password:
-                    NewFieldName.Text = "Password";
-                    this.Text = "Change Password";
+                    NewFieldName.Text = "Пароль";
+                    this.Text = "Смена пароля";
                     NewFieldInput.PasswordChar = '*';
                     RetypePasswordInput.PasswordChar = '*';
                     break;
                 case ChangeTypeValue.Name:
-                    NewFieldName.Text = "New name";
-                    this.Text = "Change Name";
+                    NewFieldName.Text = "Новое имя";
+                    this.Text = "Смена имени";
                     break;
                 case ChangeTypeValue.Phone:
-                    NewFieldName.Text = "New phone";
-                    this.Text = "Change Phone";
+                    NewFieldName.Text = "Новый телефон";
+                    this.Text = "Смена телефона";
                     break;
                 case ChangeTypeValue.Email:
-                    NewFieldName.Text = "New email";
-                    this.Text = "Change Email";
+                    NewFieldName.Text = "Новая почта";
+                    this.Text = "Смена почты";
                     break;
             }
             if (this.OperationType != ChangeTypeValue.Password)

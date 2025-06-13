@@ -49,15 +49,15 @@ namespace DeliveryApp.Forms
             // 
             this.Add.BackColor = System.Drawing.Color.MediumSlateBlue;
             this.Add.BorderRadius = 5;
-            this.Add.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.Add.Dock = System.Windows.Forms.DockStyle.Top;
             this.Add.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Add.Font = new System.Drawing.Font("Microsoft YaHei UI", 10F);
             this.Add.ForeColor = System.Drawing.Color.White;
-            this.Add.Location = new System.Drawing.Point(0, 304);
+            this.Add.Location = new System.Drawing.Point(0, 268);
             this.Add.Name = "Add";
-            this.Add.Size = new System.Drawing.Size(722, 35);
+            this.Add.Size = new System.Drawing.Size(722, 36);
             this.Add.TabIndex = 0;
-            this.Add.Text = "Add";
+            this.Add.Text = "Добавить адрес";
             this.Add.UseVisualStyleBackColor = true;
             this.Add.Click += new System.EventHandler(this.AddNewAddress);
             // 
@@ -69,11 +69,11 @@ namespace DeliveryApp.Forms
             this.Apply.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Apply.Font = new System.Drawing.Font("Microsoft YaHei UI", 10F);
             this.Apply.ForeColor = System.Drawing.Color.White;
-            this.Apply.Location = new System.Drawing.Point(0, 269);
+            this.Apply.Location = new System.Drawing.Point(0, 304);
             this.Apply.Name = "Apply";
             this.Apply.Size = new System.Drawing.Size(722, 35);
             this.Apply.TabIndex = 1;
-            this.Apply.Text = "Apply";
+            this.Apply.Text = "Сохранить";
             this.Apply.UseVisualStyleBackColor = true;
             // 
             // AddressChooser
@@ -85,10 +85,11 @@ namespace DeliveryApp.Forms
             this.Controls.Add(this.Apply);
             this.Controls.Add(this.Add);
             this.Controls.Add(this.FlowLayout);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
             this.Name = "AddressChooser";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Choose Address";
+            this.Text = "Выберите адрес";
             this.ResumeLayout(false);
 
         }

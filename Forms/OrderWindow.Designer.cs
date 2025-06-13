@@ -31,13 +31,13 @@
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.OrderName = new System.Windows.Forms.Label();
-            this.Status = new System.Windows.Forms.Label();
             this.TotalBill = new System.Windows.Forms.Label();
             this.Producer = new System.Windows.Forms.Label();
             this.ChangeAddressButton = new DeliveryApp.CustomButton();
+            this.Status = new System.Windows.Forms.Label();
+            this.AddressLabel = new System.Windows.Forms.Label();
             this.Dishes = new System.Windows.Forms.FlowLayoutPanel();
             this.Apply = new DeliveryApp.CustomButton();
-            this.AddressLabel = new System.Windows.Forms.Label();
             this.flowLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -91,18 +91,6 @@
             this.OrderName.Text = "Order#1";
             this.OrderName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // Status
-            // 
-            this.Status.AutoSize = true;
-            this.Status.Dock = System.Windows.Forms.DockStyle.Top;
-            this.Status.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.Status.Location = new System.Drawing.Point(3, 32);
-            this.Status.Name = "Status";
-            this.Status.Size = new System.Drawing.Size(118, 20);
-            this.Status.TabIndex = 3;
-            this.Status.Text = "Status";
-            this.Status.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
             // TotalBill
             // 
             this.TotalBill.AutoSize = true;
@@ -140,9 +128,33 @@
             this.ChangeAddressButton.Name = "ChangeAddressButton";
             this.ChangeAddressButton.Size = new System.Drawing.Size(204, 37);
             this.ChangeAddressButton.TabIndex = 4;
-            this.ChangeAddressButton.Text = "Change Address";
+            this.ChangeAddressButton.Text = "Изменить адрес";
             this.ChangeAddressButton.UseVisualStyleBackColor = true;
             this.ChangeAddressButton.Click += new System.EventHandler(this.ChangeAddressButton_Click);
+            // 
+            // Status
+            // 
+            this.Status.AutoSize = true;
+            this.Status.Dock = System.Windows.Forms.DockStyle.Top;
+            this.Status.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.Status.Location = new System.Drawing.Point(3, 32);
+            this.Status.Name = "Status";
+            this.Status.Size = new System.Drawing.Size(118, 20);
+            this.Status.TabIndex = 3;
+            this.Status.Text = "Status";
+            this.Status.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // AddressLabel
+            // 
+            this.AddressLabel.AutoSize = true;
+            this.AddressLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.AddressLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.AddressLabel.Location = new System.Drawing.Point(127, 32);
+            this.AddressLabel.Name = "AddressLabel";
+            this.AddressLabel.Size = new System.Drawing.Size(429, 43);
+            this.AddressLabel.TabIndex = 5;
+            this.AddressLabel.Text = "Address";
+            this.AddressLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Dishes
             // 
@@ -168,20 +180,8 @@
             this.Apply.Name = "Apply";
             this.Apply.Size = new System.Drawing.Size(800, 39);
             this.Apply.TabIndex = 4;
-            this.Apply.Text = "Apply";
+            this.Apply.Text = "Сохранить";
             this.Apply.UseVisualStyleBackColor = true;
-            // 
-            // AddressLabel
-            // 
-            this.AddressLabel.AutoSize = true;
-            this.AddressLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.AddressLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.AddressLabel.Location = new System.Drawing.Point(127, 32);
-            this.AddressLabel.Name = "AddressLabel";
-            this.AddressLabel.Size = new System.Drawing.Size(429, 43);
-            this.AddressLabel.TabIndex = 5;
-            this.AddressLabel.Text = "Address";
-            this.AddressLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // OrderWindow
             // 
@@ -191,6 +191,8 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.Apply);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
             this.Name = "OrderWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Order";

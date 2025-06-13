@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data.SqlClient;
 using System.Windows.Forms;
 
 namespace DeliveryApp
@@ -18,12 +17,12 @@ namespace DeliveryApp
 
         private void AuthButton_Click(object sender, System.EventArgs e)
         {
-            LoginMessage.Text = "";
+            LoginMessage.Text = "Вход...Ожидайте";
             try
             {
                 ClientActions.Login(LoginInput.Text, PasswordInput.Text);
                 (new Delivery()).Show();
-                this.Dispose();   
+                this.Dispose();
             }
             catch(Exception ex)
             {
@@ -33,7 +32,7 @@ namespace DeliveryApp
 
         private void Registrate_Click(object sender, EventArgs e)
         {
-            RegMessage.Text = "";
+            RegMessage.Text = "Регистрация...Ожидайте";
             try
             {
                 ClientActions.Register(LoginRegistration.Text, PasswordRegistration.Text, NameRegistration.Text, PhoneRegistration.Text, EmailRegistration.Text);

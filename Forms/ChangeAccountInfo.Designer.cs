@@ -66,7 +66,7 @@
             this.PasswordTitle.Name = "PasswordTitle";
             this.PasswordTitle.Size = new System.Drawing.Size(140, 30);
             this.PasswordTitle.TabIndex = 1;
-            this.PasswordTitle.Text = "Retype password";
+            this.PasswordTitle.Text = "Повторите пароль";
             this.PasswordTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // NewFieldInput
@@ -121,7 +121,7 @@
             this.Apply.Name = "Apply";
             this.Apply.Size = new System.Drawing.Size(461, 39);
             this.Apply.TabIndex = 1;
-            this.Apply.Text = "Apply";
+            this.Apply.Text = "Сохранить";
             this.Apply.UseVisualStyleBackColor = true;
             this.Apply.Click += new System.EventHandler(this.Apply_Click);
             // 
@@ -143,8 +143,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(461, 107);
             this.Controls.Add(this.flowLayoutPanel1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
             this.Name = "ChangeAccountInfo";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ChangeAccountInfo";
             this.TableLayout.ResumeLayout(false);
             this.TableLayout.PerformLayout();

@@ -7,7 +7,6 @@ using DeliveryApp.Forms;
 using System.Linq;
 using System.Data;
 using Microsoft.EntityFrameworkCore.Internal;
-using System.Collections;
 namespace DeliveryApp
 {
     public partial class Delivery : Form
@@ -15,9 +14,10 @@ namespace DeliveryApp
         public Delivery()
         {
             InitializeComponent();
-            this.WelcomeMessage.Text = "Hello, " + User.userInfo.Login;
 
-            drawAll();
+            GetOrders();
+            UpdateClientInfo();
+            getMarket();
         }
 
         private void Main_FormClosed(object sender, FormClosedEventArgs e)
@@ -47,7 +47,7 @@ namespace DeliveryApp
             OrderName.Dock = DockStyle.Left;
             OrderName.Font = new Font("Microsoft Sans Serif", 13.8F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(204)));
             OrderName.Location = new Point(0, 0);
-            OrderName.Text = $"Order#{order.ID}";
+            OrderName.Text = $"Заказ#{order.ID}";
 
             if (!(order.Ordered_At is null))
             {
@@ -59,7 +59,7 @@ namespace DeliveryApp
                 OrderedTime.Dock = DockStyle.Right;
                 OrderedTime.Location = new Point(0, 0);
             
-                OrderedTime.Text = $"Ordered at {order.Ordered_At.Value.ToString("F")}";
+                OrderedTime.Text = $"Заказано {order.Ordered_At.Value.ToString("F")}";
             }
 
             Status.AutoSize = true;
@@ -123,6 +123,7 @@ namespace DeliveryApp
                 DishFlowScrollLayout.Dock = DockStyle.Fill;
                 DishFlowScrollLayout.AutoScroll = true;
                 DishFlowScrollLayout.AutoSize = true;
+                DishFlowScrollLayout.MaximumSize = new Size(700, 500);
                 DishFlowScrollLayout.Margin = new Padding(0);
                 DishFlowScrollLayout.Padding = new Padding(0);
                 DishFlowScrollLayout.WrapContents = false;
@@ -216,7 +217,7 @@ namespace DeliveryApp
             Header.Font = new Font("Microsoft Sans Serif", 13.8F,
                 FontStyle.Regular, GraphicsUnit.Point, ((byte)(204)));
             Header.Location = new Point(0, 0);
-            Header.Text = "You haven't order anything :(";
+            Header.Text = "Вы еще ничего не заказывали :(";
 
             
             parentPanel.Controls.Add(Header);
@@ -274,17 +275,11 @@ namespace DeliveryApp
             }
         }
 
-        void drawAll() {
-            GetOrders();
-            UpdateClientInfo();
-            getMarket();
-        }
-
         private void UpdateClientInfo()
         {
             try
             {
-                this.WelcomeMessage.Text = "Hello, " + User.userInfo.Login;
+                this.WelcomeMessage.Text = "Здравствуйте, " + User.userInfo.Login;
 
                 Client user = ClientActions.getClientInfo();
                 Account_UserLogin.Text = user.Login;
@@ -292,7 +287,7 @@ namespace DeliveryApp
                 Account_UserPhone.Text = user.Phone;
                 if (!(user.Email is null))
                     Account_UserEmail.Text = user.Email;
-                Account_CreatedAt.Text = "Created " + user.Created.ToString("F");
+                Account_CreatedAt.Text = "Создано " + user.Created.ToString("F");
                
             } catch(Exception ex)
             {
@@ -314,7 +309,7 @@ namespace DeliveryApp
             }
             catch
             {
-                MessageBox.Show("Error during openning order");
+                MessageBox.Show("Ошибка открытия заказа");
             }
         }
 
@@ -373,7 +368,7 @@ namespace DeliveryApp
         {
             try
             {
-                DialogResult dialogResult = MessageBox.Show("Are you sure? Deleting account cause data loss", "Warning", 
+                DialogResult dialogResult = MessageBox.Show("Вы уверены? Удаление аккаунта вызовет удаление данных", "Внимание", 
                     MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (dialogResult == DialogResult.Yes)
                 {
@@ -406,7 +401,7 @@ namespace DeliveryApp
             {
                 if (!ClientActions.HasOpenedOrder())
                 {
-                    MessageBox.Show("Card is emphty");
+                    MessageBox.Show("Карзина пуста");
                 }
                 else
                 {

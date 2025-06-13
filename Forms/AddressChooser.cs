@@ -21,8 +21,10 @@ namespace DeliveryApp.Forms
             {
                 case Mode.Order:
                     this.Apply.Click += new EventHandler(this.Apply_InitOrder);
+                    this.Apply.Text = "Создать заказ";
                     break;
                 case Mode.Edit:
+                    this.Apply.Text = "Закрыть";
                     this.Apply.Click += (p, e) => {
                         this.Close();
                     };
@@ -44,7 +46,7 @@ namespace DeliveryApp.Forms
                 try
                 {
                     var selected = radioButtons.Where(p => p.Checked);
-                    if (selected.Count() != 1) throw new Exception("None radios selected");
+                    if (selected.Count() != 1) throw new Exception("Адрес не выбран");
                     int address = (int)selected.First().Tag;
                     ClientActions.ChangeAddressInOrder(Order, address);
                     this.Close();
@@ -59,8 +61,8 @@ namespace DeliveryApp.Forms
         {
             FlowLayoutPanel FlowLayoutAddress = new FlowLayoutPanel();
             RadioButton radioButton = new RadioButton();
-            Button Edit = new Button();
-            Button Delete = new Button();
+            CustomButton Edit = new CustomButton();
+            CustomButton Delete = new CustomButton();
 
             FlowLayoutAddress.SuspendLayout();
 
@@ -73,6 +75,7 @@ namespace DeliveryApp.Forms
             radioButton.Location = new System.Drawing.Point(3, 3);
             if (this.Mode == Mode.Order || this.Mode == Mode.ReadyOrderChange) radioButton.Checked = false;
             else radioButton.Checked = true;
+            radioButton.Font = new System.Drawing.Font("Microsoft YaHei UI", 10F);
             radioButton.Text = $"{address.City}, {address.District}, {address.Street}, {address.Building}, {address.Room}";
             radioButton.UseVisualStyleBackColor = true;
             radioButton.Tag = address.Address_ID;
@@ -94,8 +97,7 @@ namespace DeliveryApp.Forms
             Edit.AutoSize = true;
             Edit.Dock = DockStyle.Fill;
             Edit.Location = new System.Drawing.Point(122, 3);
-            Edit.Name = "Edit";
-            Edit.Text = "Edit";
+            Edit.Text = "Редактировать";
             Edit.Tag = address.Address_ID;
             Edit.UseVisualStyleBackColor = true;
             Edit.Click += new EventHandler(this.Apply_EditAddress);
@@ -103,8 +105,7 @@ namespace DeliveryApp.Forms
             Delete.AutoSize = true;
             Delete.Dock = DockStyle.Fill;
             Delete.Location = new System.Drawing.Point(122, 3);
-            Delete.Name = "Delete";
-            Delete.Text = "Delete";
+            Delete.Text = "Удалить";
             Delete.Tag = address.Address_ID;
             Delete.UseVisualStyleBackColor = true;
             Delete.Click += new EventHandler(this.Apply_DeleteAddress);
@@ -138,7 +139,7 @@ namespace DeliveryApp.Forms
             try
             {
                 var selected = radioButtons.Where(p=>p.Checked);
-                if (selected.Count() != 1) throw new Exception("None radios selected");
+                if (selected.Count() != 1) throw new Exception("Адрес не выбран");
                 int address = (int)selected.First().Tag;
                 ClientActions.InitOrder(address);
                 this.Close();

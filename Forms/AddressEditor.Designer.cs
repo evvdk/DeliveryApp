@@ -92,7 +92,7 @@
             this.City_Label.Name = "City_Label";
             this.City_Label.Size = new System.Drawing.Size(95, 39);
             this.City_Label.TabIndex = 2;
-            this.City_Label.Text = "City";
+            this.City_Label.Text = "Город";
             this.City_Label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // CityField
@@ -117,7 +117,7 @@
             this.DistrictLabel.Name = "DistrictLabel";
             this.DistrictLabel.Size = new System.Drawing.Size(95, 39);
             this.DistrictLabel.TabIndex = 4;
-            this.DistrictLabel.Text = "District";
+            this.DistrictLabel.Text = "Район";
             this.DistrictLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // StreetLabel
@@ -129,7 +129,7 @@
             this.StreetLabel.Name = "StreetLabel";
             this.StreetLabel.Size = new System.Drawing.Size(95, 39);
             this.StreetLabel.TabIndex = 5;
-            this.StreetLabel.Text = "Street";
+            this.StreetLabel.Text = "Улица";
             this.StreetLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // BuildingLabel
@@ -141,7 +141,7 @@
             this.BuildingLabel.Name = "BuildingLabel";
             this.BuildingLabel.Size = new System.Drawing.Size(95, 39);
             this.BuildingLabel.TabIndex = 6;
-            this.BuildingLabel.Text = "Building";
+            this.BuildingLabel.Text = "Здание";
             this.BuildingLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // RoomLabel
@@ -153,7 +153,7 @@
             this.RoomLabel.Name = "RoomLabel";
             this.RoomLabel.Size = new System.Drawing.Size(95, 41);
             this.RoomLabel.TabIndex = 8;
-            this.RoomLabel.Text = "Room";
+            this.RoomLabel.Text = "Кваритра";
             this.RoomLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // DistrictField
@@ -221,7 +221,7 @@
             this.Apply.Name = "Apply";
             this.Apply.Size = new System.Drawing.Size(618, 39);
             this.Apply.TabIndex = 1;
-            this.Apply.Text = "Apply";
+            this.Apply.Text = "Сохранить";
             this.Apply.UseVisualStyleBackColor = true;
             this.Apply.Click += new System.EventHandler(this.Apply_Click);
             // 
@@ -232,10 +232,11 @@
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(624, 252);
             this.Controls.Add(this.flowLayoutPanel1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
             this.Name = "AddressEditor";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "AddressEditor";
+            this.Text = "Изменение адреса";
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
             this.DataTableLayout.ResumeLayout(false);

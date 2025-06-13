@@ -265,12 +265,12 @@ GO
 
 INSERT INTO "Status" ("ID", "Value")
 VALUES
-(0,'Collecting'),
-(1,'In Process'),
-(2,'Preparing'),
-(3,'Delivering'),
-(4,'Completed'),
-(5,'Canceled');
+(0,'Собирается'),
+(1,'Обрабатывается'),
+(2,'Готовится'),
+(3,'Доставляется'),
+(4,'Завершён'),
+(5,'Отменён');
 
 GO
 

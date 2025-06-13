@@ -111,8 +111,8 @@
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 24.77273F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 75.22727F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 32.70677F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 67.29324F));
             this.tableLayoutPanel2.Controls.Add(this.CostLabel, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.label1, 0, 2);
             this.tableLayoutPanel2.Controls.Add(this.CostLabelValue, 1, 1);
@@ -126,7 +126,7 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(440, 66);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(532, 66);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
             // CostLabel
@@ -137,9 +137,9 @@
             this.CostLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.CostLabel.Location = new System.Drawing.Point(3, 22);
             this.CostLabel.Name = "CostLabel";
-            this.CostLabel.Size = new System.Drawing.Size(53, 22);
+            this.CostLabel.Size = new System.Drawing.Size(119, 22);
             this.CostLabel.TabIndex = 0;
-            this.CostLabel.Text = "Cost";
+            this.CostLabel.Text = "Стоимость";
             this.CostLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label1
@@ -150,9 +150,9 @@
             this.label1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.label1.Location = new System.Drawing.Point(3, 44);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(84, 22);
+            this.label1.Size = new System.Drawing.Size(100, 22);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Calories";
+            this.label1.Text = "Ккалории";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // CostLabelValue
@@ -161,7 +161,7 @@
             this.CostLabelValue.Dock = System.Windows.Forms.DockStyle.Left;
             this.CostLabelValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.CostLabelValue.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.CostLabelValue.Location = new System.Drawing.Point(112, 22);
+            this.CostLabelValue.Location = new System.Drawing.Point(177, 22);
             this.CostLabelValue.Name = "CostLabelValue";
             this.CostLabelValue.Size = new System.Drawing.Size(104, 22);
             this.CostLabelValue.TabIndex = 2;
@@ -174,7 +174,7 @@
             this.CalValue.Dock = System.Windows.Forms.DockStyle.Left;
             this.CalValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.CalValue.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.CalValue.Location = new System.Drawing.Point(112, 44);
+            this.CalValue.Location = new System.Drawing.Point(177, 44);
             this.CalValue.Name = "CalValue";
             this.CalValue.Size = new System.Drawing.Size(93, 22);
             this.CalValue.TabIndex = 3;
@@ -187,16 +187,16 @@
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.label4.Location = new System.Drawing.Point(3, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(91, 22);
+            this.label4.Size = new System.Drawing.Size(159, 22);
             this.label4.TabIndex = 4;
-            this.label4.Text = "Producer";
+            this.label4.Text = "Производитель";
             // 
             // ProducerName
             // 
             this.ProducerName.AutoSize = true;
             this.ProducerName.Dock = System.Windows.Forms.DockStyle.Left;
             this.ProducerName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.ProducerName.Location = new System.Drawing.Point(112, 0);
+            this.ProducerName.Location = new System.Drawing.Point(177, 0);
             this.ProducerName.Name = "ProducerName";
             this.ProducerName.Size = new System.Drawing.Size(82, 22);
             this.ProducerName.TabIndex = 5;
@@ -209,9 +209,9 @@
             this.IngridientsLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.IngridientsLabel.Location = new System.Drawing.Point(3, 235);
             this.IngridientsLabel.Name = "IngridientsLabel";
-            this.IngridientsLabel.Size = new System.Drawing.Size(101, 25);
+            this.IngridientsLabel.Size = new System.Drawing.Size(138, 25);
             this.IngridientsLabel.TabIndex = 2;
-            this.IngridientsLabel.Text = "Ingridients";
+            this.IngridientsLabel.Text = "Ингредиенты";
             // 
             // CloseButton
             // 
@@ -226,7 +226,7 @@
             this.CloseButton.Name = "CloseButton";
             this.CloseButton.Size = new System.Drawing.Size(549, 39);
             this.CloseButton.TabIndex = 1;
-            this.CloseButton.Text = "Close";
+            this.CloseButton.Text = "Закрыть";
             this.CloseButton.UseVisualStyleBackColor = true;
             this.CloseButton.Click += new System.EventHandler(this.CloseButton_Click);
             // 
@@ -238,8 +238,10 @@
             this.ClientSize = new System.Drawing.Size(549, 451);
             this.Controls.Add(this.CloseButton);
             this.Controls.Add(this.DishFlowLayout);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
             this.Name = "SingleDish";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SingleDish";
             this.DishFlowLayout.ResumeLayout(false);
             this.DishFlowLayout.PerformLayout();

@@ -263,8 +263,21 @@ BEGIN
 	
 		BEGIN TRAN
 
-			INSERT INTO [Client Address] ([Client ID],City, District, Street, Building, Room)
-				VALUES (@clientID, @city, @district, @street, @building, @room)
+			IF EXISTS (SELECT * FROM [Client Address] WHERE [Client ID] = @clientID AND City = @City AND 
+									District = @district AND Street = @street AND Building = @building AND Room = @room AND Active = 0)
+			BEGIN
+				UPDATE [Client Address]
+				SET Active = 1
+				WHERE [Client ID] = @clientID AND City = @City AND District = @district 
+							AND Street = @street AND Building = @building AND Room = @room AND Active = 0
+			END
+			ELSE
+			BEGIN
+
+				INSERT INTO [Client Address] ([Client ID],City, District, Street, Building, Room)
+					VALUES (@clientID, @city, @district, @street, @building, @room)
+
+			END
 
 		COMMIT TRAN
 

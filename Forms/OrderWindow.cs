@@ -19,33 +19,38 @@ namespace DeliveryApp.Forms
         private void UpdateOrder()
         {
             List<Order_Set> order = ClientActions.GetOrderSet(this.OrderID);
-            Order_Status_Table address = ClientActions.GetAddressOfOrder(this.OrderID);
 
             if(order.Count() == 0)
             {
-                this.OrderName.Text = "Card is empthy";
+                this.Text = "Карзина пуста";
+                this.OrderName.Text = "Карзина пуста";
                 this.TotalBill.Text = "";
                 this.Producer.Text = "";
                 this.Status.Text = "";
                 this.Dishes.Controls.Clear();
-                this.Apply.Text = "Close";
+                this.AddressLabel.Text = "";
+                this.Apply.Text = "Закрыть";
                 this.ChangeAddressButton.Enabled = false;
+                this.ChangeAddressButton.Visible = false;
                 return;
             }
 
+            this.Text = $"Заказ#{OrderID}";
             decimal Cost = decimal.Round((decimal)order.Sum(p => p.Sum));
             string Producer = order.First().Producer_Name;
             string Status = order.First().Order_Status_Value;
             bool isOpen = order.First().Order_Status == 0;
 
-            this.OrderName.Text = $"Order#{OrderID}";
+            this.OrderName.Text = $"Заказ#{OrderID}";
             this.TotalBill.Text = $"{Cost} ₽";
-            this.Producer.Text = $"Ordered from {Producer}";
-            this.AddressLabel.Text = $"Address: {address.City}, {address.District}, {address.Building}, {address.Room}";
+            this.Producer.Text = $"Закзано из {Producer}";
+
+            Order_Status_Table address = ClientActions.GetAddressOfOrder(this.OrderID);
+            this.AddressLabel.Text = $"Адрес: {address.City}, {address.District}, {address.Building}, {address.Room}";
             if (isOpen)
             {
                 this.Status.Text = "";
-                this.Apply.Text = "Apply";
+                this.Apply.Text = "Заказать";
                 this.Apply.Click += (s, e) =>
                 {
                     try
@@ -62,7 +67,7 @@ namespace DeliveryApp.Forms
             else
             {
                 this.Status.Text = $"{Status}";
-                this.Apply.Text = "Close";
+                this.Apply.Text = "Закрыть";
                 this.ChangeAddressButton.Enabled = false;
                 this.ChangeAddressButton.Visible = false;
                 this.Apply.Click += (s, e) =>
