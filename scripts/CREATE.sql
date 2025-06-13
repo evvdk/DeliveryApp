@@ -104,8 +104,7 @@ CREATE TABLE "Producer"
     "Building" nvarchar(6) NOT NULL,
     "Room" nvarchar(5) NOT NULL,
     CONSTRAINT "C_PK_ProducerID" PRIMARY KEY ("ID"),
-	CONSTRAINT "C_U_Login" UNIQUE ("Login"),
-	CONSTRAINT "C_U_Address" UNIQUE ("Login", "City", "District", "Street", "Building", "Room")
+	CONSTRAINT "C_U_Login" UNIQUE ("Login")
 );
 
 -- Status
@@ -139,11 +138,12 @@ CREATE TABLE "Dish"
     "Name" nvarchar(50) NOT NULL,
 	"Image" varbinary(MAX),
 	"Cost" money NOT NULL,
-    "Description" nvarchar(500),
+    "Description" nvarchar(100),
     "Calories" int NOT NULL,
     "Mass" int NOT NULL,
 	"Visible" tinyint,
     CONSTRAINT "C_PK_DishID" PRIMARY KEY ("ID"),
+	CONSTRAINT "C_U_Dish" UNIQUE ("Name", "Producer ID"),
 	CONSTRAINT "C_FK_ProducerID_Producer ID" FOREIGN KEY ("Producer ID")
         REFERENCES Producer ("ID")
         ON UPDATE CASCADE
@@ -225,7 +225,8 @@ CREATE TABLE "Ingredient"
 (
 	"Ingredient ID" int IDENTITY(1, 1) NOT NULL,
 	"Ingredient Name" nvarchar(30) NOT NULL,
-	CONSTRAINT "C_PK_Ingredient" PRIMARY KEY ("Ingredient ID")
+	CONSTRAINT "C_PK_Ingredient" PRIMARY KEY ("Ingredient ID"),
+	CONSTRAINT "C_U_IngredientName" UNIQUE ("Ingredient Name")
 );
 
 CREATE TABLE "Dish Ingredients" 

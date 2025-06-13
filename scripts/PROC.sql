@@ -523,7 +523,7 @@ BEGIN
 	BEGIN TRY
 
 		IF NOT EXISTS (SELECT * FROM [Client Address] WHERE ID = @Address AND Active = 1)
-			THROW 50007, 'Dddress doesn''t exists', 1;
+			THROW 50007, 'Address doesn''t exists', 1;
 
 		IF NOT EXISTS(SELECT * FROM [Order] WHERE ID = @Order)
 			THROW 50009, 'Order doesn''t exists', 1;
