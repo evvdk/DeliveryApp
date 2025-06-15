@@ -42,7 +42,7 @@ namespace DeliveryApp.Forms
             bool isOpen = order.First().Order_Status == 0;
 
             this.OrderName.Text = $"Заказ#{OrderID}";
-            this.TotalBill.Text = $"{Cost} ₽";
+            this.TotalBill.Text = $"Cтоимость {Cost} ₽";
             this.Producer.Text = $"Закзано из {Producer}";
 
             Order_Status_Table address = ClientActions.GetAddressOfOrder(this.OrderID);

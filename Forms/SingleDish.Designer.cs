@@ -111,8 +111,8 @@
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 32.70677F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 67.29324F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35.15038F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 64.84962F));
             this.tableLayoutPanel2.Controls.Add(this.CostLabel, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.label1, 0, 2);
             this.tableLayoutPanel2.Controls.Add(this.CostLabelValue, 1, 1);
@@ -150,9 +150,9 @@
             this.label1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.label1.Location = new System.Drawing.Point(3, 44);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(100, 22);
+            this.label1.Size = new System.Drawing.Size(90, 22);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Ккалории";
+            this.label1.Text = "Калории";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // CostLabelValue
@@ -161,7 +161,7 @@
             this.CostLabelValue.Dock = System.Windows.Forms.DockStyle.Left;
             this.CostLabelValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.CostLabelValue.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.CostLabelValue.Location = new System.Drawing.Point(177, 22);
+            this.CostLabelValue.Location = new System.Drawing.Point(190, 22);
             this.CostLabelValue.Name = "CostLabelValue";
             this.CostLabelValue.Size = new System.Drawing.Size(104, 22);
             this.CostLabelValue.TabIndex = 2;
@@ -174,7 +174,7 @@
             this.CalValue.Dock = System.Windows.Forms.DockStyle.Left;
             this.CalValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.CalValue.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.CalValue.Location = new System.Drawing.Point(177, 44);
+            this.CalValue.Location = new System.Drawing.Point(190, 44);
             this.CalValue.Name = "CalValue";
             this.CalValue.Size = new System.Drawing.Size(93, 22);
             this.CalValue.TabIndex = 3;
@@ -196,7 +196,7 @@
             this.ProducerName.AutoSize = true;
             this.ProducerName.Dock = System.Windows.Forms.DockStyle.Left;
             this.ProducerName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.ProducerName.Location = new System.Drawing.Point(177, 0);
+            this.ProducerName.Location = new System.Drawing.Point(190, 0);
             this.ProducerName.Name = "ProducerName";
             this.ProducerName.Size = new System.Drawing.Size(82, 22);
             this.ProducerName.TabIndex = 5;
@@ -209,9 +209,9 @@
             this.IngridientsLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.IngridientsLabel.Location = new System.Drawing.Point(3, 235);
             this.IngridientsLabel.Name = "IngridientsLabel";
-            this.IngridientsLabel.Size = new System.Drawing.Size(138, 25);
+            this.IngridientsLabel.Size = new System.Drawing.Size(144, 25);
             this.IngridientsLabel.TabIndex = 2;
-            this.IngridientsLabel.Text = "Ингредиенты";
+            this.IngridientsLabel.Text = "Ингредиенты:";
             // 
             // CloseButton
             // 

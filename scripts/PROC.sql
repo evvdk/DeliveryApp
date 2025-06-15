@@ -42,8 +42,11 @@ BEGIN
 	END CATCH
 END
 
--- EXEC RegisterClient 'UserLogin', 'Password', 'Name', '+77777777777', NULL
--- EXEC RegisterClient 'User', 'Password', 'Name', '+77777777777', NULL
+--DECLARE @Pass binary(32);
+--SET @Pass = CAST('Password' as binary(32))
+
+--EXEC RegisterClient 'UserLogin', @Pass, 'Name', '+77777777777', NULL
+--EXEC RegisterClient 'User', @Pass, 'Name', '+77777777777', NULL
 -- EXEC RegisterClient 'UserLogin', 'Password', 'Name', '+77777777777', NULL
 
 -- EXEC RegisterClient 'AnotherLogin', 'Password', 'Na', '+77777777771', NULL
@@ -128,11 +131,11 @@ AS
 BEGIN
 	BEGIN TRY
 
-		IF NOT(LEN(@newName) BETWEEN 3 AND 20) 
-				THROW 50002, 'Name should be more than 2 and less than 20 letters', 1;
-
 		IF NOT EXISTS (SELECT * FROM Client WHERE Login = @login AND Password = @password AND [Active Account] = 1)
 			THROW 50006, 'User doesn''t exist', 1;
+
+		IF NOT(LEN(@newName) BETWEEN 3 AND 20) 
+				THROW 50002, 'Name should be more than 2 and less than 20 letters', 1;		
 
 		BEGIN TRAN
 
@@ -162,15 +165,22 @@ AS
 BEGIN
 	BEGIN TRY
 
+		IF NOT EXISTS (SELECT * FROM Client WHERE Login = @login AND Password = @password AND [Active Account] = 1)
+			THROW 50006, 'User doesn''t exist', 1;
+
 		IF EXISTS (SELECT * FROM Client WHERE Phone = @newPhone)
 			THROW 50003, 'Phone already used', 1;		
 
 		IF NOT (@newPhone LIKE '+7[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]')
 			THROW 50004, 'Phone doesn''t match pattern', 1;
 
-		UPDATE Client
-			SET Phone = @newPhone
-			WHERE Login = @login AND Password = @password AND [Active Account] = 1
+		BEGIN TRAN
+
+			UPDATE Client
+				SET Phone = @newPhone
+				WHERE Login = @login AND Password = @password AND [Active Account] = 1
+		
+		COMMIT TRAN
 
 	END TRY
 	BEGIN CATCH
@@ -192,12 +202,17 @@ AS
 BEGIN
 	BEGIN TRY
 
+		IF NOT EXISTS (SELECT * FROM Client WHERE Login = @login AND Password = @password AND [Active Account] = 1)
+			THROW 50006, 'User doesn''t exist', 1;
+
 		IF NOT (@newEmail LIKE '%[_a-zA-Z0-9.-]%@%[_a-zA-Z0-9.-]%.[a-zA-Z][a-zA-Z]%')
 			THROW 50005, 'Email doesn''t match pattern', 1;
 
-		UPDATE Client
-			SET Email = @newEmail
-			WHERE Login = @login AND Password = @password AND [Active Account] = 1
+		BEGIN TRAN
+			UPDATE Client
+				SET Email = @newEmail
+				WHERE Login = @login AND Password = @password AND [Active Account] = 1
+		COMMIT TRAN
 
 	END TRY
 	BEGIN CATCH
@@ -319,8 +334,8 @@ BEGIN
 		BEGIN TRAN
 
 			UPDATE [Client Address]
-			SET City = @city, District = @district, Street = @street, Building = @building, Room = @room
-			WHERE ID = @address AND [Client ID] = @clientID AND [Active] = 1
+				SET City = @city, District = @district, Street = @street, Building = @building, Room = @room
+				WHERE ID = @address AND [Client ID] = @clientID AND [Active] = 1
  
 		COMMIT TRAN
 
@@ -379,18 +394,18 @@ CREATE OR ALTER PROCEDURE InitOrder(@login nvarchar(30), @addressID int)
 AS
 BEGIN
 	BEGIN TRY
-		BEGIN TRAN
+		
 			
-			IF NOT EXISTS(SELECT * FROM Client WHERE [Login] = @login AND [Active Account] = 1)
-				THROW 50006, 'Client with login doesn''t exists', 1;
+		IF NOT EXISTS(SELECT * FROM Client WHERE [Login] = @login AND [Active Account] = 1)
+			THROW 50006, 'Client with login doesn''t exists', 1;
 
-			DECLARE @clientID int;
-			SELECT @clientID = ID FROM Client
-				WHERE [Login] = @login AND [Active Account] = 1
+		DECLARE @clientID int;
+		SELECT @clientID = ID FROM Client
+			WHERE [Login] = @login AND [Active Account] = 1
 
+		BEGIN TRAN
 			INSERT INTO [Order] ([Client ID], [Client Address ID]) 
 					VALUES (@ClientID, @AddressID);
-
 		COMMIT TRAN
 
 	END TRY
@@ -453,11 +468,11 @@ AS
 BEGIN
 	BEGIN TRY
 
-		BEGIN TRAN
-
 			IF NOT EXISTS(SELECT * FROM [Dishes Order] WHERE  [Order ID] = @Order AND [Dish ID] = @dishID)
 				THROW 50012, 'Dish doesn''t found in order', 1;
-			
+		
+		BEGIN TRAN
+		
 			IF((SELECT [Count] FROM [Dishes Order] WHERE [Order ID] = @Order AND [Dish ID] = @dishID) = 1)
 			BEGIN
 
@@ -497,6 +512,7 @@ BEGIN
 			THROW 50008, 'Order can''t be assembled', 1;
 	
 		BEGIN TRAN
+
 			UPDATE [Order]
 				SET [Ordered At] = GETDATE(), [Status] = 1
 				WHERE ID = @Order
@@ -533,9 +549,9 @@ BEGIN
 		
 		BEGIN TRAN
 
-		UPDATE [Order]
-			SET [Client Address ID] = @Address
-			WHERE ID = @Order
+			UPDATE [Order]
+				SET [Client Address ID] = @Address
+				WHERE ID = @Order
 
 		COMMIT TRAN
 

@@ -32,7 +32,7 @@ namespace DeliveryApp.Forms
             this.DishName.Text = dishName;
             this.DishDescription.Text = description;
             this.ProducerName.Text = producer;
-            this.CalValue.Text = cal.ToString();
+            this.CalValue.Text = cal.ToString() + " Ккал";
             this.CostLabelValue.Text = $"{cost.ToString()} ₽";
             if(imageBytes != null)
                 this.Image.BackgroundImage = DatabaseImage.BytesToImage(imageBytes);

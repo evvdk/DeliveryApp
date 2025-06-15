@@ -401,7 +401,7 @@ namespace DeliveryApp
             {
                 if (!ClientActions.HasOpenedOrder())
                 {
-                    MessageBox.Show("Карзина пуста");
+                    MessageBox.Show("Корзина пуста");
                 }
                 else
                 {
