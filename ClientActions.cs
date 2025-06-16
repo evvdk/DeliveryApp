@@ -20,12 +20,12 @@ namespace DeliveryApp
 
         static public void Login(string Login, string Password)
         {
-            if (Login.Length == 0 || Password.Length == 0) throw new Exception("Required fields are empthy");
+            if (Login.Length == 0 || Password.Length == 0) throw new Exception("Есть незаполненные поля");
             try
             {
                 byte[] password = HashString(Password);
                 if (!Database.IsValidUser(Login, password))
-                    throw new Exception("Wrong login or password");
+                    throw new Exception("Неправильный логин или пароль");
                 User.userInfo = new User(Login, password);
             }
             catch (SqlException ex)
@@ -51,7 +51,7 @@ namespace DeliveryApp
         public static void Register(string Login, string Password, string Name, string Phone, string Email)
         {
             if (Password.Length < 5 || Password.Length > 16)
-                throw new Exception("Password should be more than 5 and less than 16 letters");
+                throw new Exception("Пароль должен быть от 5 до 16 символов");
             byte[] password = HashString(Password);
 
             Phone = FormatPhone(Phone);
@@ -66,17 +66,17 @@ namespace DeliveryApp
                 switch (ex.Number)
                 {
                     case 50000:
-                        throw new Exception("Login should be more than 5 and less than 30 letters");
+                        throw new Exception("Логин должен быть от 5 до 30 символов");
                     case 50001:
-                        throw new Exception("User with such login already exists");
+                        throw new Exception("Пользователь с таким логином уже существует");
                     case 50002:
-                        throw new Exception("Name should be more than 2 and less than 20 letters");
+                        throw new Exception("Имя должно быть от 3 до 20 символов");
                     case 50003:
-                        throw new Exception("Phone already is used");
+                        throw new Exception("Телефон уже используется");
                     case 50004:
-                        throw new Exception("Check if phone is correct");
+                        throw new Exception("Телефон заполнен неверно");
                     case 50005:
-                        throw new Exception("Check if email is correct");
+                        throw new Exception("Почта заполнена неверно");
                     default:
                         throw new Exception($"Database error {ex.Number}\n{ex.Message}");
                 }
@@ -116,14 +116,14 @@ namespace DeliveryApp
         {
 
             if (NewPassword.Length < 5 || NewPassword.Length > 16) throw new
-                Exception("Password should be more than 5 and less than 16 letters");
+                Exception("Пароль должен быть от 5 до 16 символов");
 
-            if (NewPassword != RetypedPassword) throw new Exception("Retyped password doesn't match");
+            if (NewPassword != RetypedPassword) throw new Exception("Пароли не совпадают");
 
             byte[] newPassword = HashString(NewPassword);
 
             if (User.userInfo.Password == newPassword)
-                throw new Exception("Old and new password are equal");
+                throw new Exception("Новый и старый пароли одинаковы");
 
             try
             {
@@ -135,7 +135,7 @@ namespace DeliveryApp
                 switch (ex.Number)
                 {
                     case 50006:
-                        throw new Exception("User with such login doesn't exitst");
+                        throw new Exception("Пользователь с логином и паролем не существует");
                     default:
                         throw new Exception($"Database error{ex.Number}\n{ex.Message}");
                 }
@@ -158,11 +158,11 @@ namespace DeliveryApp
                 switch (ex.Number)
                 {
                     case 50000:
-                        throw new Exception("Login should be more than 5 and less than 30 letters");
+                        throw new Exception("Логин должен быть от 5 до 30 символов");
                     case 50001:
-                        throw new Exception("User with this login already exist");
+                        throw new Exception("Логин уже существует");
                     case 50006:
-                        throw new Exception("Wrong login or password");
+                        throw new Exception("Пользователь не существует");
                     default:
                         throw new Exception($"Database error{ex.Number}\n{ex.Message}");
                 }
@@ -185,9 +185,9 @@ namespace DeliveryApp
                 switch (ex.Number)
                 {
                     case 50002:
-                        throw new Exception("Name should be more than 2 and less than 20 letters");
+                        throw new Exception("Имя должно быть от 3 до 20 символов");
                     case 50006:
-                        throw new Exception("Wrong login or password");
+                        throw new Exception("Неправильный логин или пароль");
                     default:
                         throw new Exception($"Database error{ex.Number}\n{ex.Message}");
                 }
@@ -210,9 +210,11 @@ namespace DeliveryApp
                 switch (ex.Number)
                 {
                     case 50003:
-                        throw new Exception("Phone already used");
+                        throw new Exception("Телефон уже используется");
                     case 50004:
-                        throw new Exception("Phone doesn't match pattern");
+                        throw new Exception("Телефон заполнен неверно");
+                    case 50006:
+                        throw new Exception("Пользователь не существует");
                     default:
                         throw new Exception($"Database error{ex.Number}\n{ex.Message}");
                 }
@@ -234,7 +236,9 @@ namespace DeliveryApp
                 switch (ex.Number)
                 {
                     case 50005:
-                        throw new Exception("Email doesn't match pattern");
+                        throw new Exception("Почта заполнена неверно");
+                    case 50006:
+                        throw new Exception("Пользователь не существует");
                     default:
                         throw new Exception($"Database error{ex.Number}\n{ex.Message}");
                 }
@@ -256,7 +260,7 @@ namespace DeliveryApp
                 switch (ex.Number)
                 {
                     case 50006:
-                        throw new Exception("User doesn't exist");
+                        throw new Exception("Пользователь не существет");
                     default:
                         throw new Exception($"Database error{ex.Number}\n{ex.Message}");
                 }
@@ -311,7 +315,7 @@ namespace DeliveryApp
             }
             catch(InvalidOperationException)
             {
-                throw new Exception($"Address haven't selected");
+                throw new Exception($"Адрес не выбран");
             }
             catch(Exception ex)
             {
@@ -329,9 +333,9 @@ namespace DeliveryApp
                 switch (ex.Number)
                 {
                     case 50006:
-                        throw new Exception("Client with login doesn't exists");
+                        throw new Exception("Пользователь с данным логином не существует");
                     case 50011:
-                        throw new Exception("More than one opened order");
+                        throw new Exception("У Вас более одного заказа");
                     default: 
                         throw new Exception($"Database error{ex.Number}\n{ex.Message}");
                 }
@@ -353,9 +357,9 @@ namespace DeliveryApp
                 switch (ex.Number)
                 {
                     case 50009:
-                        throw new Exception("Order doesn't exists");
+                        throw new Exception("Заказ не создан");
                     case 50010:
-                        throw new Exception("Different producers can't be in the same order");
+                        throw new Exception("Разные блюда в одном заказе не могут находиться");
                     default:
                         throw new Exception($"Database error{ex.Number}\n{ex.Message}");
                 }
@@ -377,7 +381,7 @@ namespace DeliveryApp
                 switch (ex.Number)
                 {
                     case 50012:
-                        throw new Exception("Dish doesn''t found in order");
+                        throw new Exception("Блюдо не найдено в заказе");
                     default: 
                         throw new Exception($"Database error{ex.Number}\n{ex.Message}");
                 }
@@ -399,9 +403,9 @@ namespace DeliveryApp
                 switch (ex.Number)
                 {
                     case 50006:
-                        throw new Exception("Client with login doesn't exists");
+                        throw new Exception("Пользователь не найден");
                     case 50014:
-                        throw new Exception("Address already exists");
+                        throw new Exception("Адрес не найден");
                     default:
                         throw new Exception($"Database error{ex.Number}\n{ex.Message}");
                 }
@@ -449,11 +453,11 @@ namespace DeliveryApp
                 switch (ex.Number)
                 {
                     case 50006:
-                        throw new Exception("Client with login doesn't exists");
+                        throw new Exception("Пользователь не существует");
                     case 50007:
-                        throw new Exception("Client with address doesn't exists");
+                        throw new Exception("Адрес не существует");
                     case 50014:
-                        throw new Exception("Address already exists");
+                        throw new Exception("Адрес уже существует");
                     default:
                         throw new Exception($"Database error{ex.Number}\n{ex.Message}");
                 }
@@ -487,7 +491,7 @@ namespace DeliveryApp
                 switch (ex.Number)
                 {
                     case 50008:
-                        throw new Exception("Order can't be assembled");
+                        throw new Exception("Заказ не может быть собран");
                     default:
                         throw new Exception($"Database error{ex.Number}\n{ex.Message}");
                 }

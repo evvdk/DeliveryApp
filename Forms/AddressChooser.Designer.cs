@@ -41,7 +41,7 @@ namespace DeliveryApp.Forms
             this.FlowLayout.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.FlowLayout.Location = new System.Drawing.Point(0, 0);
             this.FlowLayout.Name = "FlowLayout";
-            this.FlowLayout.Size = new System.Drawing.Size(722, 268);
+            this.FlowLayout.Size = new System.Drawing.Size(957, 268);
             this.FlowLayout.TabIndex = 0;
             this.FlowLayout.WrapContents = false;
             // 
@@ -55,7 +55,7 @@ namespace DeliveryApp.Forms
             this.Add.ForeColor = System.Drawing.Color.White;
             this.Add.Location = new System.Drawing.Point(0, 268);
             this.Add.Name = "Add";
-            this.Add.Size = new System.Drawing.Size(722, 36);
+            this.Add.Size = new System.Drawing.Size(957, 36);
             this.Add.TabIndex = 0;
             this.Add.Text = "Добавить адрес";
             this.Add.UseVisualStyleBackColor = true;
@@ -71,7 +71,7 @@ namespace DeliveryApp.Forms
             this.Apply.ForeColor = System.Drawing.Color.White;
             this.Apply.Location = new System.Drawing.Point(0, 304);
             this.Apply.Name = "Apply";
-            this.Apply.Size = new System.Drawing.Size(722, 35);
+            this.Apply.Size = new System.Drawing.Size(957, 35);
             this.Apply.TabIndex = 1;
             this.Apply.Text = "Сохранить";
             this.Apply.UseVisualStyleBackColor = true;
@@ -81,7 +81,7 @@ namespace DeliveryApp.Forms
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(722, 339);
+            this.ClientSize = new System.Drawing.Size(957, 339);
             this.Controls.Add(this.Apply);
             this.Controls.Add(this.Add);
             this.Controls.Add(this.FlowLayout);

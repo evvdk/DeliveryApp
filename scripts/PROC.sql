@@ -41,21 +41,6 @@ BEGIN
 
 	END CATCH
 END
-
---DECLARE @Pass binary(32);
---SET @Pass = CAST('Password' as binary(32))
-
---EXEC RegisterClient 'UserLogin', @Pass, 'Name', '+77777777777', NULL
---EXEC RegisterClient 'User', @Pass, 'Name', '+77777777777', NULL
--- EXEC RegisterClient 'UserLogin', 'Password', 'Name', '+77777777777', NULL
-
--- EXEC RegisterClient 'AnotherLogin', 'Password', 'Na', '+77777777771', NULL
-
--- EXEC RegisterClient 'AnotherLogin', 'Password', 'Name', '+77777777777', NULL
--- EXEC RegisterClient 'AnotherLogin', 'Password', 'Name', '+777777777', NULL
-
--- EXEC RegisterClient 'AnotherLogin', 'Password', 'Name', '+77777777772', 'MyEmail@mailru'
-
 GO
 
 CREATE OR ALTER PROCEDURE DeleteClient(@login nvarchar(30), @password binary(32))
@@ -63,7 +48,7 @@ AS
 BEGIN
 	BEGIN TRY
 	
-		IF NOT EXISTS (SELECT * FROM Client WHERE Login = @login AND Password = @password)
+		IF NOT EXISTS (SELECT * FROM Client WHERE Login = @login AND Password = @password AND [Active Account] = 1)
 			THROW 50006, 'Client with login doesn''t exists', 1;
 
 		BEGIN TRAN
@@ -83,7 +68,6 @@ BEGIN
 
 	END CATCH
 END
-
 GO
 
 CREATE OR ALTER PROCEDURE ChangeClientLogin(@login nvarchar(30), @password binary(32), @newLogin nvarchar(30))
@@ -119,11 +103,6 @@ BEGIN
 
 
 END
-
-
--- EXEC DeleteClient 'AnotherLogin', 'Password'
--- EXEC DeleteClient 'UserLogin', 'Password'\
-
 GO
 
 CREATE OR ALTER PROCEDURE ChangeClientName(@login nvarchar(30), @password binary(32), @newName nvarchar(20))
@@ -235,7 +214,7 @@ BEGIN
 	BEGIN TRY
 
 		IF NOT EXISTS (SELECT * FROM Client WHERE Login = @login AND Password = @oldPassword AND [Active Account] = 1)
-			THROW 50006, 'Wrong old password', 1;
+			THROW 50006, 'User dosn''t exist', 1;
 	
 		BEGIN TRAN
 
@@ -254,9 +233,6 @@ BEGIN
 
 	END CATCH
 END
-
--- EXEC ChangeClientPassword 'Alex', 'dijcfweilfd', 'hihihihi'
-
 GO
 
 CREATE OR ALTER PROCEDURE AddClientAddress(@login nvarchar(30), @password binary(32), @city nvarchar(50), @district nvarchar(50),
@@ -305,8 +281,6 @@ BEGIN
 
 	END CATCH
 END
-
--- EXEC AddClientAddress 'UserLogin', 'e7cf3ef4f17c3999a94f2c6f612e8a888e5b1026878e4e19398b23bd38ec221a', 'Ryazan Oblsat', 'Ryazan', 'Diadkovo','1th Boluvar','56',5,'656'
 GO
 
 CREATE OR ALTER PROCEDURE EditClientAddress(@address int, @login nvarchar(30), @password binary(32),  @city nvarchar(50), 
@@ -386,8 +360,6 @@ BEGIN
 	
 END
 
---EXEC DeleteClientAddress 1, 'Alex', 'hihihihi'
-
 GO
 
 CREATE OR ALTER PROCEDURE InitOrder(@login nvarchar(30), @addressID int)
@@ -456,11 +428,6 @@ BEGIN
 END
 GO
 
--- EXEC AddToOrder 'UserLogin', 1, 11, 1
--- EXEC AddToOrder 'UserLogin', 1, 12, 1
--- EXEC AddToOrder 'UserLogin', 1, 11, 5 -- summ
--- EXEC AddToOrder 'UserLogin', 1, 13, 1 -- error
-
 GO
 
 CREATE OR ALTER PROCEDURE DeleteFromOrder(@Order int, @dishID int)
@@ -501,8 +468,6 @@ BEGIN
 END
 GO
 
--- DeleteFromOrder 'Alex', 4
-
 CREATE OR ALTER PROCEDURE ApplyOrder(@Order int)
 AS
 BEGIN
@@ -529,8 +494,6 @@ BEGIN
 
 	END CATCH
 END
-
--- EXEC ApplyOrder 'Alex'
 GO
 
 CREATE OR ALTER PROC ChangeOrderAddress(@Order int, @Address int)
