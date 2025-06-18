@@ -2,7 +2,7 @@
 USE Delivery
 GO
 
-CREATE OR ALTER PROCEDURE RegisterClient(@login nvarchar(30), @password binary(32), @name nvarchar(20), @phone PhoneNumber, @email nvarchar(50))
+CREATE OR ALTER PROCEDURE RegisterClient(@login nvarchar(50), @password binary(32), @name nvarchar(50), @phone PhoneNumber, @email nvarchar(50))
 AS
 BEGIN
 	BEGIN TRY
@@ -297,7 +297,7 @@ BEGIN
 			WHERE Login = @login AND Password = @password AND [Active Account] = 1
 	
 		IF NOT EXISTS (SELECT * FROM [Client Address] WHERE [Client ID] = @clientID AND ID = @address AND Active = 1)
-			THROW 50007, 'Client with address doesn''t exists', 1;
+			THROW 50007, 'Address doesn''t exists', 1;
 
 
 		IF EXISTS (SELECT * FROM [Client Address] WHERE [Client ID] = @clientID AND City = @City AND 
@@ -339,7 +339,7 @@ BEGIN
 			WHERE Login = @login AND Password = @password AND [Active Account] = 1
 
 		IF NOT EXISTS (SELECT * FROM [Client Address] WHERE [Client ID] = @clientID AND ID = @addressID AND Active = 1)
-			THROW 50007, 'Client with address doesn''t exists', 1;
+			THROW 50007, 'Address doesn''t exist', 1;
 
 		BEGIN TRAN
 

@@ -405,7 +405,7 @@ namespace DeliveryApp
                     case 50006:
                         throw new Exception("Пользователь не найден");
                     case 50014:
-                        throw new Exception("Адрес не найден");
+                        throw new Exception("Адрес уже существует");
                     default:
                         throw new Exception($"Database error{ex.Number}\n{ex.Message}");
                 }
@@ -427,11 +427,11 @@ namespace DeliveryApp
                 switch (ex.Number)
                 {
                     case 50006:
-                        throw new Exception("Client with login doesn't exists");
+                        throw new Exception("Пользователь не существует");
                     case 50007:
-                        throw new Exception("Client with address doesn''t exists");
+                        throw new Exception("Адрес не существует");
                     case 50013:
-                        throw new Exception("Address currently in order");
+                        throw new Exception("Адрес находится в заказе");
                     default:
                         throw new Exception($"Database error{ex.Number}\n{ex.Message}");
                 }
