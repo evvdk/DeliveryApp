@@ -22,8 +22,8 @@ namespace DeliveryApp.Forms
 
             if(order.Count() == 0)
             {
-                this.Text = "Карзина пуста";
-                this.OrderName.Text = "Карзина пуста";
+                this.Text = "Корзина пуста";
+                this.OrderName.Text = "Корзина пуста";
                 this.TotalBill.Text = "";
                 this.Producer.Text = "";
                 this.Status.Text = "";

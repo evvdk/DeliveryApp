@@ -33,10 +33,10 @@
             this.OrderName = new System.Windows.Forms.Label();
             this.TotalBill = new System.Windows.Forms.Label();
             this.Producer = new System.Windows.Forms.Label();
-            this.ChangeAddressButton = new DeliveryApp.CustomButton();
             this.Status = new System.Windows.Forms.Label();
             this.AddressLabel = new System.Windows.Forms.Label();
             this.Dishes = new System.Windows.Forms.FlowLayoutPanel();
+            this.ChangeAddressButton = new DeliveryApp.CustomButton();
             this.Apply = new DeliveryApp.CustomButton();
             this.flowLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -76,7 +76,7 @@
             this.tableLayoutPanel2.RowCount = 2;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 43F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(769, 75);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(961, 94);
             this.tableLayoutPanel2.TabIndex = 2;
             // 
             // OrderName
@@ -86,7 +86,7 @@
             this.OrderName.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.OrderName.Location = new System.Drawing.Point(3, 0);
             this.OrderName.Name = "OrderName";
-            this.OrderName.Size = new System.Drawing.Size(118, 32);
+            this.OrderName.Size = new System.Drawing.Size(310, 51);
             this.OrderName.TabIndex = 0;
             this.OrderName.Text = "Order#1";
             this.OrderName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -96,9 +96,9 @@
             this.TotalBill.AutoSize = true;
             this.TotalBill.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TotalBill.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.TotalBill.Location = new System.Drawing.Point(562, 0);
+            this.TotalBill.Location = new System.Drawing.Point(754, 0);
             this.TotalBill.Name = "TotalBill";
-            this.TotalBill.Size = new System.Drawing.Size(204, 32);
+            this.TotalBill.Size = new System.Drawing.Size(204, 51);
             this.TotalBill.TabIndex = 1;
             this.TotalBill.Text = "Summ";
             this.TotalBill.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -108,38 +108,21 @@
             this.Producer.AutoSize = true;
             this.Producer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Producer.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.Producer.Location = new System.Drawing.Point(127, 0);
+            this.Producer.Location = new System.Drawing.Point(319, 0);
             this.Producer.Name = "Producer";
-            this.Producer.Size = new System.Drawing.Size(429, 32);
+            this.Producer.Size = new System.Drawing.Size(429, 51);
             this.Producer.TabIndex = 2;
             this.Producer.Text = "Producer";
             this.Producer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // ChangeAddressButton
-            // 
-            this.ChangeAddressButton.AutoSize = true;
-            this.ChangeAddressButton.BackColor = System.Drawing.Color.MediumSlateBlue;
-            this.ChangeAddressButton.BorderRadius = 5;
-            this.ChangeAddressButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ChangeAddressButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ChangeAddressButton.Font = new System.Drawing.Font("Microsoft YaHei UI", 10F);
-            this.ChangeAddressButton.ForeColor = System.Drawing.Color.White;
-            this.ChangeAddressButton.Location = new System.Drawing.Point(562, 35);
-            this.ChangeAddressButton.Name = "ChangeAddressButton";
-            this.ChangeAddressButton.Size = new System.Drawing.Size(204, 37);
-            this.ChangeAddressButton.TabIndex = 4;
-            this.ChangeAddressButton.Text = "Изменить адрес";
-            this.ChangeAddressButton.UseVisualStyleBackColor = true;
-            this.ChangeAddressButton.Click += new System.EventHandler(this.ChangeAddressButton_Click);
             // 
             // Status
             // 
             this.Status.AutoSize = true;
             this.Status.Dock = System.Windows.Forms.DockStyle.Top;
             this.Status.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.Status.Location = new System.Drawing.Point(3, 32);
+            this.Status.Location = new System.Drawing.Point(3, 51);
             this.Status.Name = "Status";
-            this.Status.Size = new System.Drawing.Size(118, 20);
+            this.Status.Size = new System.Drawing.Size(310, 20);
             this.Status.TabIndex = 3;
             this.Status.Text = "Status";
             this.Status.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -149,7 +132,7 @@
             this.AddressLabel.AutoSize = true;
             this.AddressLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.AddressLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.AddressLabel.Location = new System.Drawing.Point(127, 32);
+            this.AddressLabel.Location = new System.Drawing.Point(319, 51);
             this.AddressLabel.Name = "AddressLabel";
             this.AddressLabel.Size = new System.Drawing.Size(429, 43);
             this.AddressLabel.TabIndex = 5;
@@ -161,11 +144,28 @@
             this.Dishes.AutoScroll = true;
             this.Dishes.Dock = System.Windows.Forms.DockStyle.Top;
             this.Dishes.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.Dishes.Location = new System.Drawing.Point(772, 3);
+            this.Dishes.Location = new System.Drawing.Point(4, 98);
             this.Dishes.Name = "Dishes";
-            this.Dishes.Size = new System.Drawing.Size(0, 363);
+            this.Dishes.Size = new System.Drawing.Size(954, 363);
             this.Dishes.TabIndex = 3;
             this.Dishes.WrapContents = false;
+            // 
+            // ChangeAddressButton
+            // 
+            this.ChangeAddressButton.AutoSize = true;
+            this.ChangeAddressButton.BackColor = System.Drawing.Color.MediumSlateBlue;
+            this.ChangeAddressButton.BorderRadius = 5;
+            this.ChangeAddressButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ChangeAddressButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ChangeAddressButton.Font = new System.Drawing.Font("Microsoft YaHei UI", 10F);
+            this.ChangeAddressButton.ForeColor = System.Drawing.Color.White;
+            this.ChangeAddressButton.Location = new System.Drawing.Point(754, 54);
+            this.ChangeAddressButton.Name = "ChangeAddressButton";
+            this.ChangeAddressButton.Size = new System.Drawing.Size(204, 37);
+            this.ChangeAddressButton.TabIndex = 4;
+            this.ChangeAddressButton.Text = "Изменить адрес";
+            this.ChangeAddressButton.UseVisualStyleBackColor = true;
+            this.ChangeAddressButton.Click += new System.EventHandler(this.ChangeAddressButton_Click);
             // 
             // Apply
             // 
