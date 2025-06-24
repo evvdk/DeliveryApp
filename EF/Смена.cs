@@ -6,22 +6,26 @@ namespace DeliveryApp.EF
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class Status
+    public partial class Смена
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Status()
+        public Смена()
         {
-            Order = new HashSet<Order>();
+            Персонал = new HashSet<Персонал>();
         }
 
+        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public short ID { get; set; }
+        public int Номер_смены { get; set; }
 
-        [Required]
-        [StringLength(50)]
-        public string Value { get; set; }
+        public TimeSpan Время_начала { get; set; }
+
+        public TimeSpan Время_окончания { get; set; }
+
+        [Column(TypeName = "money")]
+        public decimal Оплата_в_час { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Order> Order { get; set; }
+        public virtual ICollection<Персонал> Персонал { get; set; }
     }
 }

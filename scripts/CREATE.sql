@@ -1,280 +1,164 @@
 USE master
-CREATE DATABASE Delivery
+CREATE DATABASE kr
 ON
-(NAME = 'Delivery',FILENAME = 'C:\Databases\Delivery.mdf',SIZE = 1,MAXSIZE = 10,FILEGROWTH = 1)
+(NAME = 'Delivery',FILENAME = 'C:\Databases\kr.mdf',SIZE = 1,MAXSIZE = 10,FILEGROWTH = 1)
 LOG ON
-(NAME = 'Delivery_log',FILENAME = 'C:\Databases\Delivery_log.ldf',SIZE = 1,MAXSIZE = 5,FILEGROWTH = 1)
+(NAME = 'Delivery_log',FILENAME = 'C:\Databases\kr_log.ldf',SIZE = 1,MAXSIZE = 5,FILEGROWTH = 1)
 GO
 
-USE Delivery
+USE kr
+GO
+CREATE TYPE PhoneNumber FROM CHAR(12);
 GO
 
-CREATE TYPE PhoneNumber
-FROM char(12)
+-- Правило для телефона
+CREATE RULE Rule_Телефон_Format AS @phone LIKE '+7[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]';
 GO
 
-CREATE RULE PhoneTamplate
-AS @value LIKE '+7[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'
+-- Правило для Email
+CREATE RULE Rule_Email_Format AS @email IS NULL OR @email LIKE '%@%\.%';
 GO
 
-EXEC sp_bindrule 'PhoneTamplate', 'PhoneNumber';
+-- Правило для Паспорта (10 цифр)
+CREATE RULE Rule_Паспорт_Format AS @passport LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]' AND LEN(@passport) = 10;
 GO
 
-CREATE TYPE GradeValue
-FROM smallint
-GO
+CREATE TABLE Клиент (
+    ID_клиента INT PRIMARY KEY,
+    Логин NVARCHAR(30) UNIQUE NOT NULL,
+    Пароль BINARY(32) NOT NULL,
+    Имя NVARCHAR(20) NOT NULL,
+    Телефон dbo.PhoneNumber NOT NULL,
+    Эл_почта VARCHAR(50),
 
-CREATE RULE GradeRange
-AS @value BETWEEN 0 AND 5
-GO
-
-EXEC sp_bindrule 'GradeRange', 'GradeValue';
-GO
-
-
-CREATE RULE EmailTemplate
-AS @value LIKE '%[_a-zA-Z0-9.-]%@%[_a-zA-Z0-9.-]%.[a-zA-Z][a-zA-Z]%'
-GO
-
-CREATE DEFAULT RightNow
-AS GETDATE()
-GO
-
-CREATE DEFAULT DefaultOneValue
-AS 1
-GO
-
-CREATE DEFAULT DefaultZeroValue
-AS 0
-GO
-
--- Client
-CREATE TABLE "Client"
-(
-	ID int IDENTITY(1,1) PRIMARY KEY,
-	Login nvarchar(30) NOT NULL,
-	Password binary(32) NOT NULL,
-    Name nvarchar(20) NOT NULL,
-    Phone PhoneNumber NOT NULL,
-    Email nvarchar(50),
-	Created datetime NOT NULL,
-	"Active Account" tinyint NOT NULL,
-	CONSTRAINT "C_Unique_Phones" UNIQUE ("Phone"),
-	CONSTRAINT "C_Unique_Login" UNIQUE ("Login")
+    -- Дополнительные проверки на уровне CHECK
+    CONSTRAINT CHK_Клиент_Логин_Length CHECK (LEN(Логин) BETWEEN 5 AND 30),
+    CONSTRAINT CHK_Клиент_Имя_Length CHECK (LEN(Имя) BETWEEN 3 AND 20)
 );
 
-EXEC sp_bindefault 'RightNow', 'Client.Created'
-EXEC sp_bindefault 'DefaultOneValue', 'Client.Active Account'
-GO
+CREATE TABLE Персонал (
+    ID_работника INT PRIMARY KEY,
+    Фамилия NVARCHAR(50) NOT NULL,
+    Имя NVARCHAR(50) NOT NULL,
+    Отчество NVARCHAR(50),
+    Телефон dbo.PhoneNumber NOT NULL,
+    Паспорт CHAR(10) UNIQUE NOT NULL,
+    Трудовая_книжка CHAR(7) UNIQUE NOT NULL,
+    Дата_рождения DATE NOT NULL,
 
--- Client Address
-CREATE TABLE "Client Address"
-(
-    [ID] int IDENTITY(1, 1) NOT NULL,
-	[Client ID] int NOT NULL,
-    City nvarchar(50) NOT NULL,
-    District nvarchar(50) NOT NULL,
-    Street nvarchar(50) NOT NULL,
-    Building nvarchar(6) NOT NULL,
-    Room nvarchar(5) NOT NULL,
-	Active tinyint,
-    CONSTRAINT "C_PK_ClientAddress_Address" PRIMARY KEY ("ID"),
-	
-	CONSTRAINT "C_Unique_ClientAdress" UNIQUE ("Client ID", "City", "District", "Street", "Building", "Room"),
-	
-	CONSTRAINT "C_FK_Login" FOREIGN KEY ("Client ID")
-        REFERENCES "Client" ("ID")
-        ON UPDATE CASCADE
-        ON DELETE CASCADE
+    CONSTRAINT CHK_Персонал_Возраст CHECK (DATEDIFF(YEAR, Дата_рождения, GETDATE()) >= 18)
 );
 
-EXEC sp_bindefault 'DefaultOneValue', 'Client Address.Active'
-
--- Producer
-CREATE TABLE "Producer"
-(
-    "ID" int IDENTITY(1, 1) NOT NULL,
-	"Login" nvarchar(30) NOT NULL,
-	"Password" binary(32) NOT NULL,
-    "Name" nvarchar(30) NOT NULL,
-	"Grade" GradeValue,
-    "City" nvarchar(50) NOT NULL,
-    "District" nvarchar(50) NOT NULL,
-    "Street" nvarchar(50) NOT NULL,
-    "Building" nvarchar(6) NOT NULL,
-    "Room" nvarchar(5) NOT NULL,
-    CONSTRAINT "C_PK_ProducerID" PRIMARY KEY ("ID"),
-	CONSTRAINT "C_U_Login" UNIQUE ("Login")
+CREATE TABLE Статус (
+    ID_статуса SMALLINT PRIMARY KEY,
+    Значение NVARCHAR(50) NOT NULL
 );
 
--- Status
-CREATE TABLE "Status"
-(
-    "ID" smallint NOT NULL,
-    "Value" nvarchar(50) NOT NULL,
-    CONSTRAINT "C_PK_StatusID" PRIMARY KEY ("ID")
+CREATE TABLE Столик (
+    ID_столика INT PRIMARY KEY,
+    Значение INT NOT NULL,
+    Расположение NVARCHAR(50)
 );
 
--- Courier
-CREATE TABLE "Courier"
-(
-    "ID" int IDENTITY(1, 1) NOT NULL,
-    "First Name" nvarchar(30) NOT NULL,
-    "Second Name" nvarchar(30) NOT NULL,
-    "Last Name" nvarchar(30) NOT NULL,
-	"Phone" PhoneNumber NOT NULL,
-    "Passport Number" char(10) NOT NULL,
-    "Work Book" char(7) NOT NULL,
-    CONSTRAINT "C_CourierID" PRIMARY KEY ("ID"),
-	CONSTRAINT "C_U_Passport_Number" UNIQUE ("Passport Number"),
-	CONSTRAINT "C_U_Work_Book" UNIQUE ("Work Book")
+CREATE TABLE Заказ (
+    ID_заказа INT PRIMARY KEY,
+    Логин NVARCHAR(30) NOT NULL,
+    Официант INT NOT NULL,
+    Столик INT NOT NULL,
+    Статус SMALLINT NOT NULL,
+    Время_заказа DATETIME DEFAULT GETDATE(),
+    Время_завершения_заказа DATETIME,
+
+    FOREIGN KEY (Логин) REFERENCES Клиент(Логин),
+    FOREIGN KEY (Официант) REFERENCES Персонал(ID_работника),
+    FOREIGN KEY (Столик) REFERENCES Столик(ID_столика),
+    FOREIGN KEY (Статус) REFERENCES Статус(ID_статуса)
 );
 
--- ProducerDishes
-CREATE TABLE "Dish"
-(
-    "ID" int IDENTITY(1, 1) NOT NULL,
-	"Producer ID" int NOT NULL,
-    "Name" nvarchar(50) NOT NULL,
-	"Image" varbinary(MAX),
-	"Cost" money NOT NULL,
-    "Description" nvarchar(100),
-    "Calories" int NOT NULL,
-    "Mass" int NOT NULL,
-	"Visible" tinyint,
-    CONSTRAINT "C_PK_DishID" PRIMARY KEY ("ID"),
-	CONSTRAINT "C_U_Dish" UNIQUE ("Name", "Producer ID"),
-	CONSTRAINT "C_FK_ProducerID_Producer ID" FOREIGN KEY ("Producer ID")
-        REFERENCES Producer ("ID")
-        ON UPDATE CASCADE
-        ON DELETE CASCADE
+CREATE TABLE Поставщик (
+    ID_поставщика INT PRIMARY KEY,
+    Название NVARCHAR(50) NOT NULL,
+    Телефон dbo.PhoneNumber NOT NULL,
+    Фамилия_директора NVARCHAR(30),
+    Имя_директора NVARCHAR(30),
+    Отчество_директора NVARCHAR(30),
+    Эл_почта VARCHAR(50)
 );
 
-EXEC sp_bindefault 'DefaultOneValue', 'Dish.Visible'
-
--- Order
-CREATE TABLE "Order"
-(
-    "ID" int IDENTITY(1, 1) NOT NULL,
-	"Client ID" int NOT NULL,
-	"Client Address ID" int NOT NULL,
-    "Ordered At" datetime,
-	"Complited At" datetime,
-	"Status" smallint NOT NULL,
-	"Order Grade" GradeValue,
-    CONSTRAINT "C_PK_Order" PRIMARY KEY ("ID"),
-	
-	CONSTRAINT "C_FK_OrderStatus" FOREIGN KEY ("Status")
-        REFERENCES "Status" ("ID") 
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION,
-
-	CONSTRAINT "C_FK_Client_Address" FOREIGN KEY ("Client Address ID")
-        REFERENCES "Client Address" ("ID")
-        ON UPDATE CASCADE
-        ON DELETE CASCADE,
-
-	CONSTRAINT "C_FK_Client" FOREIGN KEY ("Client ID")
-        REFERENCES "Client" ("ID")
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
+CREATE TABLE Меню (
+    Название NVARCHAR(30) PRIMARY KEY,
+    Цена MONEY NOT NULL,
+    Описание NVARCHAR(100),
+    Калорийность INT,
+    Масса INT
 );
 
-EXEC sp_bindefault 'DefaultZeroValue', 'Order.Status'
-GO
+CREATE TABLE Ингредиенты (
+    ID_ингредиента INT PRIMARY KEY,
+    Название NVARCHAR(30) NOT NULL,
+    Количество INT DEFAULT 0,
+    Единица_измерения NVARCHAR(10),
+    Поставщик INT,
+    Цена_закупки MONEY,
 
-CREATE TABLE "Order Courier"
-(
-	"Order ID" int NOT NULL,
-	"Courier ID" int NOT NULL,
-
-	CONSTRAINT "C_PK_Order_Courier" PRIMARY KEY ("Order ID"),
-
-	CONSTRAINT "C_FK_Order" FOREIGN KEY ("Order ID")
-        REFERENCES "Order" ("ID")
-        ON UPDATE CASCADE
-        ON DELETE CASCADE,
-
-	CONSTRAINT "C_FK_Courier" FOREIGN KEY ("Courier ID")
-        REFERENCES "Courier" ("ID")
-        ON UPDATE CASCADE
-        ON DELETE CASCADE,
-)
-
--- Dishes-Order
-CREATE TABLE "Dishes Order"
-(
-    "Order ID" int NOT NULL,
-	"Dish ID" int NOT NULL,
-	"Count" integer NOT NULL,
-    CONSTRAINT "C_PK_DishID_OrderID" PRIMARY KEY ("Dish ID", "Order ID"),
-    CONSTRAINT "C_FK_Dishes" FOREIGN KEY ("Dish ID")
-        REFERENCES "Dish" ("ID")
-        ON UPDATE CASCADE
-        ON DELETE CASCADE,
-
-    CONSTRAINT "C_FK_OrderID" FOREIGN KEY ("Order ID")
-        REFERENCES "Order" ("ID")
-        ON UPDATE CASCADE
-		ON DELETE CASCADE,
+    FOREIGN KEY (Поставщик) REFERENCES Поставщик(ID_поставщика)
 );
 
-EXEC sp_bindefault 'DefaultOneValue', 'Dishes Order.Count'
+CREATE TABLE Меню_Ингредиенты (
+    ID_ингредиента INT NOT NULL,
+    Название_блюда NVARCHAR(30) NOT NULL,
+    Количество INT NOT NULL,
 
-CREATE TABLE "Ingredient" 
-(
-	"Ingredient ID" int IDENTITY(1, 1) NOT NULL,
-	"Ingredient Name" nvarchar(30) NOT NULL,
-	CONSTRAINT "C_PK_Ingredient" PRIMARY KEY ("Ingredient ID"),
-	CONSTRAINT "C_U_IngredientName" UNIQUE ("Ingredient Name")
+    PRIMARY KEY (ID_ингредиента, Название_блюда),
+    FOREIGN KEY (ID_ингредиента) REFERENCES Ингредиенты(ID_ингредиента),
+    FOREIGN KEY (Название_блюда) REFERENCES Меню(Название)
 );
 
-CREATE TABLE "Dish Ingredients" 
-(
-	"Ingredient ID" int NOT NULL,
-	"Dish ID" int NOT NULL,
-	CONSTRAINT "C_PK_Dish_Ingredient" PRIMARY KEY ("Ingredient ID", "Dish ID"),
-	CONSTRAINT "C_FK_Dish" FOREIGN KEY ("Dish ID")
-        REFERENCES "Dish" ("ID")
-        ON UPDATE CASCADE
-		ON DELETE CASCADE,
-	CONSTRAINT "C_FK_Ingredient" FOREIGN KEY ("Ingredient ID")
-        REFERENCES "Ingredient" ("Ingredient ID")
-        ON UPDATE CASCADE
-		ON DELETE CASCADE
+CREATE TABLE Складские_операции (
+    ID_ингредиента INT NOT NULL,
+    ID_работника INT NOT NULL,
+    Дата_и_время DATETIME DEFAULT GETDATE(),
+    Изменение INT NOT NULL,
+
+    PRIMARY KEY (ID_ингредиента, ID_работника, Дата_и_время),
+    FOREIGN KEY (ID_ингредиента) REFERENCES Ингредиенты(ID_ингредиента),
+    FOREIGN KEY (ID_работника) REFERENCES Персонал(ID_работника)
 );
-GO
 
-CREATE TABLE Notifications
-(
-	"Client ID" int NOT NULL,
-	"Value" nvarchar(50) NOT NULL,
-	"Send" datetime NOT NULL,
-	"Read" smallint NOT NULL,
+CREATE TABLE Смена (
+    Номер_смены INT PRIMARY KEY,
+    Время_начала TIME NOT NULL,
+    Время_окончания TIME NOT NULL,
+    Оплата_в_час MONEY NOT NULL
+);
 
-	CONSTRAINT "C_PK_Notification" PRIMARY KEY ("Client ID", "Send", "Value"),
+CREATE TABLE График_работы (
+    ID_работника INT NOT NULL,
+    Номер_смены INT NOT NULL,
 
-	CONSTRAINT "C_FK_NotifyClient" FOREIGN KEY ("Client ID")
-        REFERENCES "Client" ("ID")
-        ON UPDATE CASCADE
-        ON DELETE CASCADE
-)
+    PRIMARY KEY (ID_работника, Номер_смены),
+    FOREIGN KEY (ID_работника) REFERENCES Персонал(ID_работника),
+    FOREIGN KEY (Номер_смены) REFERENCES Смена(Номер_смены)
+);
 
-EXEC sp_bindefault 'RightNow', 'Notifications.Send'
-EXEC sp_bindefault 'DefaultZeroValue', 'Notifications.Read'
-GO
+CREATE TABLE Состав_заказа (
+    ID_заказа INT NOT NULL,
+    Название_блюда NVARCHAR(30) NOT NULL,
+    Количество INT NOT NULL,
 
-INSERT INTO "Status" ("ID", "Value")
-VALUES
-(0,'Собирается'),
-(1,'Обрабатывается'),
-(2,'Готовится'),
-(3,'Доставляется'),
-(4,'Завершён'),
-(5,'Отменён');
+    PRIMARY KEY (ID_заказа, Название_блюда),
+    FOREIGN KEY (ID_заказа) REFERENCES Заказ(ID_заказа),
+    FOREIGN KEY (Название_блюда) REFERENCES Меню(Название)
+);
 
-GO
+-- Привязка к таблице Клиент
+EXEC sp_bindrule 'Rule_Телефон_Format', 'Клиент.Телефон';
+EXEC sp_bindrule 'Rule_Email_Format', 'Клиент.Эл_почта';
 
-CREATE TRIGGER StatusBlock ON Status
-AFTER INSERT, UPDATE, DELETE
-AS ROLLBACK TRAN;
+-- Привязка к таблице Персонал
+EXEC sp_bindrule 'Rule_Телефон_Format', 'Персонал.Телефон';
+EXEC sp_bindrule 'Rule_Паспорт_Format', 'Персонал.Паспорт';
+
+-- Привязка к таблице Поставщик
+EXEC sp_bindrule 'Rule_Телефон_Format', 'Поставщик.Телефон';
+EXEC sp_bindrule 'Rule_Email_Format', 'Поставщик.Эл_почта';

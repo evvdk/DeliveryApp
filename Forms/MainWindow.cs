@@ -6,7 +6,6 @@ using DeliveryApp.EF;
 using DeliveryApp.Forms;
 using System.Linq;
 using System.Data;
-using Microsoft.EntityFrameworkCore.Internal;
 namespace DeliveryApp
 {
     public partial class Delivery : Form
@@ -25,7 +24,7 @@ namespace DeliveryApp
             Application.Exit();
         }
 
-        private void AddOrderIntoTabs(Panel parentPanel, Order_Status_Table order)
+        private void AddOrderIntoTabs(Panel parentPanel, Информация_о_заказе order)
         {
             Panel SingleOrder = new Panel();
             Label OrderName = new Label();
@@ -39,7 +38,7 @@ namespace DeliveryApp
             SingleOrder.Location = new Point(0, 0);
             SingleOrder.Margin = new Padding(0, 10, 0, 0);
             SingleOrder.Size = new Size(720, 37);
-            SingleOrder.Tag = order.ID;
+            SingleOrder.Tag = order.ID_заказа;
             SingleOrder.Click += new EventHandler(this.SingleOrder_Click);
             
             OrderName.AutoSize = true;
@@ -47,9 +46,9 @@ namespace DeliveryApp
             OrderName.Dock = DockStyle.Left;
             OrderName.Font = new Font("Microsoft Sans Serif", 13.8F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(204)));
             OrderName.Location = new Point(0, 0);
-            OrderName.Text = $"Заказ#{order.ID}";
+            OrderName.Text = $"Заказ#{order.ID_заказа}";
 
-            if (!(order.Ordered_At is null))
+            if (!(order.Время_заказа is null))
             {
                 Label OrderedTime = new Label();
 
@@ -59,14 +58,14 @@ namespace DeliveryApp
                 OrderedTime.Dock = DockStyle.Right;
                 OrderedTime.Location = new Point(0, 0);
             
-                OrderedTime.Text = $"Заказано {order.Ordered_At.Value.ToString("F")}";
+                OrderedTime.Text = $"Заказано {order.Время_заказа.Value.ToString("F")}";
             }
 
             Status.AutoSize = true;
             Status.Enabled = false;
             Status.Dock = DockStyle.Top;
             Status.Location = new Point(0, 0);
-            Status.Text = order.Status_Value;
+            Status.Text = order.Статус;
 
             parentPanel.Controls.Add(SingleOrder);
 
@@ -74,51 +73,15 @@ namespace DeliveryApp
             SingleOrder.PerformLayout();
         }
 
-        private void DrawMarket(List<All_Dishes> market)
+        private void DrawMarket(List<Меню> market)
         {
             this.MarketList.Controls.Clear();
 
-            var producers = market.GroupBy(p => new { p.Producer_ID, p.Producer_Name }).Where(grp => grp.Count() > 0)
-                .Select(p => new { ID = p.Key.Producer_ID, Name = p.Key.Producer_Name }).Distinct().ToList();
-
-            if (ClientActions.HasOpenedOrder())
+            foreach (var dish in market)
             {
-                int order = ClientActions.GetOpenOrderID();
-                producers = ClientActions.GetProducerByOrder(order).Select(p => new { ID = p.Producer_ID, Name = p.Producer_Name })
-                    .Distinct().ToList();
-            }
-
-            foreach (var producer in producers)
-            {
-
-                TableLayoutPanel ProducerDishes = new TableLayoutPanel();
-                Label Producer = new Label();
-
                 FlowLayoutPanel DishFlowScrollLayout = new FlowLayoutPanel();
 
-                ProducerDishes.SuspendLayout();
                 DishFlowScrollLayout.SuspendLayout();
-                
-                this.MarketList.Controls.Add(ProducerDishes);
-                
-                ProducerDishes.ColumnCount = 1;
-                ProducerDishes.AutoSize = true;
-                ProducerDishes.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-                ProducerDishes.Controls.Add(Producer, 0, 0);
-                ProducerDishes.Controls.Add(DishFlowScrollLayout, 0, 1);
-                ProducerDishes.RowCount = 2;
-                ProducerDishes.Margin = new Padding(0);
-                ProducerDishes.Padding = new Padding(0);
-                ProducerDishes.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-                ProducerDishes.RowStyles.Add(new RowStyle(SizeType.Absolute, 120F));
-                
-                Producer.AutoSize = true;
-                Producer.Dock = DockStyle.Top;
-                Producer.Location = new Point(0, 0);
-                Producer.Text = $"{producer.Name}";
-                Producer.Margin = new Padding(0);
-                Producer.Padding = new Padding(0);
-                Producer.Font = new Font("Microsoft Sans Serif", 13.8F,FontStyle.Regular, GraphicsUnit.Point, ((byte)(204)));
 
                 DishFlowScrollLayout.Dock = DockStyle.Fill;
                 DishFlowScrollLayout.AutoScroll = true;
@@ -127,68 +90,53 @@ namespace DeliveryApp
                 DishFlowScrollLayout.Margin = new Padding(0);
                 DishFlowScrollLayout.Padding = new Padding(0);
                 DishFlowScrollLayout.WrapContents = false;
-                
-                var producersDishes = market.Where(p => p.Producer_ID == producer.ID);
 
-                foreach (var dish in producersDishes)
-                {
-                    TableLayoutPanel DishTable = new TableLayoutPanel();
-                    DishTable.Click += (s, e) => { (new SingleDish(dish.Dish_ID)).Show(); };
+                TableLayoutPanel DishTable = new TableLayoutPanel();
+                DishTable.Click += (s, e) => { (new SingleDish(dish.Название)).Show(); };
 
-                    CustomButton AddDish = new CustomButton();
-                    Label DishName = new Label();
-                    Panel ImagePanel = new Panel();
+                CustomButton AddDish = new CustomButton();
+                Label DishName = new Label();
+                Panel ImagePanel = new Panel();
 
-                    DishTable.SuspendLayout();
+                DishTable.SuspendLayout();
 
-                    DishFlowScrollLayout.Controls.Add(DishTable);
+                DishFlowScrollLayout.Controls.Add(DishTable);
 
-                    ImagePanel.Dock = DockStyle.Fill;
-                    if (dish.Image != null)
-                    {
-                        ImagePanel.BackgroundImage = DatabaseImage.BytesToImage(dish.Image);
-                        ImagePanel.BackgroundImageLayout = ImageLayout.Zoom;
-                    }
-                    ImagePanel.Click += (s, e) => { (new SingleDish(dish.Dish_ID)).Show(); };
+                DishTable.BackColor = Color.LightSteelBlue;
+                DishTable.ColumnCount = 2;
+                DishTable.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 72F));
+                DishTable.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 136F));
+                DishTable.Controls.Add(ImagePanel, 0, 0);
+                DishTable.Controls.Add(DishName, 1, 0);
+                DishTable.Controls.Add(AddDish, 0, 1);
+                DishTable.Location = new Point(0, 0);
+                DishTable.Margin = new Padding(0, 0, 10, 0);
+                DishTable.RowCount = 2;
+                DishTable.RowStyles.Add(new RowStyle(SizeType.Absolute, 72F));
+                DishTable.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
+                DishTable.Size = new Size(208, 102);
 
-                    DishTable.BackColor = Color.LightSteelBlue;
-                    DishTable.ColumnCount = 2;
-                    DishTable.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 72F));
-                    DishTable.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 136F));
-                    DishTable.Controls.Add(ImagePanel, 0, 0);
-                    DishTable.Controls.Add(DishName, 1, 0);
-                    DishTable.Controls.Add(AddDish, 0, 1);
-                    DishTable.Location = new Point(0, 0);
-                    DishTable.Margin = new Padding(0,0,10,0);
-                    DishTable.RowCount = 2;
-                    DishTable.RowStyles.Add(new RowStyle(SizeType.Absolute, 72F));
-                    DishTable.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
-                    DishTable.Size = new Size(208, 102);
-                    
-                    DishName.AutoSize = true;
-                    DishName.Dock = DockStyle.Fill;
-                    DishName.Location = new Point(131, 0);
-                    DishName.Size = new Size(74, 72);
-                    DishName.Text = $"{dish.Dish_Name}";
-                    DishName.TextAlign = ContentAlignment.MiddleCenter;
-                    DishName.Click += (s, e) => { (new SingleDish(dish.Dish_ID)).Show(); };
+                DishName.AutoSize = true;
+                DishName.Dock = DockStyle.Fill;
+                DishName.Location = new Point(131, 0);
+                DishName.Size = new Size(74, 72);
+                DishName.Text = $"{dish.Название}";
+                DishName.TextAlign = ContentAlignment.MiddleCenter;
+                DishName.Click += (s, e) => { (new SingleDish(dish.Название)).Show(); };
 
-                    AddDish.AutoSize = true;
-                    AddDish.Dock = DockStyle.Fill;
-                    AddDish.Location = new Point(3, 75);
-                    AddDish.Size = new Size(66, 24);
-                    AddDish.Text = "+";
-                    AddDish.UseVisualStyleBackColor = true;
-                    AddDish.Tag = dish.Dish_ID;
-                    AddDish.Click += new EventHandler(this.Dish_Add_Click);
+                AddDish.AutoSize = true;
+                AddDish.Dock = DockStyle.Fill;
+                AddDish.Location = new Point(3, 75);
+                AddDish.Size = new Size(66, 24);
+                AddDish.Text = "+";
+                AddDish.UseVisualStyleBackColor = true;
+                AddDish.Tag = dish;
+                AddDish.Click += new EventHandler(this.Dish_Add_Click);
 
-                    DishTable.ResumeLayout(false);
-                    DishTable.PerformLayout();
+                DishTable.ResumeLayout(false);
+                DishTable.PerformLayout();
 
-                }
-
-                ProducerDishes.ResumeLayout(false);
-                ProducerDishes.PerformLayout();
+               
                 DishFlowScrollLayout.ResumeLayout(false);
                 DishFlowScrollLayout.PerformLayout();
 
@@ -199,7 +147,7 @@ namespace DeliveryApp
         {
             try
             {
-                List<All_Dishes> dishes = ClientActions.GetAllDishes();
+                List<Меню> dishes = ClientActions.GetAllDishes();
                 DrawMarket(dishes);
             }catch(Exception ex)
             {
@@ -223,7 +171,7 @@ namespace DeliveryApp
             parentPanel.Controls.Add(Header);
         }
 
-        private void DrawOrders(List <Order_Status_Table> orders)
+        private void DrawOrders(List <Информация_о_заказе> orders)
         {
             
             Point CurrentPoint = OrdersLayout.AutoScrollPosition;
@@ -248,7 +196,7 @@ namespace DeliveryApp
         {
             try
             {
-                List<Order_Status_Table> orders = ClientActions.GetClosedUserOrders(User.userInfo.Login);
+                List<Информация_о_заказе> orders = ClientActions.GetClosedUserOrders(User.userInfo.Login);
                 DrawOrders(orders);
             }catch(Exception ex)
             {
@@ -281,14 +229,12 @@ namespace DeliveryApp
             {
                 this.WelcomeMessage.Text = "Здравствуйте, " + User.userInfo.Login;
 
-                Client user = ClientActions.getClientInfo();
-                Account_UserLogin.Text = user.Login;
-                Account_UserName.Text = user.Name;
-                Account_UserPhone.Text = user.Phone;
-                if (!(user.Email is null))
-                    Account_UserEmail.Text = user.Email;
-                Account_CreatedAt.Text = "Создано " + user.Created.ToString("F");
-               
+                Клиент user = ClientActions.getClientInfo();
+                Account_UserLogin.Text = user.Логин;
+                Account_UserName.Text = user.Имя;
+                Account_UserPhone.Text = user.Телефон;
+                if (!(user.Эл_почта is null))
+                    Account_UserEmail.Text = user.Эл_почта;               
             } catch(Exception ex)
             {
                 MessageBox.Show(ex.Message);
@@ -329,14 +275,11 @@ namespace DeliveryApp
                 }
                 else
                 {
-                    AddressChooser wnd = new AddressChooser(Mode.Order);
-                    wnd.Show();
-                    wnd.FormClosed += (s, ev) =>
-                    {
-                        try
+                    {   try
                         {
+                            ClientActions.InitOrder();
                             int orderId = ClientActions.GetOpenOrderID();
-                            ClientActions.AddToOrder(orderId, dishID);
+                    ClientActions.AddToOrder(orderId, dishID);
                             getMarket();
                         }
                         catch (Exception ex)
@@ -388,11 +331,6 @@ namespace DeliveryApp
             User.userInfo = null;
             (new LoginForm()).Show();
             this.Dispose();
-        }
-
-        private void Account_ChangeAddressButton_Click(object sender, EventArgs e)
-        {
-            (new AddressChooser(Mode.Edit)).Show();
         }
 
         private void AddToCart_Click(object sender, EventArgs e)

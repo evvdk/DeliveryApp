@@ -18,35 +18,27 @@ namespace DeliveryApp.Forms
 
         private void UpdateOrder()
         {
-            List<Order_Set> order = ClientActions.GetOrderSet(this.OrderID);
+            List<Блюда_в_заказе> order = ClientActions.GetOrderSet(this.OrderID);
 
             if(order.Count() == 0)
             {
                 this.Text = "Корзина пуста";
                 this.OrderName.Text = "Корзина пуста";
                 this.TotalBill.Text = "";
-                this.Producer.Text = "";
                 this.Status.Text = "";
                 this.Dishes.Controls.Clear();
-                this.AddressLabel.Text = "";
                 this.Apply.Text = "Закрыть";
-                this.ChangeAddressButton.Enabled = false;
-                this.ChangeAddressButton.Visible = false;
                 return;
             }
 
             this.Text = $"Заказ#{OrderID}";
-            decimal Cost = decimal.Round((decimal)order.Sum(p => p.Sum));
-            string Producer = order.First().Producer_Name;
-            string Status = order.First().Order_Status_Value;
-            bool isOpen = order.First().Order_Status == 0;
+            decimal Cost = decimal.Round((decimal)order.Sum(p => p.Сумма_стоимости_блюда));
+            string Status = order.First().Статус;
+            bool isOpen = order.First().ID_Статуса == 0;
 
             this.OrderName.Text = $"Заказ#{OrderID}";
             this.TotalBill.Text = $"Cтоимость {Cost} ₽";
-            this.Producer.Text = $"Закзано из {Producer}";
-
-            Order_Status_Table address = ClientActions.GetAddressOfOrder(this.OrderID);
-            this.AddressLabel.Text = $"Адрес: {address.City}, {address.District}, {address.Building}, {address.Room}";
+           
             if (isOpen)
             {
                 this.Status.Text = "";
@@ -68,15 +60,13 @@ namespace DeliveryApp.Forms
             {
                 this.Status.Text = $"{Status}";
                 this.Apply.Text = "Закрыть";
-                this.ChangeAddressButton.Enabled = false;
-                this.ChangeAddressButton.Visible = false;
                 this.Apply.Click += (s, e) =>
                 {
                     this.Close();
                 };
             }
 
-            bool isOpened = order.All(p => p.Order_Status == 0);
+            bool isOpened = order.All(p => p.ID_Статуса == 0);
 
             this.flowLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -124,7 +114,7 @@ namespace DeliveryApp.Forms
                 Remove.Location = new System.Drawing.Point(609, 3);
                 Remove.Name = "Remove";
                 Remove.Size = new System.Drawing.Size(34, 27);
-                Remove.Tag = each.Dish_ID;
+                Remove.Tag = each.Название;
                 Remove.Text = "-";
                 Remove.Enabled = isOpened;
                 Remove.Click += new EventHandler(this.Remove_Click);
@@ -136,7 +126,7 @@ namespace DeliveryApp.Forms
                 DishName.Location = new System.Drawing.Point(3, 0);
                 DishName.Size = new System.Drawing.Size(372, 33);
                 DishName.TabIndex = 0;
-                DishName.Text = $"{each.Dish_Name}";
+                DishName.Text = $"{each.Название}";
                 DishName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 // 
                 // DishCost
@@ -145,7 +135,7 @@ namespace DeliveryApp.Forms
                 DishCost.Dock = DockStyle.Fill;
                 DishCost.Location = new System.Drawing.Point(381, 0);
                 DishCost.Size = new System.Drawing.Size(142, 33);
-                DishCost.Text = $"{decimal.Round((decimal)each.Cost)} ₽";
+                DishCost.Text = $"{decimal.Round((decimal)each.Цена)} ₽";
                 DishCost.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
                 // 
                 // Count
@@ -154,7 +144,7 @@ namespace DeliveryApp.Forms
                 Count.Dock = DockStyle.Fill;
                 Count.Location = new System.Drawing.Point(569, 0);
                 Count.Size = new System.Drawing.Size(34, 33);
-                Count.Text = $"{each.Count}";
+                Count.Text = $"{each.Название}";
                 Count.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
                 // 
                 // Add
@@ -163,7 +153,7 @@ namespace DeliveryApp.Forms
                 Add.Enabled = isOpened;
                 Add.Dock = DockStyle.Fill;
                 Add.Location = new System.Drawing.Point(529, 3);
-                Add.Tag  = each.Dish_ID;
+                Add.Tag  = each.Название;
                 Add.Size = new System.Drawing.Size(34, 33);
                 Add.Text = "+";
                 Add.Click += new System.EventHandler(this.Add_Click);
@@ -194,16 +184,6 @@ namespace DeliveryApp.Forms
             int dishId = (int)button.Tag;
             ClientActions.DeleteFromOrder(this.OrderID, dishId);
             UpdateOrder();
-        }
-
-        private void ChangeAddressButton_Click(object sender, EventArgs e)
-        {
-            AddressChooser wnd = new AddressChooser(this.OrderID);
-            wnd.Show();
-            wnd.FormClosed += (s, ev) =>
-            {
-                UpdateOrder();
-            };
         }
     }
 }

@@ -1,5 +1,5 @@
 
-USE Delivery
+USE kr
 GO
 
 CREATE OR ALTER PROCEDURE RegisterClient(@login nvarchar(50), @password binary(32), @name nvarchar(50), @phone PhoneNumber, @email nvarchar(50))
@@ -27,7 +27,7 @@ BEGIN
 	
 		BEGIN TRAN
 
-			INSERT INTO Client(Login,Password,Name,Phone,Email)
+			INSERT INTO Клиент(Логин,Пароль,Имя,Телефон,Эл_почта)
 				VALUES (@login, @password, @name, @phone, @email);
 
 		COMMIT TRAN
@@ -48,14 +48,12 @@ AS
 BEGIN
 	BEGIN TRY
 	
-		IF NOT EXISTS (SELECT * FROM Client WHERE Login = @login AND Password = @password AND [Active Account] = 1)
+		IF NOT EXISTS (SELECT * FROM Клиент WHERE Логин = @login AND Пароль = @password)
 			THROW 50006, 'Client with login doesn''t exists', 1;
 
 		BEGIN TRAN
 
-			UPDATE Client
-				SET [Active Account] = 0
-				WHERE Login = @login AND Password = @password AND [Active Account] = 1
+			DELETE FROM Клиент WHERE Логин = @login AND Пароль = @password
 
 		COMMIT TRAN
 	

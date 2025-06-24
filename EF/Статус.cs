@@ -6,25 +6,23 @@ namespace DeliveryApp.EF
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Ingredient")]
-    public partial class Ingredient
+    public partial class Статус
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Ingredient()
+        public Статус()
         {
-            Dish = new HashSet<Dish>();
+            Заказ = new HashSet<Заказ>();
         }
 
         [Key]
-        [Column("Ingredient ID")]
-        public int Ingredient_ID { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public short ID_статуса { get; set; }
 
-        [Column("Ingredient Name")]
         [Required]
-        [StringLength(30)]
-        public string Ingredient_Name { get; set; }
+        [StringLength(50)]
+        public string Значение { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Dish> Dish { get; set; }
+        public virtual ICollection<Заказ> Заказ { get; set; }
     }
 }

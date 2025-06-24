@@ -130,40 +130,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClientActions.cs" />
-    <Compile Include="EF\Order_Status_Table.cs" />
+    <Compile Include="EF\Context.cs" />
+    <Compile Include="EF\Блюда_в_заказе.cs" />
+    <Compile Include="EF\Заказ.cs" />
+    <Compile Include="EF\Ингредиенты.cs" />
+    <Compile Include="EF\Информация_о_заказе.cs" />
+    <Compile Include="EF\Клиент.cs" />
+    <Compile Include="EF\Меню.cs" />
+    <Compile Include="EF\Меню_Ингредиенты.cs" />
+    <Compile Include="EF\Персонал.cs" />
+    <Compile Include="EF\Поставщик.cs" />
+    <Compile Include="EF\Складские_операции.cs" />
+    <Compile Include="EF\Смена.cs" />
+    <Compile Include="EF\Состав_заказа.cs" />
+    <Compile Include="EF\Статус.cs" />
+    <Compile Include="EF\Столик.cs" />
     <Compile Include="UI\CustomButton.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Database.cs" />
-    <Compile Include="DatabaseImage.cs" />
-    <Compile Include="EF\Address_By_Login.cs" />
-    <Compile Include="EF\All_Dishes.cs" />
-    <Compile Include="EF\Client.cs" />
-    <Compile Include="EF\Client_Address.cs" />
-    <Compile Include="EF\Courier.cs" />
-    <Compile Include="EF\DeliveryAppContext.cs" />
-    <Compile Include="EF\Dish.cs" />
-    <Compile Include="EF\Dishes_Order.cs" />
-    <Compile Include="EF\Dish_All_Info.cs" />
-    <Compile Include="EF\Ingredient.cs" />
-    <Compile Include="EF\Notifications.cs" />
-    <Compile Include="EF\Order.cs" />
-    <Compile Include="EF\Order_On_Producer.cs" />
-    <Compile Include="EF\Order_Set.cs" />
-    <Compile Include="EF\Producer.cs" />
-    <Compile Include="EF\Status.cs" />
-    <Compile Include="Forms\AddressChooser.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\AddressChooser.Designer.cs">
-      <DependentUpon>AddressChooser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\AddressEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\AddressEditor.Designer.cs">
-      <DependentUpon>AddressEditor.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\ChangeAccountInfo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -200,15 +185,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="User.cs" />
-    <EmbeddedResource Include="Forms\AddressChooser.resx">
-      <DependentUpon>AddressChooser.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\AddressEditor.resx">
-      <DependentUpon>AddressEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ChangeAccountInfo.resx">
-      <DependentUpon>ChangeAccountInfo.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>

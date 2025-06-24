@@ -88,7 +88,7 @@ namespace DeliveryApp
 
         }
 
-        public static List<Order_Status_Table> GetClosedUserOrders(string Login)
+        public static List<Информация_о_заказе> GetClosedUserOrders(string Login)
         {
             try
             {
@@ -100,7 +100,7 @@ namespace DeliveryApp
             }
         }
 
-        public static Client getClientInfo()
+        public static Клиент getClientInfo()
         {
             try
             {
@@ -270,20 +270,7 @@ namespace DeliveryApp
                 throw new Exception($"Error during deleting account\n{ex.Message}");
             }
         }
-
-        public static List<Address_By_Login> GetAddresses()
-        {
-            try
-            {
-                return Database.GetAddresses(User.userInfo.Login, User.userInfo.Password);
-            }
-            catch(Exception ex)
-            {
-                throw new Exception($"Error during reciving addresses\n{ex.Message}");
-            }
-        }
-
-        public static List<All_Dishes> GetAllDishes()
+        public static List<Меню> GetAllDishes()
         {
             try
             {
@@ -323,10 +310,10 @@ namespace DeliveryApp
             }
         }
 
-        public static void InitOrder(int Address)
+        public static void InitOrder()
         {
             try {
-                Database.InitOrder(User.userInfo.Login, Address);
+                Database.InitOrder(User.userInfo.Login);
             }
             catch (SqlException ex)
             {
@@ -441,34 +428,7 @@ namespace DeliveryApp
                 throw new Exception($"Error during deleting address\n{ex.Message}");
             }
         }
-
-        public static void EditAddress(int Address, string City, string District, string Street, string Building, string Room)
-        {
-            try
-            {
-                Database.EditAdress(Address, User.userInfo.Login, User.userInfo.Password, City, District, Street, Building, Room);
-            }
-            catch (SqlException ex)
-            {
-                switch (ex.Number)
-                {
-                    case 50006:
-                        throw new Exception("Пользователь не существует");
-                    case 50007:
-                        throw new Exception("Адрес не существует");
-                    case 50014:
-                        throw new Exception("Адрес уже существует");
-                    default:
-                        throw new Exception($"Database error{ex.Number}\n{ex.Message}");
-                }
-            }
-            catch(Exception ex)
-            {
-                throw new Exception($"Error during deleting address\n{ex.Message}");
-            }
-        }
-
-        public static List<Order_Set> GetOrderSet(int order)
+        public static List<Блюда_в_заказе> GetOrderSet(int order)
         {
             try
             {
@@ -502,63 +462,18 @@ namespace DeliveryApp
             }
         }
 
-        public static int GetAddressIdByOrder(int Order)
-        {
-            try
-            {
-                return Database.GetAddressIdByOrder(Order);
-            }
-            catch(Exception ex)
-            {
-                throw new Exception($"Error reciving address by order\n{ex.Message}");
-            }
-        }
+        
+   
 
-        public static void ChangeAddressInOrder(int Order, int NewAddress)
+        public static List<Меню> GetDishInfo(string Dish)
         {
             try
             {
-                Database.ChangeAddressInOrder(Order, NewAddress);
-            } 
-            catch(Exception ex)
-            {
-                throw new Exception($"Error during changing address in order\n{ex.Message}");
-            }
-        }
-
-        public static List<Order_On_Producer> GetProducerByOrder(int Order)
-        {
-            try
-            {
-                return Database.GetProducerByOrder(Order);
-            }
-            catch(Exception ex)
-            {
-                throw new Exception($"Error during reciving producers by order\n{ex.Message}");
-            }
-        }
-
-        public static List<Dish_All_Info> GetDishInfo(int DishID)
-        {
-            try
-            {
-                return Database.GetDishInfo(DishID);
+                return Database.GetDishInfo(Dish);
             }
             catch(Exception ex)
             {
                 throw new Exception($"Error during reciving dish data\n{ex.Message}");
-            }
-        }
-
-        public static Order_Status_Table GetAddressOfOrder(int Order)
-        {
-            try
-            {
-                return Database.GetAddressOfOrder(Order);
-            }
-            catch(Exception ex)
-            {
-                throw new Exception($"Error during reciving address of order\n{ex.Message}");
             }
         }
     }
